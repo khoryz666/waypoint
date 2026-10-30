@@ -66,7 +66,6 @@ class ReviewViewModel(private val c: AppContainer) : ViewModel() {
             val (saved, ideas) = c.reviews.submit(review, answers.value, reflection.value)
             open.value = saved
             suggestions.value = ideas
-            if (saved.narrative.isEmpty()) error.value = "narrative unavailable (budget or network); try again later"
             // The weekly review also refreshes every active track's long-term memory (spec 8.4).
             if (review.period == ReviewPeriod.WEEK) c.scope.launch { c.db.tracks().active().forEach { t -> runCatching { c.feedback.refreshSummary(t) } } }
         } finally {
