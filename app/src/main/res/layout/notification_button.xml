@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Looks like a standard notification action: borderless, in the accent colour. -->
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/button"
+    style="@android:style/Widget.Material.Button.Borderless.Colored"
+    android:layout_width="0dp"
+    android:layout_height="40dp"
+    android:layout_weight="1"
+    android:ellipsize="end"
+    android:maxLines="1"
+    android:minWidth="0dp"
+    android:paddingHorizontal="4dp"
+    android:textAllCaps="false" />
