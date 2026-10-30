@@ -1,5 +1,7 @@
 package com.khoryz666.waypoint.domain
 
+private val checkbox = Regex("""^[-*]\s*\[[ xX]?\]\s*(.+)$""")
+
 /** A pillar and its questions before they are saved (onboarding, Markdown import). */
 data class PillarDraft(val name: String, val noTargets: Boolean, val includesJoy: Boolean, val questions: List<QuestionDraft>)
 
@@ -28,8 +30,8 @@ fun parseChecklistMarkdown(markdown: String): List<PillarDraft> {
                 name = line.trimStart('#').trim()
                 questions = mutableListOf()
             }
-            Regex("""^[-*]\s*\[[ xX]?]\s*(.+)$""").matches(line) -> {
-                val text = Regex("""^[-*]\s*\[[ xX]?]\s*(.+)$""").find(line)!!.groupValues[1].trim()
+            checkbox.matches(line) -> {
+                val text = checkbox.find(line)!!.groupValues[1].trim()
                 if (name == null) name = "Checklist"
                 questions += classify(text)
             }

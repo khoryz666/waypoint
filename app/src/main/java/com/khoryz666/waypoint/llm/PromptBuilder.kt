@@ -12,8 +12,9 @@ class PromptBuilder(private val load: (String) -> String) {
     fun render(name: String, values: Map<String, Any?> = emptyMap()): String = fill(template(name), values)
 
     companion object {
-        private val section = Regex("""\{\{#(\w+)}}(.*?)\{\{/\1}}""", RegexOption.DOT_MATCHES_ALL)
-        private val placeholder = Regex("""\{\{(\w+)}}""")
+        // Every brace is escaped: Android's ICU regex rejects a bare "}" that the JVM accepts.
+        private val section = Regex("""\{\{#(\w+)\}\}(.*?)\{\{/\1\}\}""", RegexOption.DOT_MATCHES_ALL)
+        private val placeholder = Regex("""\{\{(\w+)\}\}""")
 
         fun fill(template: String, values: Map<String, Any?>): String {
             val withSections = section.replace(template) { m ->
