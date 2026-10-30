@@ -55,6 +55,9 @@ interface UnitDao {
     @Query("SELECT * FROM units")
     suspend fun all(): List<TrackUnit>
 
+    @Query("SELECT * FROM units")
+    fun observeAll(): Flow<List<TrackUnit>>
+
     @Query("SELECT * FROM units WHERE id = :id")
     suspend fun get(id: Long): TrackUnit?
 
@@ -123,6 +126,9 @@ interface LogDao {
 
     @Query("SELECT * FROM logs")
     suspend fun all(): List<LogEntry>
+
+    @Query("SELECT MAX(createdAt) FROM logs WHERE deletedAt IS NULL")
+    suspend fun lastCreatedAt(): Long?
 
     @Insert
     suspend fun insert(log: LogEntry): Long

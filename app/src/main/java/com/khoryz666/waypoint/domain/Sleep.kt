@@ -67,3 +67,16 @@ fun sleepMonth(month: YearMonth, weekStarts: List<LocalDate>, records: List<Slee
 
 /** Nights shown as "5/7 晚有记录": records within [from, until). */
 fun recordedNights(records: List<SleepRecord>, from: LocalDate, until: LocalDate) = records.count { it.date >= from && it.date < until }
+
+/**
+ * A parsed night as a record. Bed times from noon onwards belong to the evening before the wake
+ * date; earlier ones to the wake date itself. Totals stay as reported; naps are kept apart.
+ */
+fun Night.toRecord(clock: AppClock, source: SleepSource): SleepRecord? {
+    val date = runCatching { LocalDate.parse(date) }.getOrNull() ?: return null
+    fun time(text: String?) = text?.let { runCatching { LocalTime.parse(it.take(5)) }.getOrNull() }
+    val bed = time(bedAt)?.let { t -> clock.at(if (t.hour >= 12) date.minusDays(1) else date, t) }
+    val wake = time(wakeAt)?.let { clock.at(date, it) }
+    val total = totalMin.takeIf { it > 0 } ?: if (bed != null && wake != null && wake > bed) ((wake - bed) / MINUTE_MS).toInt() else return null
+    return SleepRecord(date = date, bedAt = bed, wakeAt = wake, totalMin = total, deepMin = deepMin, lightMin = lightMin, remMin = remMin, awakeMin = awakeMin, napMin = napMin, score = score, source = source)
+}
