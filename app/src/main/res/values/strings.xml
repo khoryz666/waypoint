@@ -233,7 +233,7 @@
     <string name="start_next_level_body">A new draft that starts where this one finished.</string>
     <string name="started_from">Started from: %1$s</string>
     <string name="starting_balance">Starting balance (optional)</string>
-    <string name="stats_balance">Balance %1$s this period · 30 days %2$s</string>
+    <string name="stats_balance">Balance %1$s → %2$s · 30-day net %3$s</string>
     <string name="stats_focus">Focus %1$s · Joy %2$s</string>
     <string name="stats_minimum">Minimum %1$d/%2$d days · plan %3$d days</string>
     <string name="status_aborted">Aborted</string>

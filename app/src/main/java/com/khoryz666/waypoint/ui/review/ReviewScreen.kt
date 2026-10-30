@@ -36,6 +36,7 @@ import com.khoryz666.waypoint.domain.ReviewPeriod
 import com.khoryz666.waypoint.domain.ReviewStats
 import com.khoryz666.waypoint.domain.autoAnswer
 import com.khoryz666.waypoint.domain.formatMinutes
+import com.khoryz666.waypoint.domain.formatMoney
 import com.khoryz666.waypoint.domain.formatMoneyDelta
 import com.khoryz666.waypoint.ui.Banner
 import com.khoryz666.waypoint.ui.Muted
@@ -128,7 +129,7 @@ private fun StatsCard(period: ReviewPeriod, title: String, stats: ReviewStats, l
         Text(stringResource(R.string.stats_focus, formatMinutes(stats.focusMinutes.toLong()), formatMinutes(stats.joyMinutes.toLong())))
         Text(stringResource(R.string.stats_minimum, stats.minimumDays, stats.daysWithMinimum, stats.planDays))
         Text(autoAnswer(com.khoryz666.waypoint.domain.QuestionKey.SLEEP_NIGHTS_IN_RANGE, stats, lang))
-        Text(stringResource(R.string.stats_balance, formatMoneyDelta(stats.balance.endMinor - stats.balance.startMinor, stats.balance.currency), formatMoneyDelta(stats.balance.net30Minor, stats.balance.currency)))
+        Text(stringResource(R.string.stats_balance, formatMoney(stats.balance.startMinor, stats.balance.currency), formatMoney(stats.balance.endMinor, stats.balance.currency), formatMoneyDelta(stats.balance.net30Minor, stats.balance.currency)))
         stats.tracks.forEach { t -> Muted("${t.title}: ${formatMinutes(t.focusMinutes.toLong())} · ${t.unitsDone} units · ${t.logs} logs") }
         if (stats.completed.isNotEmpty()) Muted("✓ " + stats.completed.joinToString("; "))
         if (stats.aborted.isNotEmpty()) Muted("✗ " + stats.aborted.joinToString("; "))

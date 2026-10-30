@@ -233,7 +233,7 @@
     <string name="start_next_level_body">新建一个从这里结束处开始的草稿。</string>
     <string name="started_from">起点: %1$s</string>
     <string name="starting_balance">起始余额 (可选)</string>
-    <string name="stats_balance">本期余额 %1$s · 30 天 %2$s</string>
+    <string name="stats_balance">余额 %1$s → %2$s · 30 天净变化 %3$s</string>
     <string name="stats_focus">专注 %1$s · Joy %2$s</string>
     <string name="stats_minimum">最低 %1$d/%2$d 天 · 计划 %3$d 天</string>
     <string name="status_aborted">已中止</string>
