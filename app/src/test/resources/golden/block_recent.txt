@@ -1,0 +1,2 @@
+## Recent logs (newest first)
+2026-10-29 {"type":"fundamental","unitsDone":[40],"unitsStarted":[],"newUnits":[],"notes":"ch7 modules"}

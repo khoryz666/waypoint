@@ -1,5 +1,5 @@
 {
-  description = "Timer Android dev environment";
+  description = "Waypoint Android dev environment";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -45,7 +45,7 @@
         in
         pkgs.mkShell {
           packages = [
-            pkgs.jdk21_headless
+            pkgs.jdk17_headless
             sdk
           ];
           ANDROID_HOME = sdkRoot;

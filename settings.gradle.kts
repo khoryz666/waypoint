@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Timer"
+rootProject.name = "Waypoint"
 include(":app")

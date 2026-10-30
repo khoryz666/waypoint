@@ -4,18 +4,25 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
 
-val appVersion: String = providers.gradleProperty("timer.version").get()
+val appVersion: String = providers.gradleProperty("waypoint.version").get()
+
+// Release signing comes from the environment (CI secrets) or ~/.gradle/gradle.properties, never
+// from the repo. Without it, release builds are left unsigned - see docs/signing.md.
+fun signingValue(name: String): String? =
+    providers.environmentVariable(name).orNull ?: providers.gradleProperty(name).orNull
+val releaseKeystore = signingValue("WAYPOINT_KEYSTORE")?.let(::file)?.takeIf { it.exists() }
 
 android {
-    namespace = "io.github.khoryz666.timer"
+    namespace = "com.khoryz666.waypoint"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.github.khoryz666.timer"
-        minSdk = 26
+        applicationId = "com.khoryz666.waypoint"
+        minSdk = 29
         targetSdk = 35
         versionName = appVersion
         versionCode = appVersion.split('.').map(String::toInt)
@@ -23,12 +30,13 @@ android {
     }
 
     signingConfigs {
-        // Committed on purpose so every release is signed identically - see keystore/README.md.
-        create("release") {
-            storeFile = rootProject.file("keystore/release.keystore")
-            storePassword = "timetracker-release"
-            keyAlias = "timetracker"
-            keyPassword = "timetracker-release"
+        if (releaseKeystore != null) {
+            create("release") {
+                storeFile = releaseKeystore
+                storePassword = signingValue("WAYPOINT_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("WAYPOINT_KEY_ALIAS")
+                keyPassword = signingValue("WAYPOINT_KEY_PASSWORD")
+            }
         }
     }
 
@@ -36,14 +44,14 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            resValue("string", "app_name", "Timer Debug")
+            resValue("string", "app_name", "Waypoint Debug")
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
-            resValue("string", "app_name", "Timer")
+            signingConfig = signingConfigs.findByName("release")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            resValue("string", "app_name", "Waypoint")
         }
     }
 
@@ -55,13 +63,31 @@ android {
         compose = true
         buildConfig = true
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
+    sourceSets {
+        // Room's exported schemas, so migration tests can open every past version. Robolectric
+        // reads the merged debug assets, not test assets, so they ship in debug builds only.
+        getByName("debug").assets.srcDir("$projectDir/schemas")
+    }
     testOptions {
         unitTests.isIncludeAndroidResources = true
+    }
+    lint {
+        // The backup passphrase is an app-only credential with no website to link (DECISIONS.md).
+        disable += "CredManMissingDal"
+        // Releases are APKs, not app bundles, so every language ships in the one file.
+        disable += "AppBundleLocaleChanges"
     }
 }
 
 kotlin {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        // FlowRow and a few Material 3 components are still marked experimental.
+        optIn.addAll("androidx.compose.foundation.layout.ExperimentalLayoutApi", "androidx.compose.material3.ExperimentalMaterial3Api")
+    }
 }
 
 ksp {
@@ -69,6 +95,8 @@ ksp {
 }
 
 tasks.withType<Test>().configureEach {
+    // -Dgolden.update=true rewrites the prompt golden files (see PromptGoldenTest).
+    systemProperty("golden.update", providers.systemProperty("golden.update").getOrElse("false"))
     testLogging {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
@@ -83,17 +111,25 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.okhttp)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
-    // android.jar only has org.json stubs; this is the real implementation for JVM tests.
-    testImplementation(libs.json)
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.okhttp.mockwebserver)
     testImplementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

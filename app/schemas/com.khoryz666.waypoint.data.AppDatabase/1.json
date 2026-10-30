@@ -1,0 +1,1205 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "280ca2c091557285441c6c7bf80c8282",
+    "entities": [
+      {
+        "tableName": "tracks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `title` TEXT NOT NULL, `status` TEXT NOT NULL, `initialState` TEXT NOT NULL, `goal` TEXT NOT NULL, `goalCriteria` TEXT NOT NULL, `targetDate` TEXT, `planNotes` TEXT NOT NULL, `predecessorId` INTEGER, `endedAt` INTEGER, `endReason` TEXT, `pauseReason` TEXT, `finalState` TEXT, `rollingSummary` TEXT NOT NULL, `summaryUpdatedAt` INTEGER, `logsSinceSummary` INTEGER NOT NULL, `githubRepos` TEXT NOT NULL, `syncError` TEXT, `lastSyncAt` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domain",
+            "columnName": "domain",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "initialState",
+            "columnName": "initialState",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "goal",
+            "columnName": "goal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "goalCriteria",
+            "columnName": "goalCriteria",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetDate",
+            "columnName": "targetDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "planNotes",
+            "columnName": "planNotes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "predecessorId",
+            "columnName": "predecessorId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endedAt",
+            "columnName": "endedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endReason",
+            "columnName": "endReason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pauseReason",
+            "columnName": "pauseReason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "finalState",
+            "columnName": "finalState",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rollingSummary",
+            "columnName": "rollingSummary",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summaryUpdatedAt",
+            "columnName": "summaryUpdatedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logsSinceSummary",
+            "columnName": "logsSinceSummary",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "githubRepos",
+            "columnName": "githubRepos",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncError",
+            "columnName": "syncError",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_tracks_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tracks_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_tracks_predecessorId",
+            "unique": false,
+            "columnNames": [
+              "predecessorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tracks_predecessorId` ON `${TABLE_NAME}` (`predecessorId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "units",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trackId` INTEGER NOT NULL, `order` INTEGER NOT NULL, `title` TEXT NOT NULL, `status` TEXT NOT NULL, `doneAt` INTEGER, `nextReviewAt` INTEGER, `reviewStep` INTEGER NOT NULL, FOREIGN KEY(`trackId`) REFERENCES `tracks`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "doneAt",
+            "columnName": "doneAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextReviewAt",
+            "columnName": "nextReviewAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reviewStep",
+            "columnName": "reviewStep",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_units_trackId",
+            "unique": false,
+            "columnNames": [
+              "trackId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_units_trackId` ON `${TABLE_NAME}` (`trackId`)"
+          },
+          {
+            "name": "index_units_nextReviewAt",
+            "unique": false,
+            "columnNames": [
+              "nextReviewAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_units_nextReviewAt` ON `${TABLE_NAME}` (`nextReviewAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "tracks",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "trackId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "logs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trackId` INTEGER, `kind` TEXT NOT NULL, `occurredAt` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `rawText` TEXT, `rawImageUris` TEXT NOT NULL, `structured` TEXT, `unitIds` TEXT NOT NULL, `parseStatus` TEXT NOT NULL, `confidence` REAL, `sessionId` INTEGER, `parseError` TEXT, `deletedAt` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kind",
+            "columnName": "kind",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "occurredAt",
+            "columnName": "occurredAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rawText",
+            "columnName": "rawText",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rawImageUris",
+            "columnName": "rawImageUris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "structured",
+            "columnName": "structured",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unitIds",
+            "columnName": "unitIds",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parseStatus",
+            "columnName": "parseStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "confidence",
+            "columnName": "confidence",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parseError",
+            "columnName": "parseError",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_logs_trackId",
+            "unique": false,
+            "columnNames": [
+              "trackId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_logs_trackId` ON `${TABLE_NAME}` (`trackId`)"
+          },
+          {
+            "name": "index_logs_occurredAt",
+            "unique": false,
+            "columnNames": [
+              "occurredAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_logs_occurredAt` ON `${TABLE_NAME}` (`occurredAt`)"
+          },
+          {
+            "name": "index_logs_parseStatus",
+            "unique": false,
+            "columnNames": [
+              "parseStatus"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_logs_parseStatus` ON `${TABLE_NAME}` (`parseStatus`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "feedback",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `logId` INTEGER, `reviewId` INTEGER, `trackId` INTEGER, `question` TEXT, `text` TEXT NOT NULL, `model` TEXT NOT NULL, `promptName` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "logId",
+            "columnName": "logId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reviewId",
+            "columnName": "reviewId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "question",
+            "columnName": "question",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "promptName",
+            "columnName": "promptName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_feedback_logId",
+            "unique": false,
+            "columnNames": [
+              "logId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_feedback_logId` ON `${TABLE_NAME}` (`logId`)"
+          },
+          {
+            "name": "index_feedback_trackId",
+            "unique": false,
+            "columnNames": [
+              "trackId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_feedback_trackId` ON `${TABLE_NAME}` (`trackId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "next_steps",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trackId` INTEGER NOT NULL, `text` TEXT NOT NULL, `dueHint` TEXT, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueHint",
+            "columnName": "dueHint",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_next_steps_trackId_status",
+            "unique": false,
+            "columnNames": [
+              "trackId",
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_next_steps_trackId_status` ON `${TABLE_NAME}` (`trackId`, `status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `trackId` INTEGER, `startAt` INTEGER NOT NULL, `endAt` INTEGER, `note` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startAt",
+            "columnName": "startAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endAt",
+            "columnName": "endAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_sessions_endAt",
+            "unique": false,
+            "columnNames": [
+              "endAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sessions_endAt` ON `${TABLE_NAME}` (`endAt`)"
+          },
+          {
+            "name": "index_sessions_trackId",
+            "unique": false,
+            "columnNames": [
+              "trackId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sessions_trackId` ON `${TABLE_NAME}` (`trackId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "day_types",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, `minimum` TEXT NOT NULL, `plan` TEXT NOT NULL, `weekdays` TEXT NOT NULL, `nudges` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minimum",
+            "columnName": "minimum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plan",
+            "columnName": "plan",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weekdays",
+            "columnName": "weekdays",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nudges",
+            "columnName": "nudges",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "day_assignments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `dayTypeId` INTEGER NOT NULL, PRIMARY KEY(`date`))",
+        "fields": [
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayTypeId",
+            "columnName": "dayTypeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "date"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "sleep_records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `bedAt` INTEGER, `wakeAt` INTEGER, `totalMin` INTEGER NOT NULL, `deepMin` INTEGER, `lightMin` INTEGER, `remMin` INTEGER, `awakeMin` INTEGER, `napMin` INTEGER, `score` INTEGER, `source` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bedAt",
+            "columnName": "bedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wakeAt",
+            "columnName": "wakeAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalMin",
+            "columnName": "totalMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deepMin",
+            "columnName": "deepMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lightMin",
+            "columnName": "lightMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remMin",
+            "columnName": "remMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "awakeMin",
+            "columnName": "awakeMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "napMin",
+            "columnName": "napMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_sleep_records_date",
+            "unique": true,
+            "columnNames": [
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_sleep_records_date` ON `${TABLE_NAME}` (`date`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "balance_events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `occurredAt` INTEGER NOT NULL, `kind` TEXT NOT NULL, `amount` INTEGER NOT NULL, `note` TEXT, `deletedAt` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "occurredAt",
+            "columnName": "occurredAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kind",
+            "columnName": "kind",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_balance_events_occurredAt",
+            "unique": false,
+            "columnNames": [
+              "occurredAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_balance_events_occurredAt` ON `${TABLE_NAME}` (`occurredAt`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "reviews",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `period` TEXT NOT NULL, `start` TEXT NOT NULL, `end` TEXT NOT NULL, `stats` TEXT NOT NULL, `answers` TEXT NOT NULL, `reflection` TEXT NOT NULL, `narrative` TEXT NOT NULL, `oneThingToFix` TEXT NOT NULL, `top3` TEXT NOT NULL, `submittedAt` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "period",
+            "columnName": "period",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats",
+            "columnName": "stats",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answers",
+            "columnName": "answers",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reflection",
+            "columnName": "reflection",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "narrative",
+            "columnName": "narrative",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "oneThingToFix",
+            "columnName": "oneThingToFix",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "top3",
+            "columnName": "top3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "submittedAt",
+            "columnName": "submittedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_reviews_period_start",
+            "unique": true,
+            "columnNames": [
+              "period",
+              "start"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_reviews_period_start` ON `${TABLE_NAME}` (`period`, `start`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "usage_records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `at` INTEGER NOT NULL, `model` TEXT NOT NULL, `promptName` TEXT NOT NULL, `cacheHitTokens` INTEGER NOT NULL, `cacheMissTokens` INTEGER NOT NULL, `outputTokens` INTEGER NOT NULL, `costCny` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "at",
+            "columnName": "at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "promptName",
+            "columnName": "promptName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cacheHitTokens",
+            "columnName": "cacheHitTokens",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cacheMissTokens",
+            "columnName": "cacheMissTokens",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outputTokens",
+            "columnName": "outputTokens",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "costCny",
+            "columnName": "costCny",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_usage_records_at",
+            "unique": false,
+            "columnNames": [
+              "at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_usage_records_at` ON `${TABLE_NAME}` (`at`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pillars",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, `noTargets` INTEGER NOT NULL, `trackIds` TEXT NOT NULL, `includesJoy` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noTargets",
+            "columnName": "noTargets",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackIds",
+            "columnName": "trackIds",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "includesJoy",
+            "columnName": "includesJoy",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "checklist_questions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pillarId` INTEGER NOT NULL, `order` INTEGER NOT NULL, `text` TEXT NOT NULL, `type` TEXT NOT NULL, `key` TEXT, FOREIGN KEY(`pillarId`) REFERENCES `pillars`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pillarId",
+            "columnName": "pillarId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_checklist_questions_pillarId",
+            "unique": false,
+            "columnNames": [
+              "pillarId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_checklist_questions_pillarId` ON `${TABLE_NAME}` (`pillarId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "pillars",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "pillarId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "commits",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sha` TEXT NOT NULL, `trackId` INTEGER NOT NULL, `repo` TEXT NOT NULL, `committedAt` INTEGER NOT NULL, `message` TEXT NOT NULL, `branch` TEXT, `logId` INTEGER, PRIMARY KEY(`sha`))",
+        "fields": [
+          {
+            "fieldPath": "sha",
+            "columnName": "sha",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repo",
+            "columnName": "repo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "committedAt",
+            "columnName": "committedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "branch",
+            "columnName": "branch",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logId",
+            "columnName": "logId",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sha"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_commits_trackId_committedAt",
+            "unique": false,
+            "columnNames": [
+              "trackId",
+              "committedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_commits_trackId_committedAt` ON `${TABLE_NAME}` (`trackId`, `committedAt`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '280ca2c091557285441c6c7bf80c8282')"
+    ]
+  }
+}
