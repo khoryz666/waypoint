@@ -85,3 +85,30 @@ fun streak(outcomes: List<DayOutcome>): Int {
     }
     return count
 }
+
+/** What happened on [date]: timer totals, units marked DONE that day per track, and any exercise log. */
+fun dayProgress(
+    date: LocalDate,
+    times: Map<LocalDate, DayTime>,
+    units: List<com.khoryz666.waypoint.data.TrackUnit>,
+    exerciseDays: Set<LocalDate>,
+    clock: AppClock,
+): DayProgress = DayProgress(
+    time = times[date] ?: DayTime(),
+    unitsDone = units.filter { it.doneAt != null && clock.dateOf(it.doneAt) == date }.groupingBy { it.trackId }.eachCount(),
+    exercised = date in exerciseDays,
+)
+
+/** Day outcomes from [today] back [days] days, newest first, for [streak]. Uses today's active tracks. */
+fun outcomes(
+    today: LocalDate,
+    days: Int,
+    types: List<DayType>,
+    assignments: List<DayAssignment>,
+    progressOf: (LocalDate) -> DayProgress,
+    activeTracks: List<Track>,
+): List<DayOutcome> = (0 until days).map { back ->
+    val date = today.minusDays(back.toLong())
+    val type = dayTypeFor(date, types, assignments)
+    outcome(type, type?.let { evaluate(it.minimum, progressOf(date), activeTracks, Lang.EN) } ?: TargetResult(emptyList()))
+}
