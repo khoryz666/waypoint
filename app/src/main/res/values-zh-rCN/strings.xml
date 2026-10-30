@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_today">今天</string>
+    <string name="nav_tracks">Tracks</string>
+    <string name="nav_body">身体</string>
+    <string name="nav_review">复盘</string>
+    <string name="settings">设置</string>
+    <string name="create_first_track">创建第一个 Track</string>
+</resources>
