@@ -9,24 +9,29 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
+/** Seals small secrets at rest. [SecretStore] on devices; a fake in JVM tests. */
+interface SecretCipher {
+    fun encrypt(plain: ByteArray): String
+    fun decrypt(sealed: String): ByteArray?
+    fun encryptString(plain: String) = encrypt(plain.toByteArray())
+    fun decryptString(sealed: String) = decrypt(sealed)?.decodeToString()
+}
+
 /**
  * Encrypts small secrets (API key, GitHub token, the cached backup key) with an AES-256-GCM key
  * that never leaves AndroidKeyStore (spec 9.1). Ciphertext is "base64(iv):base64(data)".
  */
-class SecretStore(private val alias: String = "waypoint-secrets") {
+class SecretStore(private val alias: String = "waypoint-secrets") : SecretCipher {
 
-    fun encrypt(plain: ByteArray): String {
+    override fun encrypt(plain: ByteArray): String {
         val cipher = Cipher.getInstance(TRANSFORMATION).apply { init(Cipher.ENCRYPT_MODE, key()) }
         return b64(cipher.iv) + ":" + b64(cipher.doFinal(plain))
     }
 
-    fun decrypt(sealed: String): ByteArray? = runCatching {
+    override fun decrypt(sealed: String): ByteArray? = runCatching {
         val (iv, data) = sealed.split(':').map { Base64.decode(it, Base64.NO_WRAP) }
         Cipher.getInstance(TRANSFORMATION).apply { init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, iv)) }.doFinal(data)
     }.getOrNull()
-
-    fun encryptString(plain: String) = encrypt(plain.toByteArray())
-    fun decryptString(sealed: String) = decrypt(sealed)?.decodeToString()
 
     private fun key(): SecretKey {
         val store = KeyStore.getInstance(KEYSTORE).apply { load(null) }

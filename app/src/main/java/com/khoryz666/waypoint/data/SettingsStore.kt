@@ -26,9 +26,9 @@ import java.time.ZoneId
 
 /**
  * Everything in DataStore: the profile, model and budget settings, reminder times, and small
- * pieces of state. Secrets are stored only as [SecretStore] ciphertext.
+ * pieces of state. Secrets are stored only as [SecretCipher] ciphertext.
  */
-class SettingsStore(private val store: DataStore<Preferences>, private val secrets: SecretStore) {
+class SettingsStore(private val store: DataStore<Preferences>, private val secrets: SecretCipher) {
 
     val settings: Flow<Settings> = store.data.map(::read)
 
