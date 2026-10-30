@@ -95,6 +95,8 @@ ksp {
 }
 
 tasks.withType<Test>().configureEach {
+    // -Dgolden.update=true rewrites the prompt golden files (see PromptGoldenTest).
+    systemProperty("golden.update", providers.systemProperty("golden.update").getOrElse("false"))
     testLogging {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
