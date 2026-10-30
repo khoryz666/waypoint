@@ -17,16 +17,16 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: zulu
-          java-version: '21'
+          java-version: '17'
 
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Check the tag matches the app version
         id: version
         run: |
-          version=$(sed -n 's/^timer.version=//p' gradle.properties)
+          version=$(sed -n 's/^waypoint.version=//p' gradle.properties)
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME doesn't match timer.version=$version in gradle.properties"
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match waypoint.version=$version in gradle.properties"
             exit 1
           fi
           echo "name=$version" >> "$GITHUB_OUTPUT"
@@ -43,14 +43,29 @@ jobs:
             exit 1
           fi
 
+      - name: Decode the release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.WAYPOINT_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::Secret WAYPOINT_KEYSTORE_BASE64 is not set - see docs/signing.md"
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          echo "WAYPOINT_KEYSTORE=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+
       - name: Test and build
+        env:
+          WAYPOINT_KEYSTORE_PASSWORD: ${{ secrets.WAYPOINT_KEYSTORE_PASSWORD }}
+          WAYPOINT_KEY_ALIAS: ${{ secrets.WAYPOINT_KEY_ALIAS }}
+          WAYPOINT_KEY_PASSWORD: ${{ secrets.WAYPOINT_KEY_PASSWORD }}
         run: ./gradlew testDebugUnitTest assembleRelease
 
       - name: Name the APK
-        run: mv app/build/outputs/apk/release/app-release.apk "Timer-${{ steps.version.outputs.name }}.apk"
+        run: mv app/build/outputs/apk/release/app-release.apk "Waypoint-${{ steps.version.outputs.name }}.apk"
 
       - uses: softprops/action-gh-release@v2
         with:
-          name: Timer ${{ steps.version.outputs.name }}
+          name: Waypoint ${{ steps.version.outputs.name }}
           body_path: release-notes.md
-          files: Timer-${{ steps.version.outputs.name }}.apk
+          files: Waypoint-${{ steps.version.outputs.name }}.apk
