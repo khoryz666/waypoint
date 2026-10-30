@@ -74,10 +74,20 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+    lint {
+        // The backup passphrase is an app-only credential with no website to link (DECISIONS.md).
+        disable += "CredManMissingDal"
+        // Releases are APKs, not app bundles, so every language ships in the one file.
+        disable += "AppBundleLocaleChanges"
+    }
 }
 
 kotlin {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        // FlowRow and a few Material 3 components are still marked experimental.
+        optIn.addAll("androidx.compose.foundation.layout.ExperimentalLayoutApi", "androidx.compose.material3.ExperimentalMaterial3Api")
+    }
 }
 
 ksp {
