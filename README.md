@@ -16,6 +16,11 @@ direnv allow          # or: nix develop
 The flake provides JDK 17 and the Android SDK (platform 35). `nix develop .#emulator` adds
 the emulator and an x86_64 system image.
 
+- Code layout follows the spec: `domain/` (pure Kotlin rules, JVM-tested), `data/`, `llm/`,
+  `ingest/`, `timer/`, `backup/`, `github/`, `ui/`, `work/`. Prompts are in
+  `app/src/main/assets/prompts/`; after changing one, refresh its golden file with
+  `./gradlew testDebugUnitTest --tests '*PromptGolden*' -Dgolden.update=true`.
+- UI strings live in `tools/strings_table.py`; run `python3 tools/strings.py` after editing it.
 - Package `com.khoryz666.waypoint` (`.debug` suffix for debug builds), `minSdk 29`, `targetSdk 35`.
 - Release signing: [docs/signing.md](docs/signing.md). Google Drive backup setup: [docs/google-setup.md](docs/google-setup.md).
 
