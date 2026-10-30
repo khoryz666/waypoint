@@ -30,6 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun usage(): UsageDao
     abstract fun checklist(): ChecklistDao
     abstract fun commits(): CommitDao
+    abstract fun restore(): RestoreDao
 
     companion object {
         const val NAME = "waypoint.db"
