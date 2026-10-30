@@ -67,8 +67,9 @@ android {
         generateLocaleConfig = true
     }
     sourceSets {
-        // Room's exported schemas, so migration tests can open every past version.
-        getByName("test").assets.srcDir("$projectDir/schemas")
+        // Room's exported schemas, so migration tests can open every past version. Robolectric
+        // reads the merged debug assets, not test assets, so they ship in debug builds only.
+        getByName("debug").assets.srcDir("$projectDir/schemas")
     }
     testOptions {
         unitTests.isIncludeAndroidResources = true
