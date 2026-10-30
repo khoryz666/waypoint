@@ -107,5 +107,8 @@ class AppContainer(context: Context) {
     /** (Re)arms every periodic and scheduled job; safe to call repeatedly. */
     fun scheduleWork() {
         parseScheduler.schedule()
+        BackupWorker.scheduleDaily(app)
+        com.khoryz666.waypoint.work.CommitSyncWorker.schedule(app)
+        scope.launch { com.khoryz666.waypoint.work.ReminderWorker.scheduleAll(app, this@AppContainer) }
     }
 }
