@@ -80,7 +80,7 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
             TopAppBar(
                 title = {
                     Column {
-                        Text(day?.date?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).orEmpty())
+                        Text(day?.date?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(androidx.compose.ui.platform.LocalConfiguration.current.locales[0])).orEmpty())
                         day?.let { Muted(stringResource(R.string.streak_days, it.streak)) }
                     }
                 },
