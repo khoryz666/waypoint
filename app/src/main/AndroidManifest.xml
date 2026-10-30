@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- "Open DeepSeek" in the track handoff (spec 4) launches the app by package. -->
+    <queries>
+        <package android:name="com.deepseek.chat" />
+    </queries>
+
     <application
         android:name=".WaypointApplication"
         android:allowBackup="false"
