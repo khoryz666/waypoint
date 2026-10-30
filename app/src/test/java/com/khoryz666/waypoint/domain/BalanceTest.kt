@@ -32,6 +32,12 @@ class BalanceTest {
     }
 
     @Test
+    fun `a SET correction is not income`() {
+        val events = listOf(BalanceEvent(1, 10 * DAY_MS, BalanceKind.SET, 1000_00), delta(2, 11 * DAY_MS, -42_50))
+        assertEquals(-42_50, netChange(events, now = 12 * DAY_MS, days = 7))
+    }
+
+    @Test
     fun `money shortcuts parse locally in minor units`() {
         assertEquals(MoneyShortcut(BalanceKind.DELTA, 350_00, "freelance payment"), parseMoneyShortcut("+350 freelance payment", "MYR"))
         assertEquals(MoneyShortcut(BalanceKind.DELTA, -42_50, "groceries"), parseMoneyShortcut("-42.50 groceries", "MYR"))

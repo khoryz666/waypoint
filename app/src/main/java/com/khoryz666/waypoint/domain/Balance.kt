@@ -17,9 +17,13 @@ fun balanceAt(events: List<BalanceEvent>, at: Long = Long.MAX_VALUE): Long {
     return base + live.drop(lastSet + 1).filter { it.kind == BalanceKind.DELTA }.sumOf { it.amount }
 }
 
-/** Net change over the [days] before [now]. The unit of judgment for money is the 30-day net (6.3). */
+/**
+ * Net change over the [days] before [now]: the sum of DELTA entries in that window. SET entries
+ * only correct drift, so they never count as income or spending. The unit of judgment for money
+ * is the 30-day net (6.3).
+ */
 fun netChange(events: List<BalanceEvent>, now: Long, days: Int): Long =
-    balanceAt(events, now) - balanceAt(events, now - days * DAY_MS)
+    events.filter { it.deletedAt == null && it.kind == BalanceKind.DELTA && it.occurredAt <= now && it.occurredAt > now - days * DAY_MS }.sumOf { it.amount }
 
 /** A money shortcut typed in the input box: `+350 note`, `-42.50 note`, `=4210`. */
 data class MoneyShortcut(val kind: BalanceKind, val amountMinor: Long, val note: String?)
