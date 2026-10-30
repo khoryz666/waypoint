@@ -71,10 +71,6 @@ class InputRepository(
         scheduler.schedule()
     }
 
-    /** Fills a FAILED (or any) card by hand. */
-    suspend fun manual(log: LogEntry, structured: Structured, trackId: Long?) =
-        db.logs().update(log.copy(structured = structured, trackId = trackId, kind = Parser.kindOf(structured), parseStatus = ParseStatus.MANUAL, confidence = 1.0))
-
     suspend fun discard(log: LogEntry) {
         db.logs().update(log.copy(deletedAt = clock.now()))
         images.delete(log.rawImageUris)
