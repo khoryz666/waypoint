@@ -52,6 +52,7 @@ class DeviceClock : AppClock {
 /** The app's long-lived objects, created on first use. The only place dependencies are wired (spec 2). */
 class AppContainer(context: Context) {
     private val app = context.applicationContext
+    val appContext: Context get() = app
 
     /** Outlives screens: follow-up LLM calls and background work started from the UI. */
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -83,6 +84,9 @@ class AppContainer(context: Context) {
     val commits by lazy { CommitSync(db, github, settings, llm, clock) }
     val googleAuth by lazy { GoogleAuth(app) }
     val backup by lazy { BackupManager(db, DriveClient(), settings, clock, BuildConfig.VERSION_NAME) }
+
+    /** Shared text, screenshots or a "做了什么?" tap waiting for the input box. */
+    val inbox = kotlinx.coroutines.flow.MutableStateFlow<com.khoryz666.waypoint.ingest.Inbox?>(null)
 
     val notifications by lazy { Notifications(app) { lang } }
     val tracker by lazy { Tracker(db, clock, notifications) }
