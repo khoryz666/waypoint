@@ -2,7 +2,15 @@ package com.khoryz666.waypoint
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.InvalidationTracker
+import com.khoryz666.waypoint.backup.BackupManager
+import com.khoryz666.waypoint.backup.DriveClient
+import com.khoryz666.waypoint.backup.GoogleAuth
 import com.khoryz666.waypoint.data.AppDatabase
+import com.khoryz666.waypoint.data.ReviewRepository
+import com.khoryz666.waypoint.github.CommitSync
+import com.khoryz666.waypoint.github.GitHubClient
+import com.khoryz666.waypoint.work.BackupWorker
 import com.khoryz666.waypoint.data.SecretStore
 import com.khoryz666.waypoint.data.SettingsStore
 import com.khoryz666.waypoint.data.StatsRepository
@@ -70,12 +78,24 @@ class AppContainer(context: Context) {
     val receipts by lazy { ReceiptBuilder(db, stats, settings, clock) }
     val feedback by lazy { FeedbackEngine(db, llm, contextBuilder, receipts, settings, clock, scope) }
 
+    val reviews by lazy { ReviewRepository(db, settings, llm, clock) }
+    val github by lazy { GitHubClient({ settings.githubToken() }) }
+    val commits by lazy { CommitSync(db, github, settings, llm, clock) }
+    val googleAuth by lazy { GoogleAuth(app) }
+    val backup by lazy { BackupManager(db, DriveClient(), settings, clock, BuildConfig.VERSION_NAME) }
+
     val notifications by lazy { Notifications(app) { lang } }
     val tracker by lazy { Tracker(db, clock, notifications) }
 
     init {
         // Seed the zone and language before anything reads them, then follow changes.
         runBlocking { settings.settings.first() }.let { s -> clock.zoneOverride = s.profile.timezoneOverride; lang = s.profile.language }
+        // Every write pushes the debounced backup 10 minutes out (spec 9.3), once a passphrase exists.
+        db.invalidationTracker.addObserver(object : InvalidationTracker.Observer(arrayOf("tracks", "units", "logs", "sessions", "sleep_records", "balance_events", "reviews", "day_types", "pillars", "checklist_questions")) {
+            override fun onInvalidated(tables: Set<String>) {
+                scope.launch { if (settings.current().backup.hasKey) BackupWorker.afterWrite(app) }
+            }
+        })
         scope.launch {
             settings.settings.collect { s ->
                 clock.zoneOverride = s.profile.timezoneOverride
