@@ -9,6 +9,8 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetPasswordOption
 import androidx.credentials.PasswordCredential
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
 import com.google.android.gms.auth.api.identity.AuthorizationResult
 import com.google.android.gms.auth.api.identity.Identity
@@ -44,10 +46,15 @@ class GoogleAuth(private val context: Context) {
         CredentialManager.create(activity).createCredential(activity, CreatePasswordRequest(PASSWORD_ID, passphrase))
     }.isSuccess
 
-    suspend fun readPassphrase(activity: Activity): String? = runCatching {
+    /** The saved passphrase, or null when none is saved or the user dismisses the sheet. */
+    suspend fun readPassphrase(activity: Activity): String? = try {
         val response = CredentialManager.create(activity).getCredential(activity, GetCredentialRequest(listOf(GetPasswordOption())))
         (response.credential as? PasswordCredential)?.takeIf { it.id == PASSWORD_ID }?.password
-    }.getOrNull()
+    } catch (e: NoCredentialException) {
+        null
+    } catch (e: GetCredentialException) {
+        null
+    }
 
     companion object {
         const val DRIVE_APPDATA = "https://www.googleapis.com/auth/drive.appdata"
