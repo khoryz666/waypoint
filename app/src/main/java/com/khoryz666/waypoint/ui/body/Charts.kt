@@ -77,7 +77,13 @@ fun LineChart(points: List<ChartPoint>, modifier: Modifier = Modifier) {
                 detectTapGestures { o -> if (points.size > 1) selected = (o.x / size.width * points.lastIndex + 0.5f).toInt().coerceIn(0, points.lastIndex) }
             },
         ) {
-            if (values.size < 2) return@Canvas
+            if (values.isEmpty()) return@Canvas
+            if (values.size == 1) {
+                // One day of data: a single marker, so the chart isn't blank.
+                val i = points.indexOfFirst { it.value != null }
+                drawCircle(line, 4.dp.toPx(), Offset(if (points.size > 1) size.width * i / points.lastIndex else size.width / 2, size.height / 2))
+                return@Canvas
+            }
             val min = minOf(values.min(), 0f)
             val max = values.max().let { if (it == min) it + 1 else it }
             fun x(i: Int) = size.width * i / points.lastIndex
