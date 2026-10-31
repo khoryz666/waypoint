@@ -101,7 +101,7 @@ footer a { color: var(--muted); margin-left: 18px; }
   .step h3 { font-size: 17px; margin: 0; }
   .step p { font-size: 15px; }
   /* Screens become a swipeable row on phones. */
-  .screens { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -20px; padding: 4px 20px 20px; scrollbar-width: none; }
+  .screens { display: flex; justify-content: flex-start; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -20px; padding: 4px 20px 20px; scrollbar-width: none; }
   .screens::-webkit-scrollbar { display: none; }
   .phone { flex: 0 0 68%; scroll-snap-align: center; }
   .feature { padding: 16px 18px; }
