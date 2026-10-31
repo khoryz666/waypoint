@@ -85,6 +85,7 @@
     <string name="fill_manually">手动填写</string>
     <string name="final_state">最后到哪了？</string>
     <string name="final_state_x">结果: %1$s</string>
+    <string name="finish_setup">完成</string>
     <string name="focus">专注</string>
     <string name="focus_today">今天专注 %1$s</string>
     <string name="generate_draft">用 AI 生成草稿</string>
@@ -93,6 +94,7 @@
     <string name="github_hint">在项目类目标里显示你的 commit。</string>
     <string name="github_repos">GitHub 仓库 (owner/repo)</string>
     <string name="github_token">只读 token</string>
+    <string name="github_token_project">GitHub token (项目类目标用)</string>
     <string name="goal_amount">金额</string>
     <string name="goal_by">截止日期</string>
     <string name="goal_final">最终状态</string>
@@ -160,7 +162,7 @@
     <string name="one_thing_to_fix">要改的一件事</string>
     <string name="open">打开</string>
     <string name="open_cards">还有 %1$d 条待确认</string>
-    <string name="optional">可选</string>
+    <string name="optional">备份和 GitHub</string>
     <string name="optional_note">可选备注</string>
     <string name="optional_reason">原因 (可选)</string>
     <string name="outline">步骤</string>

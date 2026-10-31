@@ -91,9 +91,9 @@ private fun StepTitle(n: Int, title: String) {
 }
 
 @Composable
-private fun Nav(onNext: () -> Unit, onSkip: (() -> Unit)?, nextEnabled: Boolean = true) {
+private fun Nav(onNext: () -> Unit, onSkip: (() -> Unit)?, nextEnabled: Boolean = true, nextLabel: String = stringResource(R.string.next)) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Button(onClick = onNext, enabled = nextEnabled) { Text(stringResource(R.string.next)) }
+        Button(onClick = onNext, enabled = nextEnabled) { Text(nextLabel) }
         onSkip?.let { TextButton(onClick = it) { Text(stringResource(R.string.skip)) } }
     }
 }
@@ -161,12 +161,12 @@ private fun OptionalStep(vm: OnboardingViewModel, s: Settings) {
     var token by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
     StepTitle(5, stringResource(R.string.optional))
-    OutlinedTextField(token, { token = it }, Modifier.fillMaxWidth(), label = { Text("GitHub · " + stringResource(R.string.github_token)) }, singleLine = true)
     if (!s.backup.hasKey) {
         OutlinedTextField(pass, { pass = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.backup_passphrase)) }, singleLine = true)
         Muted(stringResource(R.string.passphrase_warning))
     }
-    Nav(onNext = { vm.setOptional(token, pass, activity) }, onSkip = vm::finish)
+    OutlinedTextField(token, { token = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.github_token_project)) }, singleLine = true)
+    Nav(onNext = { vm.setOptional(token, pass, activity) }, onSkip = vm::finish, nextLabel = stringResource(R.string.finish_setup))
 }
 
 @Composable

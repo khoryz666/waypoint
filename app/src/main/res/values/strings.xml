@@ -85,6 +85,7 @@
     <string name="fill_manually">Fill in manually</string>
     <string name="final_state">Where did you end up?</string>
     <string name="final_state_x">Result: %1$s</string>
+    <string name="finish_setup">Finish</string>
     <string name="focus">Focus</string>
     <string name="focus_today">Focus %1$s today</string>
     <string name="generate_draft">Generate a draft with AI</string>
@@ -93,6 +94,7 @@
     <string name="github_hint">Shows your commits on Project goals.</string>
     <string name="github_repos">GitHub repos (owner/repo)</string>
     <string name="github_token">Read-only token</string>
+    <string name="github_token_project">GitHub token (for Project goals)</string>
     <string name="goal_amount">Amount</string>
     <string name="goal_by">By</string>
     <string name="goal_final">Final status</string>
@@ -160,7 +162,7 @@
     <string name="one_thing_to_fix">One thing to fix</string>
     <string name="open">Open</string>
     <string name="open_cards">%1$d entries to check</string>
-    <string name="optional">Optional</string>
+    <string name="optional">Backup and GitHub</string>
     <string name="optional_note">Optional note</string>
     <string name="optional_reason">Reason (optional)</string>
     <string name="outline">Steps</string>
