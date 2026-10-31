@@ -62,8 +62,7 @@ class TimerService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (!enterForeground()) return START_NOT_STICKY
         when (intent?.action) {
-            ACTION_FOCUS -> intent.getLongExtra(EXTRA_TRACK, -1).takeIf { it >= 0 }?.let { id -> scope.launch { container.tracker.switchTo(TimerTarget.Focus(id)) } }
-            ACTION_JOY -> scope.launch { container.tracker.switchTo(TimerTarget.Joy) }
+            ACTION_FOCUS -> intent.getLongExtra(EXTRA_TRACK, -1).takeIf { it >= 0 }?.let { id -> scope.launch { container.tracker.switchTo(id) } }
             ACTION_STOP -> scope.launch { container.tracker.stop() }
         }
         return START_STICKY
@@ -95,7 +94,6 @@ class TimerService : Service() {
         private const val NUDGE_CHECK_MS = 5 * 60_000L
         private const val ACTION_SHOW = "show"
         private const val ACTION_FOCUS = "focus"
-        private const val ACTION_JOY = "joy"
         private const val ACTION_STOP = "stop"
         private const val EXTRA_TRACK = "trackId"
 
@@ -108,10 +106,7 @@ class TimerService : Service() {
         // Distinct request codes, so each intent keeps its own extras.
         internal fun actionIntent(context: Context, action: QuickAction): PendingIntent = when (action) {
             is QuickAction.Stop -> pending(context, 1, Intent(ACTION_STOP))
-            is QuickAction.Switch -> when (val t = action.target) {
-                TimerTarget.Joy -> pending(context, 2, Intent(ACTION_JOY))
-                is TimerTarget.Focus -> pending(context, 1000 + t.trackId.toInt(), Intent(ACTION_FOCUS).putExtra(EXTRA_TRACK, t.trackId))
-            }
+            is QuickAction.Switch -> pending(context, 1000 + action.trackId.toInt(), Intent(ACTION_FOCUS).putExtra(EXTRA_TRACK, action.trackId))
         }
 
         private fun pending(context: Context, requestCode: Int, intent: Intent): PendingIntent =

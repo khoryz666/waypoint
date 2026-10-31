@@ -62,6 +62,9 @@ section 1, "Rules for the implementing agents"). Newest last.
 - **Units a log names that aren't in the outline are added and marked DONE.**
 - **`minutes` in a log is informational.** Focus time comes only from timer sessions;
   retro-logged time becomes a session.
+- **The timer tracks focus on a track only; there is no Joy timer** (user's call, departs from
+  spec 5.5). The starter Joy pillar stays as a no-targets pillar: its auto question lists time
+  and logs on the tracks you assign to it. The unreleased v1 schema was edited in place.
 - **Sleep:** a night's bed time from 12:00 onwards belongs to the evening before the wake
   date. The noon reminder checks for a record with today's wake date (last night).
 

@@ -46,14 +46,12 @@ import com.khoryz666.waypoint.domain.Domain
 import com.khoryz666.waypoint.domain.Grade
 import com.khoryz666.waypoint.domain.HOUR_MS
 import com.khoryz666.waypoint.domain.RecallSource
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.formatDuration
 import com.khoryz666.waypoint.domain.formatElapsed
 import com.khoryz666.waypoint.ingest.CommentState
 import com.khoryz666.waypoint.ingest.FeedbackCard
 import com.khoryz666.waypoint.ingest.SkipReason
-import com.khoryz666.waypoint.timer.TimerTarget
 import com.khoryz666.waypoint.ui.Banner
 import com.khoryz666.waypoint.ui.ChoiceChip
 import com.khoryz666.waypoint.ui.Muted
@@ -135,7 +133,7 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
                         }
                     }
                 }
-                item { TimerCard(d.running, d.now, d.time.totalFocusMs, d.time.joyMs, active, state.tracks, vm) }
+                item { TimerCard(d.running, d.now, d.time.totalFocusMs, active, state.tracks, vm) }
             }
             items(state.steps, key = { "step-${it.step.id}" }) { item -> StepCard(item, vm) }
         }
@@ -225,10 +223,10 @@ private fun DueCard(due: List<Pair<TrackUnit, Track>>, onOpen: (TrackUnit) -> Un
 }
 
 @Composable
-private fun TimerCard(running: com.khoryz666.waypoint.data.Session?, now: Long, focusMs: Long, joyMs: Long, active: List<Track>, all: List<Track>, vm: TodayViewModel) {
+private fun TimerCard(running: com.khoryz666.waypoint.data.Session?, now: Long, focusMs: Long, active: List<Track>, all: List<Track>, vm: TodayViewModel) {
     SectionCard(title = stringResource(R.string.timer)) {
         if (running != null) {
-            val label = if (running.category == SessionCategory.JOY) "Joy" else all.find { it.id == running.trackId }?.title ?: stringResource(R.string.focus)
+            val label = all.find { it.id == running.trackId }?.title ?: stringResource(R.string.focus)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     Text(label, style = MaterialTheme.typography.titleMedium)
@@ -237,12 +235,11 @@ private fun TimerCard(running: com.khoryz666.waypoint.data.Session?, now: Long, 
                 Button(onClick = vm::stop) { Text(stringResource(R.string.stop)) }
             }
         }
-        Muted(stringResource(R.string.focus_joy_today, formatDuration(focusMs), formatDuration(joyMs)))
+        Muted(stringResource(R.string.focus_today, formatDuration(focusMs)))
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            active.filter { running?.trackId != it.id || running.category != SessionCategory.FOCUS }.forEach { t ->
-                AssistChip(onClick = { vm.start(TimerTarget.Focus(t.id)) }, label = { Text(t.title, maxLines = 1) })
+            active.filter { running?.trackId != it.id }.forEach { t ->
+                AssistChip(onClick = { vm.start(t.id) }, label = { Text(t.title, maxLines = 1) })
             }
-            if (running?.category != SessionCategory.JOY) AssistChip(onClick = { vm.start(TimerTarget.Joy) }, label = { Text("Joy") })
         }
     }
 }

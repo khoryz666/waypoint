@@ -183,7 +183,7 @@ private fun StructuredEditor(
         }
         is Structured.Session -> {
             val fmt = DateTimeFormatter.ofPattern("MM-dd HH:mm").withZone(ZoneId.systemDefault())
-            Text("${fmt.format(Instant.ofEpochMilli(s.startAt))} · ${formatMinutes(s.minutes.toLong())} · ${s.category}")
+            Text("${fmt.format(Instant.ofEpochMilli(s.startAt))} · ${formatMinutes(s.minutes.toLong())}")
             MinutesField(s.minutes) { m -> onChange(s.copy(endAt = s.startAt + m * 60_000L)) }
         }
         is Structured.Note -> NotesField(s.text) { onChange(s.copy(text = it)) }

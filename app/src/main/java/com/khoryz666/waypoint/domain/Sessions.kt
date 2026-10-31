@@ -3,14 +3,13 @@ package com.khoryz666.waypoint.domain
 import com.khoryz666.waypoint.data.Session
 import java.time.LocalDate
 
-/** Time tracked on one date: focus per track (null key = focus without a track) and Joy. */
-data class DayTime(val focusMs: Map<Long?, Long> = emptyMap(), val joyMs: Long = 0) {
+/** Time tracked on one date: focus per track (null key = focus without a track). */
+data class DayTime(val focusMs: Map<Long?, Long> = emptyMap()) {
     val totalFocusMs: Long get() = focusMs.values.sum()
     fun focusMs(trackId: Long): Long = focusMs[trackId] ?: 0
 
     operator fun plus(other: DayTime) = DayTime(
         (focusMs.keys + other.focusMs.keys).associateWith { (focusMs[it] ?: 0) + (other.focusMs[it] ?: 0) },
-        joyMs + other.joyMs,
     )
 }
 
@@ -20,11 +19,7 @@ data class DayTime(val focusMs: Map<Long?, Long> = emptyMap(), val joyMs: Long =
  */
 fun dailyTime(sessions: List<Session>, now: Long, clock: AppClock): Map<LocalDate, DayTime> =
     sessions.groupBy { clock.dateOf(it.endOrNow(now)) }.mapValues { (_, day) ->
-        val joy = day.filter { it.category == SessionCategory.JOY }.sumOf { it.durationMs(now) }
-        val focus = day.filter { it.category == SessionCategory.FOCUS }
-            .groupBy { it.trackId }
-            .mapValues { (_, list) -> list.sumOf { it.durationMs(now) } }
-        DayTime(focus, joy)
+        DayTime(day.groupBy { it.trackId }.mapValues { (_, list) -> list.sumOf { it.durationMs(now) } })
     }
 
 fun timeOn(date: LocalDate, sessions: List<Session>, now: Long, clock: AppClock): DayTime =

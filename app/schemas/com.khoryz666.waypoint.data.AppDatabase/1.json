@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "280ca2c091557285441c6c7bf80c8282",
+    "identityHash": "bbb36f21851a57daa5046e59c7822989",
     "entities": [
       {
         "tableName": "tracks",
@@ -538,18 +538,12 @@
       },
       {
         "tableName": "sessions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `trackId` INTEGER, `startAt` INTEGER NOT NULL, `endAt` INTEGER, `note` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trackId` INTEGER, `startAt` INTEGER NOT NULL, `endAt` INTEGER, `note` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "category",
-            "columnName": "category",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -1008,7 +1002,7 @@
       },
       {
         "tableName": "pillars",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, `noTargets` INTEGER NOT NULL, `trackIds` TEXT NOT NULL, `includesJoy` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, `noTargets` INTEGER NOT NULL, `trackIds` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1038,12 +1032,6 @@
             "fieldPath": "trackIds",
             "columnName": "trackIds",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "includesJoy",
-            "columnName": "includesJoy",
-            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -1199,7 +1187,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '280ca2c091557285441c6c7bf80c8282')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbb36f21851a57daa5046e59c7822989')"
     ]
   }
 }

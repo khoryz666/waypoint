@@ -21,8 +21,6 @@ enum class ParseStatus { PENDING, PARSED, CONFIRMED, FAILED, MANUAL }
 
 enum class NextStepStatus { OPEN, DONE, DROPPED }
 
-enum class SessionCategory { FOCUS, JOY }
-
 enum class SleepSource { SCREENSHOT, MANUAL }
 
 enum class BalanceKind { DELTA, SET }
@@ -41,7 +39,7 @@ enum class QuestionKey {
     MILESTONES_PER_PROJECT,
     OWNERSHIP_CHECKS,
     FOCUS_TIME,
-    JOY_TIME,
+    PILLAR_TRACKS,
     ONE_THING_TO_FIX,
     TOP_3,
 }

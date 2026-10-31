@@ -19,7 +19,6 @@ import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.ingest.InputRepository
 import com.khoryz666.waypoint.ingest.SkipReason
 import com.khoryz666.waypoint.ingest.SleepConflict
-import com.khoryz666.waypoint.timer.TimerTarget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -107,7 +106,7 @@ class TodayViewModel(private val c: AppContainer) : ViewModel() {
     fun dismissFeedback() = c.feedback.dismiss()
 
     fun setDayType(type: DayType) = viewModelScope.launch { c.stats.setDayType(c.clock.today(), type) }
-    fun start(target: TimerTarget) = viewModelScope.launch { c.tracker.switchTo(target) }
+    fun start(trackId: Long) = viewModelScope.launch { c.tracker.switchTo(trackId) }
     fun stop() = viewModelScope.launch { c.tracker.stop() }
     fun stepDone(step: NextStep) = viewModelScope.launch { c.db.nextSteps().markDone(step.id) }
 

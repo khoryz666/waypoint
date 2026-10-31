@@ -3,7 +3,7 @@ package com.khoryz666.waypoint.domain
 private val checkbox = Regex("""^[-*]\s*\[[ xX]?\]\s*(.+)$""")
 
 /** A pillar and its questions before they are saved (onboarding, Markdown import). */
-data class PillarDraft(val name: String, val noTargets: Boolean, val includesJoy: Boolean, val questions: List<QuestionDraft>)
+data class PillarDraft(val name: String, val noTargets: Boolean, val questions: List<QuestionDraft>)
 
 data class QuestionDraft(val text: String, val type: QuestionType, val key: QuestionKey? = null)
 
@@ -20,7 +20,7 @@ fun parseChecklistMarkdown(markdown: String): List<PillarDraft> {
     fun flush() {
         val n = name ?: return
         val joy = n.trim().equals("joy", ignoreCase = true) || n.contains("乐")
-        pillars += PillarDraft(n, joy, joy, questions)
+        pillars += PillarDraft(n, joy, questions)
     }
     markdown.lineSequence().forEach { raw ->
         val line = raw.trim()
@@ -56,7 +56,7 @@ private fun classify(text: String): QuestionDraft {
  */
 fun starterChecklist(lang: Lang): List<PillarDraft> = listOf(
     PillarDraft(
-        lang.t("Foundation", "基础"), noTargets = false, includesJoy = false,
+        lang.t("Foundation", "基础"), noTargets = false,
         listOf(
             QuestionDraft(lang.t("Sleep nights in range", "睡眠达标晚数"), QuestionType.AUTO, QuestionKey.SLEEP_NIGHTS_IN_RANGE),
             QuestionDraft(lang.t("Exercise sessions vs plan", "运动次数 vs 计划"), QuestionType.AUTO, QuestionKey.EXERCISE_SESSIONS),
@@ -65,7 +65,7 @@ fun starterChecklist(lang: Lang): List<PillarDraft> = listOf(
         ),
     ),
     PillarDraft(
-        lang.t("Engine", "引擎"), noTargets = false, includesJoy = false,
+        lang.t("Engine", "引擎"), noTargets = false,
         listOf(
             QuestionDraft(lang.t("Minimum / plan days met", "最低 / 计划达成天数"), QuestionType.AUTO, QuestionKey.MINIMUM_PLAN_DAYS),
             QuestionDraft(lang.t("Units done per active track", "各 track 完成单元"), QuestionType.AUTO, QuestionKey.UNITS_DONE_PER_TRACK),
@@ -75,11 +75,11 @@ fun starterChecklist(lang: Lang): List<PillarDraft> = listOf(
         ),
     ),
     PillarDraft(
-        lang.t("Joy", "乐趣"), noTargets = true, includesJoy = true,
-        listOf(QuestionDraft(lang.t("Joy time", "Joy 时间"), QuestionType.AUTO, QuestionKey.JOY_TIME)),
+        lang.t("Joy", "乐趣"), noTargets = true,
+        listOf(QuestionDraft(lang.t("Time on these tracks", "这些 track 的时间"), QuestionType.AUTO, QuestionKey.PILLAR_TRACKS)),
     ),
     PillarDraft(
-        lang.t("Next week", "下周"), noTargets = false, includesJoy = false,
+        lang.t("Next week", "下周"), noTargets = false,
         listOf(
             QuestionDraft(lang.t("One thing to fix next week", "下周要改的一件事"), QuestionType.FREE_TEXT, QuestionKey.ONE_THING_TO_FIX),
             QuestionDraft(lang.t("Top 3 priorities for next week", "下周最重要的三件事"), QuestionType.FREE_TEXT, QuestionKey.TOP_3),
