@@ -40,11 +40,14 @@ import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.backup.BackupFile
 import com.khoryz666.waypoint.data.Settings
 import com.khoryz666.waypoint.domain.Lang
+import com.khoryz666.waypoint.domain.parseHm
 import com.khoryz666.waypoint.ui.BrandHeader
 import com.khoryz666.waypoint.ui.Muted
+import com.khoryz666.waypoint.ui.TimeField
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Instant
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -142,16 +145,16 @@ private fun ApiStep(vm: OnboardingViewModel, s: Settings) {
 
 @Composable
 private fun SleepStep(vm: OnboardingViewModel) {
-    var min by remember { mutableStateOf("420") }
-    var max by remember { mutableStateOf("510") }
-    var bed by remember { mutableStateOf("") }
+    var min by remember { mutableStateOf("7:00") }
+    var max by remember { mutableStateOf("8:30") }
+    var bed by remember { mutableStateOf<LocalTime?>(null) }
     var app by remember { mutableStateOf("") }
     StepTitle(5, stringResource(R.string.sleep))
-    OutlinedTextField(min, { min = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_min) + " (min)") }, singleLine = true)
-    OutlinedTextField(max, { max = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_max) + " (min)") }, singleLine = true)
-    OutlinedTextField(bed, { bed = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_bedtime)) }, singleLine = true)
+    OutlinedTextField(min, { min = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.at_least_hm)) }, singleLine = true)
+    OutlinedTextField(max, { max = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.at_most_hm)) }, singleLine = true)
+    TimeField(stringResource(R.string.target_bedtime), bed, onClear = { bed = null }) { bed = it }
     OutlinedTextField(app, { app = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_app)) }, singleLine = true)
-    Nav(onNext = { vm.setSleep(min.toIntOrNull(), max.toIntOrNull(), bed, app) }, onSkip = { vm.go(Step.OPTIONAL) })
+    Nav(onNext = { vm.setSleep(parseHm(min), parseHm(max), bed, app) }, onSkip = { vm.go(Step.OPTIONAL) })
 }
 
 @Composable

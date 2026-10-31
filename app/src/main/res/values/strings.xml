@@ -228,8 +228,6 @@
     <string name="sleep_exists">Already recorded: %1$s</string>
     <string name="sleep_goal">Goal %1$s – %2$s</string>
     <string name="sleep_goal_bed">Goal %1$s – %2$s · in bed by %3$s</string>
-    <string name="sleep_max">Target at most</string>
-    <string name="sleep_min">Target at least</string>
     <string name="sleep_not_enough">Not enough nights yet</string>
     <string name="sleep_off_track">Off track</string>
     <string name="sleep_on_track">On track this week</string>

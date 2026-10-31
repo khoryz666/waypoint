@@ -228,8 +228,6 @@
     <string name="sleep_exists">已有记录: %1$s</string>
     <string name="sleep_goal">目标 %1$s – %2$s</string>
     <string name="sleep_goal_bed">目标 %1$s – %2$s · %3$s 前睡</string>
-    <string name="sleep_max">目标至多</string>
-    <string name="sleep_min">目标至少</string>
     <string name="sleep_not_enough">记录还不够</string>
     <string name="sleep_off_track">偏离目标</string>
     <string name="sleep_on_track">本周达标</string>

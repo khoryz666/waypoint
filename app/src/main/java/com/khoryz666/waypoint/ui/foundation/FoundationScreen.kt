@@ -38,11 +38,13 @@ import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.SleepSource
 import com.khoryz666.waypoint.domain.SleepStatus
 import com.khoryz666.waypoint.domain.balanceAt
+import com.khoryz666.waypoint.domain.formatHm
 import com.khoryz666.waypoint.domain.formatMinutes
 import com.khoryz666.waypoint.domain.formatMoney
 import com.khoryz666.waypoint.domain.formatMoneyDelta
 import com.khoryz666.waypoint.domain.minorUnitFactor
 import com.khoryz666.waypoint.domain.netChange
+import com.khoryz666.waypoint.domain.parseHm
 import com.khoryz666.waypoint.domain.parseMinor
 import com.khoryz666.waypoint.domain.SavingsGoal
 import com.khoryz666.waypoint.domain.SleepTargets
@@ -232,19 +234,10 @@ private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (
     )
 }
 
-private fun hm(min: Int) = "%d:%02d".format(min / 60, min % 60)
-
-private fun parseHm(text: String): Int? {
-    val parts = text.trim().split(':')
-    val h = parts[0].toIntOrNull() ?: return null
-    val m = parts.getOrNull(1)?.toIntOrNull() ?: 0
-    return (h * 60 + m).takeIf { m in 0..59 && it in 1..24 * 60 }
-}
-
 @Composable
 private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave: (SleepTargets) -> Unit) {
-    var min by remember { mutableStateOf(hm(current.minTotalMin)) }
-    var max by remember { mutableStateOf(hm(current.maxTotalMin)) }
+    var min by remember { mutableStateOf(formatHm(current.minTotalMin)) }
+    var max by remember { mutableStateOf(formatHm(current.maxTotalMin)) }
     var bed by remember { mutableStateOf(current.bedtime) }
     val minM = parseHm(min)
     val maxM = parseHm(max)

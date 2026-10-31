@@ -76,13 +76,13 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
         go(if (restored) finishStep() else Step.SLEEP)
     }
 
-    fun setSleep(min: Int?, max: Int?, bedtime: String, app: String) = viewModelScope.launch {
+    fun setSleep(min: Int?, max: Int?, bedtime: java.time.LocalTime?, app: String) = viewModelScope.launch {
         c.settings.update { s ->
             s.copy(profile = s.profile.copy(
                 sleep = s.profile.sleep.copy(
                     minTotalMin = min ?: s.profile.sleep.minTotalMin,
                     maxTotalMin = max ?: s.profile.sleep.maxTotalMin,
-                    bedtime = runCatching { java.time.LocalTime.parse(bedtime.trim()) }.getOrNull(),
+                    bedtime = bedtime,
                 ),
                 sleepAppHint = app.ifBlank { null },
             ))

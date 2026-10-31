@@ -23,6 +23,17 @@ fun formatMinutes(totalMinutes: Long): String {
     }
 }
 
+/** A duration as "7:30". */
+fun formatHm(minutes: Int) = "%d:%02d".format(minutes / 60, minutes % 60)
+
+/** "7:30" or "7" to minutes, within a day; null when it doesn't read. */
+fun parseHm(text: String): Int? {
+    val parts = text.trim().split(':')
+    val h = parts[0].toIntOrNull() ?: return null
+    val m = parts.getOrNull(1)?.toIntOrNull() ?: 0
+    return (h * 60 + m).takeIf { m in 0..59 && it in 1..24 * 60 }
+}
+
 /** A running stopwatch: "4:05", "1:02:03". */
 fun formatElapsed(ms: Long): String {
     val totalSeconds = ms.coerceAtLeast(0) / 1000
