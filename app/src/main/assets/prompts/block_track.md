@@ -1,6 +1,6 @@
 ## Track {{id}}: {{title}} ({{domain}})
 Goal: {{goal}}
-{{#criteria}}Criteria:
+{{#criteria}}Checkpoints:
 {{criteria}}
 {{/criteria}}Initial state: {{initialState}}
 {{#planNotes}}Plan notes: {{planNotes}}

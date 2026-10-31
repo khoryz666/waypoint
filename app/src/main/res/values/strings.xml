@@ -39,6 +39,8 @@
     <string name="budget_warning">You\'ve used 80 percent of this month\'s budget.</string>
     <string name="cancel">Cancel</string>
     <string name="cant_today">Can\'t today</string>
+    <string name="checkpoints">Checkpoints</string>
+    <string name="checkpoints_lines">Checkpoints, one per line: what | by when (optional)</string>
     <string name="closest_goal">Closest goal: %1$s</string>
     <string name="col_done">Done</string>
     <string name="col_logs">Logs</string>
@@ -49,8 +51,6 @@
     <string name="confirm_title">Check and save</string>
     <string name="copy_prompt">Copy prompt</string>
     <string name="create_first_track">Create your first track</string>
-    <string name="criteria">Goal criteria</string>
-    <string name="criteria_lines">Criteria, one per line: label | metric | target</string>
     <string name="currency">Currency (ISO 4217)</string>
     <string name="current_state">Current status</string>
     <string name="daily_close">Daily close</string>
@@ -93,9 +93,9 @@
     <string name="github_hint">Fine-grained and read-only, for your project repos.</string>
     <string name="github_repos">GitHub repos (owner/repo)</string>
     <string name="github_token">Read-only token</string>
-    <string name="goal">Goal</string>
     <string name="goal_amount">Amount</string>
     <string name="goal_by">By (YYYY-MM-DD, optional)</string>
+    <string name="goal_final">Goal (where you want to end up)</string>
     <string name="grade_partial">Partial</string>
     <string name="grade_solid">Solid</string>
     <string name="grade_weak">Weak</string>
@@ -160,7 +160,7 @@
     <string name="optional">Optional</string>
     <string name="optional_note">Optional note</string>
     <string name="optional_reason">Reason (optional)</string>
-    <string name="outline">Outline</string>
+    <string name="outline">Breakdown</string>
     <string name="ownership_check">Could you explain this without AI?</string>
     <string name="pain">Pain (if any)</string>
     <string name="parse">Parse</string>
@@ -255,8 +255,8 @@
     <string name="swim_min">Swim (min)</string>
     <string name="sync_failed">Sync failed: %1$s</string>
     <string name="target_bedtime">Target bedtime (HH:mm)</string>
-    <string name="target_date">Target date (YYYY-MM-DD, optional)</string>
-    <string name="target_date_x">Target date: %1$s</string>
+    <string name="target_date">Deadline (YYYY-MM-DD, optional)</string>
+    <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Targets</string>
     <string name="think_harder">Think harder (Pro)</string>
     <string name="this_week">This week</string>
@@ -272,7 +272,7 @@
     <string name="track_auto">Auto</string>
     <string name="track_label">Track</string>
     <string name="undo">Undo</string>
-    <string name="units_lines">Outline, one unit per line</string>
+    <string name="units_lines">Breakdown, one step per line</string>
     <string name="units_short">units</string>
     <string name="use_new">Use new</string>
     <string name="use_saved_passphrase">Use saved passphrase</string>

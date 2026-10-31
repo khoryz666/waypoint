@@ -14,7 +14,9 @@ data class TrackDraft(
     val title: String = "",
     val initialState: String = "",
     val goal: String = "",
+    /** Older pastes; new prompts ask for [checkpoints]. Both end up as the track's goalCriteria. */
     val goalCriteria: List<GoalCriterion> = emptyList(),
+    val checkpoints: List<DraftCheckpoint> = emptyList(),
     val targetDate: String? = null,
     val units: List<DraftUnit> = emptyList(),
     val planNotes: String = "",
@@ -23,12 +25,17 @@ data class TrackDraft(
 @Serializable
 data class DraftUnit(val title: String = "")
 
+/** A milestone on the way to the goal, with an optional "by when". */
+@Serializable
+data class DraftCheckpoint(val title: String = "", val by: String? = null)
+
 /** A validated draft, ready for the editable preview. */
 data class ValidDraft(
     val domain: Domain,
     val title: String,
     val initialState: String,
     val goal: String,
+    /** Checkpoints: label is what, target is by when. */
     val goalCriteria: List<GoalCriterion>,
     val targetDate: LocalDate?,
     val units: List<String>,
@@ -80,7 +87,8 @@ fun validateDraft(draft: TrackDraft, chosen: Domain, lang: Lang): HandoffResult 
             title = title,
             initialState = draft.initialState.trim(),
             goal = goal,
-            goalCriteria = draft.goalCriteria.map { it.copy(label = it.label.trim()) }.filter { it.label.isNotEmpty() },
+            goalCriteria = (draft.goalCriteria + draft.checkpoints.map { GoalCriterion(it.title, target = it.by?.trim()?.takeIf { by -> by.isNotEmpty() && by != "null" }) })
+                .map { it.copy(label = it.label.trim()) }.filter { it.label.isNotEmpty() },
             targetDate = date,
             units = units.take(MAX_UNITS),
             planNotes = draft.planNotes.trim(),

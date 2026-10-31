@@ -39,6 +39,8 @@
     <string name="budget_warning">本月预算已用 80%。</string>
     <string name="cancel">取消</string>
     <string name="cant_today">今天做不了</string>
+    <string name="checkpoints">检查点</string>
+    <string name="checkpoints_lines">检查点，每行一个: 内容 | 截止 (可选)</string>
     <string name="closest_goal">最接近的目标: %1$s</string>
     <string name="col_done">完成</string>
     <string name="col_logs">记录</string>
@@ -49,8 +51,6 @@
     <string name="confirm_title">确认并保存</string>
     <string name="copy_prompt">复制提示词</string>
     <string name="create_first_track">创建第一个 Track</string>
-    <string name="criteria">检验标准</string>
-    <string name="criteria_lines">检验标准，每行一条: 名称 | 指标 | 目标值</string>
     <string name="currency">货币 (ISO 4217)</string>
     <string name="current_state">当前状态</string>
     <string name="daily_close">每日收尾</string>
@@ -93,9 +93,9 @@
     <string name="github_hint">Fine-grained 只读 token，用于项目仓库。</string>
     <string name="github_repos">GitHub 仓库 (owner/repo)</string>
     <string name="github_token">只读 token</string>
-    <string name="goal">目标</string>
     <string name="goal_amount">金额</string>
     <string name="goal_by">截止日期 (YYYY-MM-DD，可选)</string>
+    <string name="goal_final">目标 (最终要达到的状态)</string>
     <string name="grade_partial">部分</string>
     <string name="grade_solid">扎实</string>
     <string name="grade_weak">薄弱</string>
@@ -160,7 +160,7 @@
     <string name="optional">可选</string>
     <string name="optional_note">可选备注</string>
     <string name="optional_reason">原因 (可选)</string>
-    <string name="outline">大纲</string>
+    <string name="outline">目标拆解</string>
     <string name="ownership_check">不靠 AI 你能讲清楚吗？</string>
     <string name="pain">疼痛 (如有)</string>
     <string name="parse">解析</string>
@@ -255,8 +255,8 @@
     <string name="swim_min">游泳 (分钟)</string>
     <string name="sync_failed">同步失败: %1$s</string>
     <string name="target_bedtime">目标入睡时间 (HH:mm)</string>
-    <string name="target_date">目标日期 (YYYY-MM-DD，可选)</string>
-    <string name="target_date_x">目标日期: %1$s</string>
+    <string name="target_date">截止日期 (YYYY-MM-DD，可选)</string>
+    <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">目标</string>
     <string name="think_harder">深入思考 (Pro)</string>
     <string name="this_week">本周</string>
@@ -272,7 +272,7 @@
     <string name="track_auto">自动</string>
     <string name="track_label">Track</string>
     <string name="undo">撤销</string>
-    <string name="units_lines">大纲，每行一个单元</string>
+    <string name="units_lines">目标拆解，每行一步</string>
     <string name="units_short">单元</string>
     <string name="use_new">使用新的</string>
     <string name="use_saved_passphrase">使用已保存的密码</string>

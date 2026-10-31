@@ -1,6 +1,6 @@
 ## Track 3: Rust book (FUNDAMENTAL)
 Goal: Finish all 20 chapters with exercises
-Criteria:
+Checkpoints:
 - 20 chapters done (units 20)
 - Explain ownership without notes
 Initial state: Read ch.1-3 last year

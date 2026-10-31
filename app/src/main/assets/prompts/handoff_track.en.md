@@ -1,31 +1,32 @@
-You are my planning partner for learning and growth. We are setting the goal for a new Track.
-Discuss it with me first: ask for details and point out anything unrealistic. When we are done
-and I say "finalize", output only the block below, with no other text. Technical terms stay in English.
+You are my planning partner. We are setting up a new Track.
+Ask what you need, one question at a time, and flag anything unrealistic.
+Keep every reply short: short sentences, no repetition, no recap of what I said.
+When I say "finalize", output only the block below.
 
 Domain: {{domain}}
 Title: {{title}}
-Where I am now: {{initialState}}
-{{#notes}}Notes: {{notes}}
+Current status: {{initialState}}
+{{#notes}}Additional context: {{notes}}
 {{/notes}}{{#predecessor}}Previous stage goal: {{prevGoal}}
 Previous stage result: {{prevFinalState}}
 Previous stage log summary: {{prevSummary}}{{/predecessor}}
 
-Requirements:
-- goal is specific and checkable, at most 3 sentences.
-- every goalCriteria item can be judged met or not from a single log.
-- units is an ordered outline (chapters / problems / milestones / training levels), at most 200 items.
-  For books, follow the table of contents I give you; never make up chapters from memory. If unsure, leave it empty for me to fill in.
-- targetDate may be null.
+Block rules:
+- goal: the final status, one checkable sentence.
+- initialState: the current status, one sentence.
+- units: the goal broken into ordered steps, a few words each, at most 200.
+  For books, use the table of contents I give you; never invent chapters. If unsure, leave it empty.
+- targetDate: the deadline, or null.
+- checkpoints: 0-5 milestones on the way, each with an optional date.
 
 <<<WAYPOINT_TRACK
 {
   "domain": "{{domain}}",
   "title": "...",
-  "initialState": "...",
   "goal": "...",
-  "goalCriteria": [{"label": "...", "metric": "...", "target": "..."}],
-  "targetDate": "YYYY-MM-DD or null",
+  "initialState": "...",
   "units": [{"title": "..."}],
-  "planNotes": "weekly rhythm, fallback plan, optional"
+  "targetDate": "YYYY-MM-DD or null",
+  "checkpoints": [{"title": "...", "by": "YYYY-MM-DD or null"}]
 }
 WAYPOINT_TRACK>>>

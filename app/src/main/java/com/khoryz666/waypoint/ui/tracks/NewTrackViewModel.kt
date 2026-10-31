@@ -6,7 +6,8 @@ import com.khoryz666.waypoint.AppContainer
 import com.khoryz666.waypoint.data.Activation
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.domain.Domain
-import com.khoryz666.waypoint.domain.GoalCriterion
+import com.khoryz666.waypoint.domain.DraftCheckpoint
+import com.khoryz666.waypoint.domain.DraftUnit
 import com.khoryz666.waypoint.domain.HandoffResult
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.TrackDraft
@@ -17,34 +18,31 @@ import com.khoryz666.waypoint.llm.Part
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-/** Editable fields of the preview, as text (spec 4 step 4). */
+/** Editable fields of the preview, as text (spec 4 step 4): goal, where you are, breakdown, deadline. */
 data class DraftForm(
     val title: String = "",
     val initialState: String = "",
     val goal: String = "",
-    /** One criterion per line: "label | metric | target". */
-    val criteria: String = "",
-    val targetDate: String = "",
     /** One unit per line. */
     val units: String = "",
-    val planNotes: String = "",
+    val targetDate: String = "",
+    /** One checkpoint per line: "what | by when". */
+    val checkpoints: String = "",
     val repos: String = "",
 ) {
     fun toDraft(domain: Domain) = TrackDraft(
         domain = domain.name, title = title, initialState = initialState, goal = goal,
-        goalCriteria = criteria.lines().map { it.trim() }.filter { it.isNotEmpty() }.map { line ->
-            line.split('|').map(String::trim).let { GoalCriterion(it[0], it.getOrNull(1)?.ifEmpty { null }, it.getOrNull(2)?.ifEmpty { null }) }
+        checkpoints = checkpoints.lines().map { it.trim() }.filter { it.isNotEmpty() }.map { line ->
+            line.split('|').map(String::trim).let { DraftCheckpoint(it[0], it.getOrNull(1)) }
         },
         targetDate = targetDate.ifBlank { null },
-        units = units.lines().map { com.khoryz666.waypoint.domain.DraftUnit(it) },
-        planNotes = planNotes,
+        units = units.lines().map { DraftUnit(it) },
     )
 
     companion object {
         fun of(d: ValidDraft) = DraftForm(
-            d.title, d.initialState, d.goal,
-            d.goalCriteria.joinToString("\n") { c -> listOfNotNull(c.label, c.metric, c.target).joinToString(" | ") },
-            d.targetDate?.toString().orEmpty(), d.units.joinToString("\n"), d.planNotes,
+            d.title, d.initialState, d.goal, d.units.joinToString("\n"), d.targetDate?.toString().orEmpty(),
+            d.goalCriteria.joinToString("\n") { c -> listOfNotNull(c.label, c.target).joinToString(" | ") },
         )
     }
 }

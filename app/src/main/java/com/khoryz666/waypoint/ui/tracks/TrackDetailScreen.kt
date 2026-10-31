@@ -102,7 +102,7 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
                 }
             }
             if (t.goalCriteria.isNotEmpty()) item {
-                SectionCard(title = stringResource(R.string.criteria)) {
+                SectionCard(title = stringResource(R.string.checkpoints)) {
                     t.goalCriteria.forEachIndexed { i, c ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(checked = c.met, onCheckedChange = { vm.toggleCriterion(i, it) })

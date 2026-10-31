@@ -14,7 +14,7 @@ class HandoffTest {
           "title": " Rust book ",
           "initialState": "读过 1-3 章",
           "goal": "读完 20 章并完成练习",
-          "goalCriteria": [{"label": "20 章完成", "metric": "units", "target": "20"}, {"label": "  "}],
+          "checkpoints": [{"title": "读完前 10 章", "by": "2027-01-15"}, {"title": "  "}, {"title": "练习过半", "by": "null"}],
           "targetDate": "2027-03-01",
           "units": [{"title": "Ch 1"}, {"title": "Ch 2"}, {"title": "Ch 1"}, {"title": " "}],
           "planNotes": "每周 3 章"
@@ -28,10 +28,17 @@ class HandoffTest {
         val draft = (parseHandoff(paste, Domain.FUNDAMENTAL, Lang.ZH) as HandoffResult.Ok).draft
         assertEquals("Rust book", draft.title)
         assertEquals(listOf("Ch 1", "Ch 2"), draft.units)
-        assertEquals(1, draft.goalCriteria.size)
+        assertEquals(listOf(GoalCriterion("读完前 10 章", target = "2027-01-15"), GoalCriterion("练习过半")), draft.goalCriteria)
         assertEquals(LocalDate.of(2027, 3, 1), draft.targetDate)
         assertEquals("每周 3 章", draft.planNotes)
         assertTrue(draft.warnings.isEmpty())
+    }
+
+    @Test
+    fun `old pastes with goalCriteria still parse`() {
+        val old = "<<<WAYPOINT_TRACK {\"title\": \"x\", \"goal\": \"g\", \"goalCriteria\": [{\"label\": \"20 章\", \"target\": \"20\"}]} WAYPOINT_TRACK>>>"
+        val draft = (parseHandoff(old, Domain.READING, Lang.EN) as HandoffResult.Ok).draft
+        assertEquals(listOf(GoalCriterion("20 章", target = "20")), draft.goalCriteria)
     }
 
     @Test

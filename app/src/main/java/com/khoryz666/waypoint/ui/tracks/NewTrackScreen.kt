@@ -144,12 +144,11 @@ private fun PreviewStep(vm: NewTrackViewModel) {
     fun set(change: (DraftForm) -> DraftForm) { vm.form.value = change(vm.form.value) }
     Muted(domainLabel(domain))
     OutlinedTextField(form.title, { v -> set { it.copy(title = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.title)) }, singleLine = true)
-    OutlinedTextField(form.goal, { v -> set { it.copy(goal = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.goal)) }, minLines = 2)
+    OutlinedTextField(form.goal, { v -> set { it.copy(goal = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.goal_final)) }, minLines = 2)
     OutlinedTextField(form.initialState, { v -> set { it.copy(initialState = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.current_state)) }, minLines = 2)
-    OutlinedTextField(form.criteria, { v -> set { it.copy(criteria = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.criteria_lines)) }, minLines = 2)
-    OutlinedTextField(form.targetDate, { v -> set { it.copy(targetDate = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_date)) }, singleLine = true)
     OutlinedTextField(form.units, { v -> set { it.copy(units = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.units_lines)) }, minLines = 4, maxLines = 12)
-    OutlinedTextField(form.planNotes, { v -> set { it.copy(planNotes = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.plan_notes)) }, minLines = 2)
+    OutlinedTextField(form.targetDate, { v -> set { it.copy(targetDate = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_date)) }, singleLine = true)
+    OutlinedTextField(form.checkpoints, { v -> set { it.copy(checkpoints = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.checkpoints_lines)) }, minLines = 2)
     if (domain == Domain.PROJECT) OutlinedTextField(form.repos, { v -> set { it.copy(repos = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.github_repos)) }, singleLine = true)
     error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
