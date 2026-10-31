@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.data.LogEntry
@@ -93,12 +94,12 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp, padding.calculateTopPadding() + 8.dp, 16.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item {
                 SectionCard(title = "${domainLabel(t.domain)} · ${statusLabel(t.status)}") {
-                    Text(t.goal, style = MaterialTheme.typography.titleMedium)
-                    if (t.initialState.isNotBlank()) Muted(stringResource(R.string.started_from, t.initialState))
-                    t.targetDate?.let { Muted(stringResource(R.string.target_date_x, it.toString())) }
-                    t.finalState?.let { Text(stringResource(R.string.final_state_x, it)) }
-                    t.endReason?.let { Text(stringResource(R.string.end_reason_x, it)) }
-                    t.pauseReason?.let { Muted(stringResource(R.string.pause_reason_x, it)) }
+                    Field(stringResource(R.string.goal_final), t.goal, MaterialTheme.typography.titleLarge)
+                    if (t.initialState.isNotBlank()) Field(stringResource(R.string.started_label), t.initialState)
+                    t.targetDate?.let { Field(stringResource(R.string.target_date), longDate(it)) }
+                    t.finalState?.let { Field(stringResource(R.string.result_label), it) }
+                    t.endReason?.let { Field(stringResource(R.string.ended_label), it) }
+                    t.pauseReason?.let { Field(stringResource(R.string.paused_label), it) }
                     if (t.status != TrackStatus.DRAFT && units.isNotEmpty()) Progress(units)
                     t.syncError?.let { Text(stringResource(R.string.sync_failed, it), color = MaterialTheme.colorScheme.error) }
                     LifecycleActions(t, units, vm) { dialog = it }
@@ -229,6 +230,21 @@ private fun unitStatusLabel(status: UnitStatus): String = stringResource(
         UnitStatus.WEAK -> R.string.unit_weak
     },
 )
+
+/** A small muted label over its value, so each part of the goal reads at a glance. */
+@Composable
+private fun Field(label: String, value: String, style: TextStyle = MaterialTheme.typography.bodyLarge) {
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(value, style = style)
+    }
+}
+
+@Composable
+private fun longDate(date: LocalDate): String {
+    val locale = LocalConfiguration.current.locales[0]
+    return DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "yMMMd"), locale).format(date)
+}
 
 /** How far through the outline the track is, shown once it's activated. */
 @Composable

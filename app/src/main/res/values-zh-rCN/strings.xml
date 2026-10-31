@@ -79,12 +79,11 @@
     <string name="edit_session">编辑时间</string>
     <string name="effort">费力程度 (1-10)</string>
     <string name="end_reason">为什么停下？</string>
-    <string name="end_reason_x">提前结束原因: %1$s</string>
+    <string name="ended_label">提前结束原因</string>
     <string name="exercise_day">今天运动</string>
     <string name="fast_model">快速模型 (Flash)</string>
     <string name="fill_manually">手动填写</string>
     <string name="final_state">最后到哪了？</string>
-    <string name="final_state_x">结果: %1$s</string>
     <string name="finish_setup">完成</string>
     <string name="focus">专注</string>
     <string name="focus_today">今天专注 %1$s</string>
@@ -177,8 +176,8 @@
     <string name="paste_clipboard">从剪贴板粘贴</string>
     <string name="paste_result">DeepSeek 的最终回复</string>
     <string name="pause">暂停</string>
-    <string name="pause_reason_x">暂停原因: %1$s</string>
     <string name="pause_x">暂停 %1$s</string>
+    <string name="paused_label">暂停原因</string>
     <string name="pending_parse">等待识别</string>
     <string name="pick_domain">类型</string>
     <string name="pick_track">选择目标</string>
@@ -204,6 +203,7 @@
     <string name="repair_with_api">用 AI 修复</string>
     <string name="restore">恢复</string>
     <string name="restore_from_drive">从 Google Drive 恢复</string>
+    <string name="result_label">结果</string>
     <string name="review_day">每周复盘日</string>
     <string name="review_model">复盘模型 (Pro)</string>
     <string name="review_now">开始</string>
@@ -249,7 +249,7 @@
     <string name="start_fresh">全新开始</string>
     <string name="start_next_level">开始下一级</string>
     <string name="start_next_level_body">从这里结束的地方接着来。</string>
-    <string name="started_from">起点: %1$s</string>
+    <string name="started_label">起点</string>
     <string name="starting_balance">起始余额 (可选)</string>
     <string name="status_aborted">提前结束</string>
     <string name="status_active">进行中</string>
@@ -266,7 +266,6 @@
     <string name="take_photo">拍照</string>
     <string name="target_bedtime">目标入睡时间</string>
     <string name="target_date">截止日期</string>
-    <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">今日计划</string>
     <string name="targets_and_reminders">计划与提醒</string>
     <string name="this_week">本周</string>

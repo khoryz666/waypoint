@@ -79,12 +79,11 @@
     <string name="edit_session">Edit time</string>
     <string name="effort">Effort (1-10)</string>
     <string name="end_reason">Why stop here?</string>
-    <string name="end_reason_x">Ended early because: %1$s</string>
+    <string name="ended_label">Ended early because</string>
     <string name="exercise_day">Exercise today</string>
     <string name="fast_model">Fast model (Flash)</string>
     <string name="fill_manually">Fill in manually</string>
     <string name="final_state">Where did you end up?</string>
-    <string name="final_state_x">Result: %1$s</string>
     <string name="finish_setup">Finish</string>
     <string name="focus">Focus</string>
     <string name="focus_today">Focus %1$s today</string>
@@ -177,8 +176,8 @@
     <string name="paste_clipboard">Paste from clipboard</string>
     <string name="paste_result">DeepSeek\'s final reply</string>
     <string name="pause">Pause</string>
-    <string name="pause_reason_x">Paused: %1$s</string>
     <string name="pause_x">Pause %1$s</string>
+    <string name="paused_label">Paused because</string>
     <string name="pending_parse">Waiting to be read</string>
     <string name="pick_domain">Type</string>
     <string name="pick_track">Pick a goal</string>
@@ -204,6 +203,7 @@
     <string name="repair_with_api">Fix with AI</string>
     <string name="restore">Restore</string>
     <string name="restore_from_drive">Restore from Google Drive</string>
+    <string name="result_label">Result</string>
     <string name="review_day">Weekly review day</string>
     <string name="review_model">Review model (Pro)</string>
     <string name="review_now">Start</string>
@@ -249,7 +249,7 @@
     <string name="start_fresh">Start fresh</string>
     <string name="start_next_level">Start next level</string>
     <string name="start_next_level_body">Picks up where this one ended.</string>
-    <string name="started_from">Started from: %1$s</string>
+    <string name="started_label">Started from</string>
     <string name="starting_balance">Starting balance (optional)</string>
     <string name="status_aborted">Ended early</string>
     <string name="status_active">Active</string>
@@ -266,7 +266,6 @@
     <string name="take_photo">Take photo</string>
     <string name="target_bedtime">Target bedtime</string>
     <string name="target_date">Deadline</string>
-    <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Today\'s plan</string>
     <string name="targets_and_reminders">Plan and reminders</string>
     <string name="this_week">This week</string>
