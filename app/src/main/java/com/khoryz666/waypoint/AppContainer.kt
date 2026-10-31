@@ -7,6 +7,7 @@ import com.khoryz666.waypoint.backup.BackupManager
 import com.khoryz666.waypoint.backup.DriveClient
 import com.khoryz666.waypoint.backup.GoogleAuth
 import com.khoryz666.waypoint.data.AppDatabase
+import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.ReviewRepository
 import com.khoryz666.waypoint.github.CommitSync
 import com.khoryz666.waypoint.github.GitHubClient
@@ -17,10 +18,12 @@ import com.khoryz666.waypoint.data.StatsRepository
 import com.khoryz666.waypoint.data.TrackRepository
 import com.khoryz666.waypoint.domain.AppClock
 import com.khoryz666.waypoint.domain.Lang
+import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.ingest.FeedbackEngine
 import com.khoryz666.waypoint.ingest.ImageStore
 import com.khoryz666.waypoint.ingest.InputRepository
 import com.khoryz666.waypoint.ingest.Parser
+import com.khoryz666.waypoint.ingest.ROUTE_CONFIDENCE
 import com.khoryz666.waypoint.ingest.ReceiptBuilder
 import com.khoryz666.waypoint.llm.ContextBuilder
 import com.khoryz666.waypoint.llm.DeepSeekClient
@@ -114,5 +117,17 @@ class AppContainer(context: Context) {
         BackupWorker.scheduleDaily(app)
         com.khoryz666.waypoint.work.CommitSyncWorker.schedule(app)
         scope.launch { com.khoryz666.waypoint.work.ReminderWorker.scheduleAll(app, this@AppContainer) }
+    }
+
+    /**
+     * Saves a parsed log with no further questions, like a money shortcut (spec 5.2). Sleep is
+     * left for the confirm card (it needs a visual check and a conflict choice); low-confidence
+     * routing is left too, so the user picks the track.
+     */
+    suspend fun autoConfirm(log: LogEntry) {
+        val structured = log.structured ?: return
+        if (structured is Structured.Sleep) return
+        if ((log.confidence ?: 1.0) < ROUTE_CONFIDENCE) return
+        feedback.onConfirmed(input.confirm(log, structured, log.trackId))
     }
 }

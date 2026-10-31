@@ -26,7 +26,11 @@ class ParseWorker(context: Context, params: WorkerParameters) : CoroutineWorker(
             when (container.parser.parse(log)) {
                 ParseOutcome.RETRY_LATER -> retry = true
                 ParseOutcome.PAUSED -> return Result.success()
-                else -> Unit
+                ParseOutcome.PARSED -> {
+                    val parsed = container.db.logs().get(log.id)
+                    if (parsed != null) container.autoConfirm(parsed)
+                }
+                ParseOutcome.FAILED -> Unit
             }
         }
         return if (retry) Result.retry() else Result.success()
