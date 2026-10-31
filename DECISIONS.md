@@ -111,6 +111,18 @@ section 1, "Rules for the implementing agents"). Newest last.
   target band for sleep (a year shows weekly averages), a 2 px line for the balance; tap for
   values.
 
+### Feedback after 3.0.0 (2026-10-31)
+- **Track setup is goal, current status, breakdown, deadline, checkpoints** (user's call).
+  Goal criteria and plan notes are gone from the handoff and the form. Checkpoints are stored
+  in the existing `goalCriteria` column (label = what, target = by when), so no migration;
+  old pastes with `goalCriteria` still parse, and old tracks still show their plan notes.
+- **"Ask about this track" is removed** (user's call, drops spec 6.8): a clearly defined
+  track shouldn't need it. Past answers stay in the `feedback` table but aren't shown.
+- **"Copy prompt & open DeepSeek" is one button.** The app is launched with `CLEAR_TASK` so it
+  restarts at a new chat instead of the last conversation.
+- **The camera button uses the system camera app** (`TakePicture` + a cache `FileProvider`),
+  so the app needs no CAMERA permission.
+
 ### Not verified on a real phone
 Everything above passed unit tests and a walkthrough on an API 35 emulator (onboarding,
 track creation, timer + notification, money shortcut, offline queue, Foundation, Review, Settings,
