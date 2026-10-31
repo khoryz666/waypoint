@@ -103,7 +103,7 @@
     <string name="handoff_step2">2 · 粘贴最终回复</string>
     <string name="hours_ago">%1$d 小时前</string>
     <string name="images_attached">%1$d 张图片 ✕</string>
-    <string name="input_hint">做了什么?</string>
+    <string name="input_hint">做了什么? (-42 午饭)</string>
     <string name="keep_as_draft">保留为草稿</string>
     <string name="keep_old">保留旧的</string>
     <string name="kind_exercise">运动</string>
@@ -127,7 +127,6 @@
     <string name="minimum">最低</string>
     <string name="minutes">分钟</string>
     <string name="minutes_ago">%1$d 分钟前</string>
-    <string name="money_hint">记钱: -42.50 午饭、+350 或 =4210</string>
     <string name="monthly">上个月</string>
     <string name="monthly_budget">每月预算</string>
     <string name="narrative">复盘</string>
