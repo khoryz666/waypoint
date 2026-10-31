@@ -1,9 +1,13 @@
 package com.khoryz666.waypoint.ui
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
@@ -23,27 +27,28 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneOffset
 
-/** A labelled row whose value opens a date picker. */
+/** A labelled row whose value opens a date picker; with [onClear], a set date gets an ✕. */
 @Composable
-fun DateField(label: String, date: LocalDate?, onChange: (LocalDate) -> Unit) {
+fun DateField(label: String, date: LocalDate?, onClear: (() -> Unit)? = null, onChange: (LocalDate) -> Unit) {
     var open by remember { mutableStateOf(false) }
-    PickerRow(label, date?.toString()) { open = true }
+    PickerRow(label, date?.toString(), onClear?.takeIf { date != null }) { open = true }
     if (open) DateDialog(date ?: LocalDate.now(), onDismiss = { open = false }) { onChange(it); open = false }
 }
 
 /** A labelled row whose value opens a 24-hour time picker; [fallback] seeds it when unset. */
 @Composable
-fun TimeField(label: String, time: LocalTime?, fallback: LocalTime = LocalTime.of(22, 30), onChange: (LocalTime) -> Unit) {
+fun TimeField(label: String, time: LocalTime?, fallback: LocalTime = LocalTime.of(22, 30), onClear: (() -> Unit)? = null, onChange: (LocalTime) -> Unit) {
     var open by remember { mutableStateOf(false) }
-    PickerRow(label, time?.let { "%02d:%02d".format(it.hour, it.minute) }) { open = true }
+    PickerRow(label, time?.let { "%02d:%02d".format(it.hour, it.minute) }, onClear?.takeIf { time != null }) { open = true }
     if (open) TimeDialog(time ?: fallback, onDismiss = { open = false }) { onChange(it); open = false }
 }
 
 @Composable
-private fun PickerRow(label: String, value: String?, onOpen: () -> Unit) {
+private fun PickerRow(label: String, value: String?, onClear: (() -> Unit)?, onOpen: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(label, Modifier.weight(1f))
         TextButton(onClick = onOpen) { Text(value ?: stringResource(R.string.none)) }
+        if (onClear != null) IconButton(onClick = onClear) { Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.remove)) }
     }
 }
 

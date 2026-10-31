@@ -256,8 +256,7 @@ private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(min, { min = it }, label = { Text(stringResource(R.string.at_least_hm)) }, singleLine = true)
                 OutlinedTextField(max, { max = it }, label = { Text(stringResource(R.string.at_most_hm)) }, singleLine = true)
-                TimeField(stringResource(R.string.target_bedtime), bed) { bed = it }
-                if (bed != null) TextButton(onClick = { bed = null }) { Text(stringResource(R.string.remove)) }
+                TimeField(stringResource(R.string.target_bedtime), bed, onClear = { bed = null }) { bed = it }
             }
         },
         confirmButton = { TextButton(onClick = { onSave(current.copy(minTotalMin = minM!!, maxTotalMin = maxM!!, bedtime = bed)) }, enabled = valid) { Text(stringResource(R.string.ok)) } },
