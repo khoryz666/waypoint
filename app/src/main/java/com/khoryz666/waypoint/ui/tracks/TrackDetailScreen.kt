@@ -97,6 +97,7 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
                     t.finalState?.let { Text(stringResource(R.string.final_state_x, it)) }
                     t.endReason?.let { Text(stringResource(R.string.end_reason_x, it)) }
                     t.pauseReason?.let { Muted(stringResource(R.string.pause_reason_x, it)) }
+                    if (t.status != TrackStatus.DRAFT && units.isNotEmpty()) Progress(units)
                     t.syncError?.let { Text(stringResource(R.string.sync_failed, it), color = MaterialTheme.colorScheme.error) }
                     LifecycleActions(t, units, vm) { dialog = it }
                 }
@@ -212,6 +213,14 @@ private fun UnitRow(unit: TrackUnit, vm: TrackDetailViewModel) {
         }
     }
     if (rename) TextDialog(stringResource(R.string.rename), initial = unit.title, singleLine = true, onDismiss = { rename = false }) { vm.renameUnit(unit, it); rename = false }
+}
+
+/** How far through the outline the track is, shown once it's activated. */
+@Composable
+private fun Progress(units: List<TrackUnit>) {
+    val done = units.count { it.status == UnitStatus.DONE }
+    LinearProgressIndicator(progress = { done.toFloat() / units.size }, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
+    Muted(stringResource(R.string.progress_x, done, units.size, done * 100 / units.size))
 }
 
 @Composable

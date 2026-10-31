@@ -182,6 +182,7 @@
     <string name="prices">Prices per 1M tokens (CNY): hit / miss / output</string>
     <string name="prices_hint">Peak-hour prices by default. Update them if DeepSeek changes.</string>
     <string name="profile">Profile</string>
+    <string name="progress_x">%1$d of %2$d steps done · %3$d%%</string>
     <string name="questions_need_track">Questions show up once you have a track.</string>
     <string name="reading_ideas">Key ideas (comma-separated)</string>
     <string name="reading_recall">Quiz me after each chapter I read</string>
