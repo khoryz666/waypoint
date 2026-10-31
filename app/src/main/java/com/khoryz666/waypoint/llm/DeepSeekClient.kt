@@ -58,6 +58,9 @@ sealed interface StreamEvent {
 /** Every way a call can fail, so callers can react per spec 8.1 and 10.1. */
 sealed class ApiException(message: String) : Exception(message) {
     class KeyInvalid : ApiException("API key invalid (401)")
+
+    /** No key entered yet; not a problem to flag, the app simply works without the API. */
+    class NoKey : ApiException("No DeepSeek API key")
     class NoBalance : ApiException("DeepSeek balance insufficient (402)")
     class ModelUnavailable(val model: String, detail: String) : ApiException("Model $model unavailable: $detail")
     class Http(val code: Int, detail: String) : ApiException("HTTP $code: $detail")
@@ -125,7 +128,7 @@ class DeepSeekClient(
 
     private fun client(request: ChatRequest) = if (request.slow) slow else fast
 
-    private suspend fun requireKey(): String = apiKey() ?: throw ApiException.KeyInvalid()
+    private suspend fun requireKey(): String = apiKey() ?: throw ApiException.NoKey()
 
     private suspend fun httpRequest(request: ChatRequest, stream: Boolean): Request {
         val body = buildJsonObject {
