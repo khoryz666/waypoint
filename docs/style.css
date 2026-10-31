@@ -54,7 +54,7 @@ section { padding: 64px 0; }
 .step p { margin: 0; color: var(--muted); font-size: 16px; }
 
 /* Screens */
-.screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+.screens { display: grid; grid-template-columns: repeat(3, minmax(0, 250px)); justify-content: center; gap: 48px; align-items: start; }
 .phone { margin: 0; text-align: center; }
 .phone .frame { background: #0b0d12; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; padding: 10px; box-shadow: 0 24px 50px rgba(20,25,58,.18), 0 2px 6px rgba(20,25,58,.12); }
 .phone img { display: block; width: 100%; height: auto; aspect-ratio: 540 / 1170; border-radius: 26px; background: #f5f6f8; }
