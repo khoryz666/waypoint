@@ -46,6 +46,7 @@ import com.khoryz666.waypoint.ui.Banner
 import com.khoryz666.waypoint.ui.ChoiceChip
 import com.khoryz666.waypoint.ui.ConfirmDialog
 import com.khoryz666.waypoint.ui.LabeledRow
+import com.khoryz666.waypoint.ui.BrandFooter
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TextDialog
@@ -141,6 +142,7 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
                 }
             }
             item { BackupSection(s.backup, c, onConnect = vm::backupNow, onPassphrase = { if (s.backup.passphraseWarningShown) passphrase = true else warn = true }, onBackupNow = vm::backupNow) }
+            item { BrandFooter() }
         }
     }
     edit?.let { e -> TextDialog(e.title, initial = e.initial, number = e.number, singleLine = true, onDismiss = { edit = null }) { e.apply(it); edit = null } }

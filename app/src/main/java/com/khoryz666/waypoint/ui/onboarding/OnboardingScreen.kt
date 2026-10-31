@@ -43,6 +43,7 @@ import com.khoryz666.waypoint.backup.BackupFile
 import com.khoryz666.waypoint.data.Settings
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.ui.LabeledRow
+import com.khoryz666.waypoint.ui.BrandHeader
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { r -> vm.authorized(c.googleAuth.tokenFrom(r.data)) }
     LaunchedEffect(consent) { consent?.let { launcher.launch(IntentSenderRequest.Builder(it.intentSender).build()) } }
     Column(Modifier.fillMaxSize().systemBarsPadding().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        Text("Waypoint", style = MaterialTheme.typography.headlineSmall)
+        BrandHeader()
         if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
         error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
         when (step) {
