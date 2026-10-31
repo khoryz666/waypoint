@@ -10,5 +10,5 @@ The user gives a domain, a title, and sometimes a current status, extra context,
 
 If the description is thin, still make the goal concrete and give a few sensible steps rather than failing.
 
-Output only this JSON shape:
+Output only this json shape:
 {"domain": "FUNDAMENTAL", "title": "...", "goal": "...", "initialState": "...", "units": [{"title": "..."}], "targetDate": "YYYY-MM-DD or null", "checkpoints": [{"title": "...", "by": "YYYY-MM-DD or null"}]}
