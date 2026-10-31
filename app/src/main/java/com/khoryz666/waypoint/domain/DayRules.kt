@@ -41,7 +41,7 @@ fun evaluate(target: DayTarget, progress: DayProgress, activeTracks: List<Track>
     val byId = activeTracks.associateBy { it.id }
     val lines = mutableListOf<TargetLine>()
     val pool = activeTracks.filter { target.anyDomains.isEmpty() || it.domain in target.anyDomains }
-    val poolLabel = if (target.anyDomains.isEmpty()) lang.t("any track", "任意 track") else target.anyDomains.joinToString("/") { it.name.lowercase() }
+    val poolLabel = if (target.anyDomains.isEmpty()) lang.t("any goal", "任意目标") else target.anyDomains.joinToString("/") { it.name.lowercase() }
     if (target.anyFocusMinutes > 0) {
         val ms = pool.sumOf { progress.time.focusMs(it.id) } + if (target.anyDomains.isEmpty()) progress.time.focusMs[null] ?: 0 else 0
         lines += TargetLine(lang.t("Focus · $poolLabel", "专注 · $poolLabel"), (ms / MINUTE_MS).toInt(), target.anyFocusMinutes, TargetUnit.MINUTES)

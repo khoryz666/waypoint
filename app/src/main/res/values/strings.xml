@@ -9,7 +9,7 @@
     <string name="add_session">Add session</string>
     <string name="add_sleep_manually">Add a night by hand</string>
     <string name="add_unit">Add unit</string>
-    <string name="all_tracks">All tracks</string>
+    <string name="all_tracks">All goals</string>
     <string name="answer_hint">In your own words</string>
     <string name="answering_session">About your last session</string>
     <string name="any_domains">From</string>
@@ -47,7 +47,7 @@
     <string name="complete">Complete</string>
     <string name="confirm_title">Check and save</string>
     <string name="copy_open_deepseek">Copy prompt &amp; open DeepSeek</string>
-    <string name="create_first_track">Create your first track</string>
+    <string name="create_first_track">Set your first goal</string>
     <string name="currency">Currency (ISO 4217)</string>
     <string name="current_state">Current status</string>
     <string name="daily_close">Daily close</string>
@@ -93,7 +93,7 @@
     <string name="github_token">Read-only token</string>
     <string name="goal_amount">Amount</string>
     <string name="goal_by">By</string>
-    <string name="goal_final">Goal (where you want to end up)</string>
+    <string name="goal_final">Final status</string>
     <string name="grade_partial">Partial</string>
     <string name="grade_solid">Solid</string>
     <string name="grade_weak">Weak</string>
@@ -118,7 +118,7 @@
     <string name="last_week_unreviewed">Last week isn\'t reviewed yet</string>
     <string name="last_weeks_fix">Last week\'s one thing to fix</string>
     <string name="logs">Logs</string>
-    <string name="low_confidence">Not sure about the track. Check it?</string>
+    <string name="low_confidence">Not sure which goal this is for. Check it?</string>
     <string name="math_attempted">Problems attempted (e.g. 1-15)</string>
     <string name="math_check">Check from photos</string>
     <string name="math_section">Section</string>
@@ -134,10 +134,10 @@
     <string name="nav_foundation">Foundation</string>
     <string name="nav_review">Review</string>
     <string name="nav_today">Today</string>
-    <string name="nav_tracks">Tracks</string>
+    <string name="nav_tracks">Goals</string>
     <string name="never_backed_up">Not backed up yet</string>
     <string name="new_backup_chain">New passphrase</string>
-    <string name="new_track">New track</string>
+    <string name="new_track">New goal</string>
     <string name="new_units">New units: %1$s</string>
     <string name="next">Next</string>
     <string name="next_step">Next step</string>
@@ -145,7 +145,7 @@
     <string name="next_x">Next: %1$s</string>
     <string name="no_backups">No backups on this account.</string>
     <string name="no_logs">Nothing yet.</string>
-    <string name="no_tracks">No tracks yet.</string>
+    <string name="no_tracks">No goals yet.</string>
     <string name="none">None</string>
     <string name="notes">Notes</string>
     <string name="nudges">Nudge me after 3 quiet hours</string>
@@ -174,7 +174,7 @@
     <string name="pause_x">Pause %1$s</string>
     <string name="pending_parse">Not parsed yet</string>
     <string name="pick_domain">Domain</string>
-    <string name="pick_track">Pick a track</string>
+    <string name="pick_track">Pick a goal</string>
     <string name="plan">Plan</string>
     <string name="plan_in_deepseek">Plan in DeepSeek</string>
     <string name="plan_notes">Plan notes</string>
@@ -182,7 +182,7 @@
     <string name="prices_hint">Peak-hour prices by default. Update them if DeepSeek changes.</string>
     <string name="profile">Profile</string>
     <string name="progress_x">%1$d of %2$d steps done · %3$d%%</string>
-    <string name="questions_need_track">Questions show up once you have a track.</string>
+    <string name="questions_need_track">Questions show up once you have a goal.</string>
     <string name="reading_ideas">Key ideas (comma-separated)</string>
     <string name="reading_recall">Quiz me after each chapter I read</string>
     <string name="reading_suggestions">Worth reading (unverified)</string>
@@ -266,12 +266,12 @@
     <string name="title">Title</string>
     <string name="todays_one_thing">Today\'s one thing</string>
     <string name="tomorrow_one_thing">Tomorrow\'s most important thing</string>
-    <string name="too_many_active">Already 8 active</string>
+    <string name="too_many_active">Already 8 active goals</string>
     <string name="too_many_active_body">Pause one first.</string>
     <string name="top3">Top 3 this week</string>
     <string name="top3_next">Top 3 for next week</string>
     <string name="track_auto">Auto</string>
-    <string name="track_label">Track</string>
+    <string name="track_label">Goal</string>
     <string name="undo">Undo</string>
     <string name="unit_doing">In progress</string>
     <string name="unit_done">Done</string>

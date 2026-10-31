@@ -9,7 +9,7 @@
     <string name="add_session">添加计时</string>
     <string name="add_sleep_manually">手动添加一晚</string>
     <string name="add_unit">添加单元</string>
-    <string name="all_tracks">全部 track</string>
+    <string name="all_tracks">全部目标</string>
     <string name="answer_hint">用自己的话说</string>
     <string name="answering_session">关于上一段专注</string>
     <string name="any_domains">来自</string>
@@ -47,7 +47,7 @@
     <string name="complete">完成</string>
     <string name="confirm_title">确认并保存</string>
     <string name="copy_open_deepseek">复制提示词并打开 DeepSeek</string>
-    <string name="create_first_track">创建第一个 Track</string>
+    <string name="create_first_track">定下第一个目标</string>
     <string name="currency">货币 (ISO 4217)</string>
     <string name="current_state">当前状态</string>
     <string name="daily_close">每日收尾</string>
@@ -93,7 +93,7 @@
     <string name="github_token">只读 token</string>
     <string name="goal_amount">金额</string>
     <string name="goal_by">截止日期</string>
-    <string name="goal_final">目标 (最终要达到的状态)</string>
+    <string name="goal_final">最终状态</string>
     <string name="grade_partial">部分</string>
     <string name="grade_solid">扎实</string>
     <string name="grade_weak">薄弱</string>
@@ -118,7 +118,7 @@
     <string name="last_week_unreviewed">上周还没复盘</string>
     <string name="last_weeks_fix">上周要改的一件事</string>
     <string name="logs">记录</string>
-    <string name="low_confidence">不太确定是哪个 track，看一下？</string>
+    <string name="low_confidence">不太确定是哪个目标，看一下？</string>
     <string name="math_attempted">做过的题 (如 1-15)</string>
     <string name="math_check">对照照片检查</string>
     <string name="math_section">章节</string>
@@ -134,10 +134,10 @@
     <string name="nav_foundation">基础</string>
     <string name="nav_review">复盘</string>
     <string name="nav_today">今天</string>
-    <string name="nav_tracks">Tracks</string>
+    <string name="nav_tracks">目标</string>
     <string name="never_backed_up">尚未备份</string>
     <string name="new_backup_chain">更换密码</string>
-    <string name="new_track">新建 Track</string>
+    <string name="new_track">新目标</string>
     <string name="new_units">新单元: %1$s</string>
     <string name="next">下一步</string>
     <string name="next_step">下一步</string>
@@ -145,7 +145,7 @@
     <string name="next_x">下一次: %1$s</string>
     <string name="no_backups">这个账号没有备份。</string>
     <string name="no_logs">还没有记录。</string>
-    <string name="no_tracks">还没有 track。</string>
+    <string name="no_tracks">还没有目标。</string>
     <string name="none">无</string>
     <string name="notes">笔记</string>
     <string name="nudges">3 小时没记录就提醒我</string>
@@ -174,7 +174,7 @@
     <string name="pause_x">暂停 %1$s</string>
     <string name="pending_parse">待解析</string>
     <string name="pick_domain">领域</string>
-    <string name="pick_track">选择 track</string>
+    <string name="pick_track">选择目标</string>
     <string name="plan">计划</string>
     <string name="plan_in_deepseek">在 DeepSeek 里规划</string>
     <string name="plan_notes">计划备注</string>
@@ -182,7 +182,7 @@
     <string name="prices_hint">默认高峰价，DeepSeek 调价时改一下。</string>
     <string name="profile">个人资料</string>
     <string name="progress_x">已完成 %1$d / %2$d 步 · %3$d%%</string>
-    <string name="questions_need_track">有了 track 就会出现问题。</string>
+    <string name="questions_need_track">有了目标就会出现问题。</string>
     <string name="reading_ideas">要点 (逗号分隔)</string>
     <string name="reading_recall">读完一章后考考我</string>
     <string name="reading_suggestions">可以读读 (未核实)</string>
@@ -266,12 +266,12 @@
     <string name="title">标题</string>
     <string name="todays_one_thing">今天最重要的一件事</string>
     <string name="tomorrow_one_thing">明天最重要的一件事</string>
-    <string name="too_many_active">已经有 8 个进行中了</string>
+    <string name="too_many_active">已经有 8 个进行中的目标</string>
     <string name="too_many_active_body">先暂停一个。</string>
     <string name="top3">本周三件事</string>
     <string name="top3_next">下周最重要的三件事</string>
     <string name="track_auto">自动</string>
-    <string name="track_label">Track</string>
+    <string name="track_label">目标</string>
     <string name="undo">撤销</string>
     <string name="unit_doing">进行中</string>
     <string name="unit_done">已完成</string>
