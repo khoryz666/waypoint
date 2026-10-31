@@ -180,11 +180,14 @@ private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer
                 Text(
                     when {
                         p.remainingMinor == 0L -> stringResource(R.string.savings_reached, amount)
-                        goal.by != null -> stringResource(R.string.savings_left_by, amount, goal.by.toString(), formatMoney(p.remainingMinor, currency))
-                        else -> stringResource(R.string.savings_left, amount, formatMoney(p.remainingMinor, currency))
+                        goal.by != null -> stringResource(R.string.savings_left_by, amount, goal.by.toString())
+                        else -> stringResource(R.string.savings_left, amount)
                     },
                 )
-                p.requiredPerMonthMinor?.takeIf { it > 0 }?.let { Muted(stringResource(R.string.savings_per_month, formatMoney(it, currency))) }
+                if (p.remainingMinor > 0) {
+                    val perMonth = p.requiredPerMonthMinor?.takeIf { it > 0 }?.let { stringResource(R.string.savings_per_month, formatMoney(it, currency)) }
+                    Muted(listOfNotNull(stringResource(R.string.savings_to_go, formatMoney(p.remainingMinor, currency)), perMonth).joinToString(" · "))
+                }
             }
             TextButton(onClick = onEditGoal) { Text(stringResource(R.string.edit_goal)) }
         }

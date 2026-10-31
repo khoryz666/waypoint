@@ -215,10 +215,11 @@
     <string name="save">✓ Save</string>
     <string name="save_draft">Save as draft</string>
     <string name="savings_goal">Savings goal</string>
-    <string name="savings_left">Goal %1$s · %2$s to go</string>
-    <string name="savings_left_by">Goal %1$s by %2$s · %3$s to go</string>
-    <string name="savings_per_month">About %1$s a month</string>
+    <string name="savings_left">Goal %1$s</string>
+    <string name="savings_left_by">Goal %1$s by %2$s</string>
+    <string name="savings_per_month">about %1$s a month</string>
     <string name="savings_reached">Goal %1$s reached</string>
+    <string name="savings_to_go">%1$s to go</string>
     <string name="self_grade">Can\'t reach DeepSeek. How did you do?</string>
     <string name="send">Send</string>
     <string name="sessions">Focus time</string>

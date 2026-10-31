@@ -215,10 +215,11 @@
     <string name="save">✓ 保存</string>
     <string name="save_draft">存为草稿</string>
     <string name="savings_goal">存钱目标</string>
-    <string name="savings_left">目标 %1$s · 还差 %2$s</string>
-    <string name="savings_left_by">目标 %2$s 前存到 %1$s · 还差 %3$s</string>
+    <string name="savings_left">目标 %1$s</string>
+    <string name="savings_left_by">目标: %2$s 前存到 %1$s</string>
     <string name="savings_per_month">每月大约 %1$s</string>
     <string name="savings_reached">已存到目标 %1$s</string>
+    <string name="savings_to_go">还差 %1$s</string>
     <string name="self_grade">连不上 DeepSeek，自己打个分吧。</string>
     <string name="send">发送</string>
     <string name="sessions">专注记录</string>
