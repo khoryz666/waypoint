@@ -1,4 +1,4 @@
-package com.khoryz666.waypoint.ui.body
+package com.khoryz666.waypoint.ui.foundation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,7 +57,7 @@ import java.time.format.DateTimeFormatter
 
 /** Exercise tracks, sleep (7 / 30 / 365 days) and the balance: the foundations (spec 5.1). */
 @Composable
-fun BodyScreen(c: AppContainer) {
+fun FoundationScreen(c: AppContainer) {
     val today = c.clock.today()
     val settings by c.settings.settings.collectAsState(initial = Settings())
     val sleep by c.db.sleep().observeBetween(today.minusDays(366), today.plusDays(1)).collectAsState(initial = emptyList())
@@ -69,7 +69,7 @@ fun BodyScreen(c: AppContainer) {
     val steps by c.db.nextSteps().observeOpen().collectAsState(initial = emptyList())
     var addSleep by remember { mutableStateOf(false) }
 
-    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_body)) }) }) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_foundation)) }) }) { padding ->
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp, padding.calculateTopPadding() + 8.dp, 16.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             tracks.filter { it.domain == Domain.EXERCISE }.forEach { t ->
                 item(key = "ex-${t.id}") {
