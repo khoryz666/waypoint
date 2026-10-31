@@ -9,13 +9,14 @@
     <string name="add_session">Add time</string>
     <string name="add_sleep_manually">Add a night by hand</string>
     <string name="add_unit">Add step</string>
+    <string name="advanced">Advanced</string>
     <string name="all_tracks">All goals</string>
     <string name="answer_hint">In your own words</string>
     <string name="answering_session">About your last session</string>
     <string name="any_domains">From</string>
     <string name="any_focus_minutes">Total focus minutes</string>
     <string name="any_units">Total steps done</string>
-    <string name="api_key">API key</string>
+    <string name="api_key">Key</string>
     <string name="api_key_invalid">Your DeepSeek key isn\'t working. Logs will wait until it\'s fixed.</string>
     <string name="api_key_missing">Add a DeepSeek key so the app can read your logs.</string>
     <string name="api_no_balance">DeepSeek balance is empty. Everything else still works.</string>
@@ -48,7 +49,7 @@
     <string name="confirm_title">Check and save</string>
     <string name="copy_open_deepseek">Copy prompt &amp; open DeepSeek</string>
     <string name="create_first_track">Set your first goal</string>
-    <string name="currency">Currency (ISO 4217)</string>
+    <string name="currency">Currency (e.g. USD)</string>
     <string name="current_state">Current status</string>
     <string name="daily_close">End of day</string>
     <string name="daily_close_time">End-of-day reminder</string>

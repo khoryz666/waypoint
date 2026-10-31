@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -33,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -71,6 +74,7 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
     val consent by vm.consent.collectAsState()
     val activity = LocalContext.current as? Activity
     var edit by remember { mutableStateOf<Edit?>(null) }
+    var advanced by remember { mutableStateOf(false) }
     var passphrase by remember { mutableStateOf(false) }
     var warn by remember { mutableStateOf(false) }
     val authLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result -> vm.authorized(c.googleAuth.tokenFrom(result.data)) }
@@ -99,32 +103,6 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
                 }
             }
             item {
-                SectionCard(title = "DeepSeek") {
-                    Row(stringResource(R.string.api_key), s.apiKeyHint?.let { "••••$it" } ?: "—") { edit = Edit(it, "") { v -> vm.setApiKey(v) } }
-                    LabeledRow(stringResource(R.string.fast_model)) { ChoiceChip(s.fastModel, models.ifEmpty { listOf(s.fastModel) }, { it }, { m -> vm.update { st -> st.copy(fastModel = m) } }) }
-                    LabeledRow(stringResource(R.string.review_model)) { ChoiceChip(s.reviewModel, models.ifEmpty { listOf(s.reviewModel) }, { it }, { m -> vm.update { st -> st.copy(reviewModel = m) } }) }
-                    TextButton(onClick = vm::refreshModels, enabled = s.hasApiKey) { Text(stringResource(R.string.refresh_models)) }
-                    Row(stringResource(R.string.monthly_budget), "¥%.0f".format(s.monthlyBudgetCny)) { edit = Edit(it, s.monthlyBudgetCny.toString(), number = true) { v -> v.toDoubleOrNull()?.let { b -> vm.update { st -> st.copy(monthlyBudgetCny = b) } } } }
-                    budget?.let { b -> Text(stringResource(R.string.spend_line, "¥%.2f".format(usage.sumOf { it.costCny }), "¥%.2f".format(b.projectedCny))) }
-                    usage.groupBy { it.promptName }.mapValues { (_, l) -> l.sumOf { it.costCny } }.entries.sortedByDescending { it.value }.forEach { (p, v) -> Muted("$p · ¥%.3f".format(v)) }
-                    Text(stringResource(R.string.prices), style = MaterialTheme.typography.titleSmall)
-                    s.prices.forEach { (model, p) ->
-                        Row(model, "%.2f / %.2f / %.2f".format(p.cacheHit, p.cacheMiss, p.output)) {
-                            edit = Edit(it, "${p.cacheHit} ${p.cacheMiss} ${p.output}") { v ->
-                                v.split(' ', ',', '/').mapNotNull { n -> n.trim().toDoubleOrNull() }.takeIf { n -> n.size == 3 }?.let { (a, b, o) -> vm.update { st -> st.copy(prices = st.prices + (model to ModelPrice(a, b, o))) } }
-                            }
-                        }
-                    }
-                    Muted(stringResource(R.string.prices_hint))
-                }
-            }
-            item {
-                SectionCard(title = "GitHub") {
-                    Row(stringResource(R.string.github_token), s.githubTokenHint?.let { "••••$it · ${s.githubLogin.orEmpty()}" } ?: "—") { edit = Edit(it, "") { v -> vm.setGithubToken(v) } }
-                    Muted(stringResource(R.string.github_hint))
-                }
-            }
-            item {
                 SectionCard(title = stringResource(R.string.targets_and_reminders)) {
                     TextButton(onClick = onDailyTarget) { Text(stringResource(R.string.daily_target)) }
                     TimeRow(stringResource(R.string.daily_close_time), s.dailyCloseTime) { t -> vm.update { it.copy(dailyCloseTime = t) }; vm.rescheduleReminders() }
@@ -138,11 +116,47 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
                 }
             }
             item {
+                SectionCard(title = "DeepSeek") {
+                    Row(stringResource(R.string.api_key), s.apiKeyHint?.let { "••••$it" } ?: "—") { edit = Edit(it, "") { v -> vm.setApiKey(v) } }
+                    Row(stringResource(R.string.monthly_budget), "¥%.0f".format(s.monthlyBudgetCny)) { edit = Edit(it, s.monthlyBudgetCny.toString(), number = true) { v -> v.toDoubleOrNull()?.let { b -> vm.update { st -> st.copy(monthlyBudgetCny = b) } } } }
+                    budget?.let { b -> Text(stringResource(R.string.spend_line, "¥%.2f".format(usage.sumOf { it.costCny }), "¥%.2f".format(b.projectedCny))) }
+                }
+            }
+            item {
+                SectionCard(title = "GitHub") {
+                    Row(stringResource(R.string.github_token), s.githubTokenHint?.let { "••••$it · ${s.githubLogin.orEmpty()}" } ?: "—") { edit = Edit(it, "") { v -> vm.setGithubToken(v) } }
+                    Muted(stringResource(R.string.github_hint))
+                }
+            }
+            item {
                 SectionCard(title = stringResource(R.string.sleep)) {
                     Row(stringResource(R.string.sleep_app), s.profile.sleepAppHint ?: "—") { edit = Edit(it, s.profile.sleepAppHint.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleepAppHint = v.ifBlank { null })) } } }
                 }
             }
             item { BackupSection(s.backup, c, onConnect = vm::backupNow, onPassphrase = { if (s.backup.passphraseWarningShown) passphrase = true else warn = true }, onBackupNow = vm::backupNow) }
+            item {
+                SectionCard {
+                    androidx.compose.foundation.layout.Row(Modifier.fillMaxWidth().clickable { advanced = !advanced }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.advanced), Modifier.weight(1f), style = MaterialTheme.typography.titleSmall)
+                        Icon(if (advanced) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, contentDescription = null)
+                    }
+                    if (advanced) {
+                        LabeledRow(stringResource(R.string.fast_model)) { ChoiceChip(s.fastModel, models.ifEmpty { listOf(s.fastModel) }, { it }, { m -> vm.update { st -> st.copy(fastModel = m) } }) }
+                        LabeledRow(stringResource(R.string.review_model)) { ChoiceChip(s.reviewModel, models.ifEmpty { listOf(s.reviewModel) }, { it }, { m -> vm.update { st -> st.copy(reviewModel = m) } }) }
+                        TextButton(onClick = vm::refreshModels, enabled = s.hasApiKey) { Text(stringResource(R.string.refresh_models)) }
+                        usage.groupBy { it.promptName }.mapValues { (_, l) -> l.sumOf { it.costCny } }.entries.sortedByDescending { it.value }.forEach { (p, v) -> Muted("$p · ¥%.3f".format(v)) }
+                        Text(stringResource(R.string.prices), style = MaterialTheme.typography.titleSmall)
+                        s.prices.forEach { (model, p) ->
+                            Row(model, "%.2f / %.2f / %.2f".format(p.cacheHit, p.cacheMiss, p.output)) {
+                                edit = Edit(it, "${p.cacheHit} ${p.cacheMiss} ${p.output}") { v ->
+                                    v.split(' ', ',', '/').mapNotNull { n -> n.trim().toDoubleOrNull() }.takeIf { n -> n.size == 3 }?.let { (a, b, o) -> vm.update { st -> st.copy(prices = st.prices + (model to ModelPrice(a, b, o))) } }
+                                }
+                            }
+                        }
+                        Muted(stringResource(R.string.prices_hint))
+                    }
+                }
+            }
             item { BrandFooter() }
         }
     }

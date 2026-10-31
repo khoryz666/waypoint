@@ -9,13 +9,14 @@
     <string name="add_session">补记时间</string>
     <string name="add_sleep_manually">手动添加一晚</string>
     <string name="add_unit">添加步骤</string>
+    <string name="advanced">高级</string>
     <string name="all_tracks">全部目标</string>
     <string name="answer_hint">用自己的话说</string>
     <string name="answering_session">关于上一段专注</string>
     <string name="any_domains">来自</string>
     <string name="any_focus_minutes">总专注分钟</string>
     <string name="any_units">总完成步骤</string>
-    <string name="api_key">API key</string>
+    <string name="api_key">密钥</string>
     <string name="api_key_invalid">DeepSeek key 不能用，记录会先等着。</string>
     <string name="api_key_missing">加个 DeepSeek key，app 才能看懂你的记录。</string>
     <string name="api_no_balance">DeepSeek 余额用完了，其他功能照常。</string>
@@ -48,7 +49,7 @@
     <string name="confirm_title">确认并保存</string>
     <string name="copy_open_deepseek">复制提示词并打开 DeepSeek</string>
     <string name="create_first_track">定下第一个目标</string>
-    <string name="currency">货币 (ISO 4217)</string>
+    <string name="currency">货币 (如 CNY)</string>
     <string name="current_state">当前状态</string>
     <string name="daily_close">一天收尾</string>
     <string name="daily_close_time">收尾提醒</string>
