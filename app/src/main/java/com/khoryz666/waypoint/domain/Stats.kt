@@ -53,7 +53,8 @@ data class TrackStats(
 data class SleepStats(val recorded: Int, val nights: Int, val inRange: Int, val averageMin: Int?, val status: SleepStatus?)
 
 @Serializable
-data class BalanceStats(val startMinor: Long, val endMinor: Long, val net30Minor: Long, val currency: String)
+/** [netMinor] sums the period's DELTA entries; SET corrections are not income or spending. */
+data class BalanceStats(val startMinor: Long, val endMinor: Long, val net30Minor: Long, val currency: String, val netMinor: Long = 0)
 
 /** Raw rows for one period. [until] is exclusive. */
 class StatsInput(
@@ -96,7 +97,7 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
         if (type.minimum.exercise || type.plan.exercise) active.filter { it.domain == Domain.EXERCISE }.forEach { plannedExercise.merge(it.id, 1, Int::plus) }
     }
 
-    val trackStats = input.tracks.filter { t -> t.status == TrackStatus.ACTIVE || logs.any { it.trackId == t.id } || times.values.any { it.focusMs(t.id) > 0 } }.map { t ->
+    val trackStats = input.tracks.filter { t -> (t.status == TrackStatus.ACTIVE && t.createdAt < range.end) || logs.any { it.trackId == t.id } || times.values.any { it.focusMs(t.id) > 0 } }.map { t ->
         val units = input.units.filter { it.trackId == t.id }
         val trackLogs = logs.filter { it.trackId == t.id && it.kind != LogKind.RECALL }
         TrackStats(
@@ -126,7 +127,10 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
         planDays = planDays,
         daysWithMinimum = daysWithMinimum,
         sleep = SleepStats(sleep.size, dates.size, sleep.count { input.sleepTargets.inRange(it.totalMin) }, sleep.takeIf { it.isNotEmpty() }?.map { it.totalMin }?.average()?.toInt(), sleepStatus),
-        balance = BalanceStats(openingBalance(input.balance, range.start), balanceAt(input.balance, endAt), netChange(input.balance, endAt, 30), input.currency),
+        balance = BalanceStats(
+            openingBalance(input.balance, range.start), balanceAt(input.balance, endAt), netChange(input.balance, endAt, 30), input.currency,
+            input.balance.filter { it.deletedAt == null && it.kind == BalanceKind.DELTA && it.occurredAt in range.start until endAt + 1 }.sumOf { it.amount },
+        ),
         ownershipAnswered = ownership.count { it.answer != null },
         ownershipSkipped = ownership.count { it.skipped },
         recallSolid = recalls.count { it.grade == Grade.SOLID },
@@ -138,23 +142,40 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
     )
 }
 
-/** The read-only answer of an AUTO checklist question (spec 7.2), from the period's stats. */
-fun autoAnswer(key: QuestionKey, stats: ReviewStats, lang: Lang, pillarTracks: List<Long> = emptyList()): String = when (key) {
-    QuestionKey.SLEEP_NIGHTS_IN_RANGE -> lang.t("${stats.sleep.inRange}/${stats.sleep.recorded} recorded nights in range (${stats.sleep.recorded}/${stats.sleep.nights} recorded)", "目标内 ${stats.sleep.inRange}/${stats.sleep.recorded} 晚（${stats.sleep.recorded}/${stats.sleep.nights} 晚有记录）") +
-        (stats.sleep.averageMin?.let { lang.t(", average ", "，均值 ") + formatMinutes(it.toLong()) } ?: "")
-    QuestionKey.EXERCISE_SESSIONS -> stats.tracks.filter { it.domain == Domain.EXERCISE }.joinToString("; ") { "${it.title}: ${it.exerciseSessions}" + if (it.plannedExerciseDays > 0) "/${it.plannedExerciseDays}" else "" }
-        .ifEmpty { lang.t("no exercise tracks", "没有运动 track") }
-    QuestionKey.BALANCE_NET_30 -> formatMoneyDelta(stats.balance.net30Minor, stats.balance.currency)
-    QuestionKey.MINIMUM_PLAN_DAYS -> lang.t("minimum ${stats.minimumDays}/${stats.daysWithMinimum} days, plan ${stats.planDays}", "最低 ${stats.minimumDays}/${stats.daysWithMinimum} 天，计划 ${stats.planDays} 天")
-    QuestionKey.UNITS_DONE_PER_TRACK -> stats.tracks.filter { it.domain != Domain.PROJECT && it.domain != Domain.MONEY && it.domain != Domain.EXERCISE }
-        .joinToString("; ") { "${it.title}: ${it.unitsDone}" }.ifEmpty { "—" }
-    QuestionKey.MILESTONES_PER_PROJECT -> stats.tracks.filter { it.domain == Domain.PROJECT }.joinToString("; ") { "${it.title}: ${it.unitsDone}" + lang.t(" (${it.commits} commits)", "（${it.commits} 个 commit）") }.ifEmpty { "—" }
-    QuestionKey.OWNERSHIP_CHECKS -> lang.t("${stats.ownershipAnswered} answered, ${stats.ownershipSkipped} skipped", "回答 ${stats.ownershipAnswered}，跳过 ${stats.ownershipSkipped}")
-    QuestionKey.FOCUS_TIME -> formatMinutes(stats.focusMinutes.toLong())
-    QuestionKey.PILLAR_TRACKS -> stats.tracks.filter { it.id in pillarTracks }
-        .joinToString("; ") { "${it.title} ${formatMinutes(it.focusMinutes.toLong())}, " + lang.t("${it.logs} logs", "${it.logs} 条记录") }.ifEmpty { "—" }
-    QuestionKey.ONE_THING_TO_FIX, QuestionKey.TOP_3 -> ""
+/**
+ * The review's summary: one line per track that is active or saw activity, then one line each
+ * for sleep and money, compared with [previous] (the period before) when there is one.
+ */
+fun reviewSummary(stats: ReviewStats, previous: ReviewStats?, period: ReviewPeriod, lang: Lang): List<String> {
+    val last = when (period) {
+        ReviewPeriod.WEEK -> lang.t("last week", "上周")
+        ReviewPeriod.MONTH -> lang.t("the month before", "上个月")
+        ReviewPeriod.YEAR -> lang.t("the year before", "去年")
+    }
+    val tracks = stats.tracks.filter { it.status == TrackStatus.ACTIVE || it.focusMinutes > 0 || it.logs > 0 || it.unitsDone > 0 }.map { t ->
+        val parts = listOfNotNull(
+            formatMinutes(t.focusMinutes.toLong()).takeIf { t.focusMinutes > 0 },
+            lang.t("${t.unitsDone} done", "完成 ${t.unitsDone}").takeIf { t.unitsDone > 0 },
+            lang.t(plural(t.exerciseSessions, "session"), "${t.exerciseSessions} 次").takeIf { t.domain == Domain.EXERCISE && t.exerciseSessions > 0 },
+            lang.t(plural(t.commits, "commit"), "${t.commits} 个 commit").takeIf { t.commits > 0 },
+            lang.t(plural(t.logs, "log"), "${t.logs} 条记录").takeIf { t.logs > 0 },
+        )
+        t.title + SEP + parts.ifEmpty { listOf(lang.t("nothing logged", "没有记录")) }.joinToString(SEP)
+    }
+    val sleep = stats.sleep.averageMin?.let { avg ->
+        lang.t("Sleep", "睡眠") + SEP + lang.t("average ", "平均 ") + formatMinutes(avg.toLong()) + SEP +
+            lang.t("${stats.sleep.inRange}/${stats.sleep.recorded} nights in range", "${stats.sleep.inRange}/${stats.sleep.recorded} 晚达标") +
+            (previous?.sleep?.averageMin?.let { " (" + last + " " + formatMinutes(it.toLong()) + ")" } ?: "")
+    } ?: (lang.t("Sleep", "睡眠") + SEP + lang.t("no nights recorded", "没有记录"))
+    val b = stats.balance
+    val money = lang.t("Money", "钱") + SEP + formatMoney(b.endMinor, b.currency) + SEP + formatMoneyDelta(b.netMinor, b.currency) +
+        (previous?.balance?.takeIf { it.endMinor != 0L || it.netMinor != 0L }?.let { " (" + last + " " + formatMoneyDelta(it.netMinor, b.currency) + ")" } ?: "")
+    return tracks + sleep + money
 }
+
+private const val SEP = " · "
+
+private fun plural(n: Int, word: String) = if (n == 1) "1 $word" else "$n ${word}s"
 
 /** Successor chains for the yearly review: "Pull-up: 0 reps → 1 rep → 5 reps". */
 fun successorChains(tracks: List<Track>): List<String> {

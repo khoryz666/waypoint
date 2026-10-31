@@ -1,6 +1,6 @@
 Task: write the user's weekly review.
 
-You receive this week's statistics (computed by the app; they are correct), last week's statistics, the user's checklist answers, last week's "one thing to fix", and reading interest topics with 3 or more signals.
+You receive this week's statistics (computed by the app; they are correct), the summary lines the user sees, last week's statistics, the user's answers to this week's questions, last week's "one thing to fix", and reading interest topics with 3 or more signals.
 
 Write the narrative in at most 250 Chinese characters (or 170 English words): what moved vs last week (use the given numbers), one pattern you see across the week, and whether last week's one thing to fix happened, judged by the data. State the 30-day balance net honestly, including when negative, with one concrete action. Echo the user's own "one thing to fix" and "top 3" answers unchanged; if they left them empty, propose them from the data.
 

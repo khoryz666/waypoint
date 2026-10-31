@@ -1,11 +1,8 @@
 package com.khoryz666.waypoint.data
 
-import androidx.room.withTransaction
 import com.khoryz666.waypoint.domain.AppClock
 import com.khoryz666.waypoint.domain.Domain
 import com.khoryz666.waypoint.domain.LogKind
-import com.khoryz666.waypoint.domain.PillarDraft
-import com.khoryz666.waypoint.domain.QuestionKey
 import com.khoryz666.waypoint.domain.ReviewPeriod
 import com.khoryz666.waypoint.domain.ReviewStats
 import com.khoryz666.waypoint.domain.StatsInput
@@ -13,22 +10,19 @@ import com.khoryz666.waypoint.domain.TrackStatus
 import com.khoryz666.waypoint.domain.WaypointJson
 import com.khoryz666.waypoint.domain.interests
 import com.khoryz666.waypoint.domain.reviewStats
+import com.khoryz666.waypoint.domain.reviewSummary
 import com.khoryz666.waypoint.domain.successorChains
 import com.khoryz666.waypoint.domain.weekStart
 import com.khoryz666.waypoint.llm.LlmService
 import com.khoryz666.waypoint.llm.Part
 import com.khoryz666.waypoint.llm.ReviewOutput
+import com.khoryz666.waypoint.llm.ReviewQuestionsOutput
 import com.khoryz666.waypoint.llm.Suggestion
 import com.khoryz666.waypoint.llm.Tier
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import java.time.LocalDate
 import java.time.YearMonth
-
-/** One checklist answer: yes/no for YES_NO, text for FREE_TEXT, a note on anything. */
-@Serializable
-data class ReviewAnswer(val yes: Boolean? = null, val text: String = "", val note: String = "")
 
 /**
  * Reviews (spec 7): fills in every number from rows, stores the user's answers, and asks Pro for
@@ -41,8 +35,7 @@ class ReviewRepository(
     private val clock: AppClock,
 ) {
     val all = db.reviews().observeAll()
-    val pillars = db.checklist().observePillars()
-    val questions = db.checklist().observeQuestions()
+    val questions = db.reviewQuestions().observeAll()
 
     fun observe(id: Long) = db.reviews().observe(id)
 
@@ -87,23 +80,61 @@ class ReviewRepository(
         return review.copy(id = if (review.id == 0L) id else review.id)
     }
 
-    suspend fun saveAnswers(review: Review, answers: Map<Long, ReviewAnswer>, reflection: String = review.reflection) =
-        db.reviews().upsert(review.copy(answers = encodeAnswers(answers), reflection = reflection))
+    /** The previous period's stats: from its saved review when there is one, else computed. */
+    suspend fun previousStats(review: Review): ReviewStats {
+        val start = when (review.period) {
+            ReviewPeriod.WEEK -> review.start.minusDays(7)
+            ReviewPeriod.MONTH -> review.start.minusMonths(1)
+            ReviewPeriod.YEAR -> review.start.minusYears(1)
+        }
+        return db.reviews().find(review.period, start)?.stats?.let(::decodeStats) ?: stats(review.period, start)
+    }
+
+    /** Saves what the user typed so far, keyed by question text. */
+    suspend fun saveDraft(review: Review, answers: Map<String, String>, fix: String, top3: List<String>): Review =
+        review.copy(answers = encodeAnswers(answers), oneThingToFix = fix, top3 = top3).also { db.reviews().upsert(it) }
 
     /**
-     * Submits a review: Pro writes the narrative, "one thing to fix" and "top 3" are taken from
-     * the user's answers (or proposed by Pro when left empty). Returns reading suggestions.
+     * Asks DeepSeek for 3-5 questions about the active tracks and stores them as the review's
+     * questions. Without the API, falls back to one plain question per track.
      */
-    suspend fun submit(review: Review, answers: Map<Long, ReviewAnswer>, reflection: String): Pair<Review, List<Suggestion>> {
-        val questions = db.checklist().questions()
-        val fix = questions.firstOrNull { it.key == QuestionKey.ONE_THING_TO_FIX }?.let { answers[it.id]?.text }.orEmpty().trim()
-        val top3 = questions.firstOrNull { it.key == QuestionKey.TOP_3 }?.let { answers[it.id]?.text }.orEmpty()
-            .lines().map { it.trim().trimStart('-', '*', '1', '2', '3', '.', ')', ' ') }.filter { it.isNotEmpty() }.take(3)
-        val saved = review.copy(answers = encodeAnswers(answers), reflection = reflection)
-        val out = runCatching { narrate(saved, questions, answers) }.getOrNull()
+    suspend fun writeQuestions() {
+        val tracks = db.tracks().active()
+        if (tracks.isEmpty()) return
+        val s = settings.current()
+        val lang = s.profile.language
+        val week = stats(ReviewPeriod.WEEK, currentWeekStart())
+        val text = buildString {
+            append("UI language: ${lang.tag}\n")
+            tracks.forEach { t ->
+                val units = db.units().forTrack(t.id)
+                val w = week.tracks.firstOrNull { it.id == t.id }
+                append("## ${t.title} (${t.domain.name})\nGoal: ${t.goal}\n")
+                if (units.isNotEmpty()) append("Outline: ${units.count { it.doneAt != null }}/${units.size} done; next: ${units.firstOrNull { it.doneAt == null }?.title ?: "—"}\n")
+                if (w != null) append("This week: ${w.focusMinutes} min, ${w.unitsDone} units done, ${w.logs} logs\n")
+            }
+        }
+        val questions = runCatching { llm.json("review_questions", listOf(Part.Text(text)), 400, ReviewQuestionsOutput.serializer()).questions }
+            .getOrNull()?.map { it.trim() }?.filter { it.isNotEmpty() }?.take(5)
+            ?.ifEmpty { null }
+            ?: tracks.take(5).map { lang.t("How did ${it.title} go this week?", "${it.title} 这周怎么样？") }
+        db.reviewQuestions().replace(questions)
+    }
+
+    suspend fun addQuestion(text: String) = db.reviewQuestions().insert(ReviewQuestion(order = db.reviewQuestions().all().size, text = text))
+    suspend fun updateQuestion(q: ReviewQuestion) = db.reviewQuestions().update(q)
+    suspend fun deleteQuestion(id: Long) = db.reviewQuestions().delete(id)
+
+    /**
+     * Submits a review: Pro writes the narrative; "one thing to fix" and "top 3" are the user's
+     * (or proposed by Pro when left empty). Returns reading suggestions.
+     */
+    suspend fun submit(review: Review, answers: Map<String, String>, fix: String, top3: List<String>): Pair<Review, List<Suggestion>> {
+        val saved = review.copy(answers = encodeAnswers(answers.filterValues { it.isNotBlank() }), oneThingToFix = fix.trim(), top3 = top3)
+        val out = runCatching { narrate(saved) }.getOrNull()
         val final = saved.copy(
             narrative = out?.narrative.orEmpty(),
-            oneThingToFix = fix.ifEmpty { out?.oneThingToFix.orEmpty() },
+            oneThingToFix = saved.oneThingToFix.ifEmpty { out?.oneThingToFix.orEmpty() },
             top3 = top3.ifEmpty { out?.top3.orEmpty().take(3) },
             submittedAt = clock.now(),
         )
@@ -113,13 +144,13 @@ class ReviewRepository(
 
     /** Writes or rewrites only the narrative (e.g. after the budget or network blocked it). */
     suspend fun renarrate(review: Review): Review {
-        val out = narrate(review, db.checklist().questions(), decodeAnswers(review.answers))
+        val out = narrate(review)
         val updated = review.copy(narrative = out.narrative)
         db.reviews().upsert(updated)
         return updated
     }
 
-    private suspend fun narrate(review: Review, questions: List<ChecklistQuestion>, answers: Map<Long, ReviewAnswer>): ReviewOutput {
+    private suspend fun narrate(review: Review): ReviewOutput {
         val s = settings.current()
         val prompt = when (review.period) {
             ReviewPeriod.WEEK -> "review_week"
@@ -129,6 +160,7 @@ class ReviewRepository(
         val text = buildString {
             append("UI language: ${s.profile.language.tag}\n")
             append("## This period (${review.start} – ${review.end})\n").append(review.stats).append("\n")
+            decodeStats(review.stats)?.let { st -> append("## Summary shown to the user\n").append(reviewSummary(st, previousStats(review), review.period, s.profile.language).joinToString("\n")).append("\n") }
             when (review.period) {
                 ReviewPeriod.WEEK -> {
                     val last = db.reviews().find(ReviewPeriod.WEEK, review.start.minusDays(7))
@@ -153,13 +185,10 @@ class ReviewRepository(
                     }
                 }
             }
-            append("## Checklist answers\n")
-            questions.forEach { q ->
-                val a = answers[q.id] ?: return@forEach
-                val value = listOfNotNull(a.yes?.let { if (it) "yes" else "no" }, a.text.ifEmpty { null }, a.note.ifEmpty { null }).joinToString(" · ")
-                if (value.isNotEmpty()) append("- ${q.text}: $value\n")
-            }
-            if (review.reflection.isNotBlank()) append("## Reflection\n${review.reflection}\n")
+            val answers = decodeAnswers(review.answers)
+            if (answers.isNotEmpty()) append("## The user's answers\n").append(answers.entries.joinToString("\n") { "- ${it.key}: ${it.value}" }).append("\n")
+            if (review.oneThingToFix.isNotBlank()) append("## One thing to fix (the user's)\n${review.oneThingToFix}\n")
+            if (review.top3.isNotEmpty()) append("## Top 3 for next period (the user's)\n").append(review.top3.joinToString("\n")).append("\n")
         }
         val maxInput = when (review.period) { ReviewPeriod.WEEK -> 6_000; ReviewPeriod.MONTH -> 10_000; ReviewPeriod.YEAR -> 15_000 }
         val trimmed = if (com.khoryz666.waypoint.llm.estimateTokens(text) > maxInput) text.take(maxInput * 3) else text
@@ -168,22 +197,6 @@ class ReviewRepository(
 
     /** "Top 3" stays pinned on Today for the week after its review (spec 7.2). */
     fun observePinnedTop3() = db.reviews().observeLatestSubmitted(ReviewPeriod.WEEK)
-
-    /** Checklist editing (spec 7.2): replaces everything with [drafts]. */
-    suspend fun replaceChecklist(drafts: List<PillarDraft>) = db.withTransaction {
-        db.checklist().clear()
-        drafts.forEachIndexed { i, p ->
-            val id = db.checklist().insertPillar(Pillar(name = p.name, order = i, noTargets = p.noTargets))
-            p.questions.forEachIndexed { j, q -> db.checklist().insertQuestion(ChecklistQuestion(pillarId = id, order = j, text = q.text, type = q.type, key = q.key)) }
-        }
-    }
-
-    suspend fun updatePillar(p: Pillar) = db.checklist().updatePillar(p)
-    suspend fun addQuestion(q: ChecklistQuestion) = db.checklist().insertQuestion(q)
-    suspend fun updateQuestion(q: ChecklistQuestion) = db.checklist().updateQuestion(q)
-    suspend fun deleteQuestion(id: Long) = db.checklist().deleteQuestion(id)
-    suspend fun addPillar(name: String) = db.checklist().insertPillar(Pillar(name = name, order = db.checklist().pillars().size))
-    suspend fun deletePillar(id: Long) = db.checklist().deletePillar(id)
 
     /** Accepting a reading suggestion makes it a DRAFT reading track (spec 6.7). */
     suspend fun acceptSuggestion(s: Suggestion): Long {
@@ -198,12 +211,11 @@ class ReviewRepository(
     }
 
     companion object {
-        private val answerMap = MapSerializer(String.serializer(), ReviewAnswer.serializer())
+        private val answerMap = MapSerializer(String.serializer(), String.serializer())
 
-        fun encodeAnswers(answers: Map<Long, ReviewAnswer>): String = WaypointJson.encodeToString(answerMap, answers.mapKeys { it.key.toString() })
+        fun encodeAnswers(answers: Map<String, String>): String = WaypointJson.encodeToString(answerMap, answers)
 
-        fun decodeAnswers(json: String): Map<Long, ReviewAnswer> =
-            runCatching { WaypointJson.decodeFromString(answerMap, json).mapKeys { it.key.toLong() } }.getOrDefault(emptyMap())
+        fun decodeAnswers(json: String): Map<String, String> = runCatching { WaypointJson.decodeFromString(answerMap, json) }.getOrDefault(emptyMap())
 
         fun decodeStats(json: String): ReviewStats? = runCatching { WaypointJson.decodeFromString(ReviewStats.serializer(), json) }.getOrNull()
     }

@@ -102,12 +102,12 @@ private fun TargetEditor(target: DayTarget, tracks: List<Track>, onChange: (DayT
     NumberRow(stringResource(R.string.any_units), target.anyUnits) { onChange(target.copy(anyUnits = it)) }
     Muted(stringResource(R.string.any_domains))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        Domain.entries.filter { it != Domain.MONEY }.forEach { d ->
+        Domain.entries.forEach { d ->
             FilterChip(selected = d in target.anyDomains, onClick = { onChange(target.copy(anyDomains = if (d in target.anyDomains) target.anyDomains - d else target.anyDomains + d)) }, label = { Text(domainLabel(d)) })
         }
     }
     LabeledRow(stringResource(R.string.exercise_day)) { Switch(checked = target.exercise, onCheckedChange = { onChange(target.copy(exercise = it)) }) }
-    tracks.filter { it.domain != Domain.MONEY && it.domain != Domain.EXERCISE }.forEach { t ->
+    tracks.filter { it.domain != Domain.EXERCISE }.forEach { t ->
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(t.title, Modifier.weight(1f), maxLines = 1)
             SmallNumber(stringResource(R.string.min_short), target.focusMinutes[t.id] ?: 0) { v -> onChange(target.copy(focusMinutes = (target.focusMinutes + (t.id to v)).filterValues { it > 0 })) }

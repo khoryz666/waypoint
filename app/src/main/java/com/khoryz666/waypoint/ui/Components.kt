@@ -150,7 +150,6 @@ fun LabeledRow(label: String, modifier: Modifier = Modifier, content: @Composabl
 fun domainLabel(domain: Domain): String = stringResource(
     when (domain) {
         Domain.EXERCISE -> R.string.domain_exercise
-        Domain.MONEY -> R.string.domain_money
         Domain.PROJECT -> R.string.domain_project
         Domain.FUNDAMENTAL -> R.string.domain_fundamental
         Domain.MATH -> R.string.domain_math

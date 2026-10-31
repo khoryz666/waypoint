@@ -10,7 +10,7 @@ import androidx.room.TypeConverters
     entities = [
         Track::class, TrackUnit::class, LogEntry::class, Feedback::class, NextStep::class, Session::class,
         DayType::class, DayAssignment::class, SleepRecord::class, BalanceEvent::class, Review::class,
-        UsageRecord::class, Pillar::class, ChecklistQuestion::class, GitCommit::class,
+        UsageRecord::class, ReviewQuestion::class, GitCommit::class,
     ],
     version = 1,
     exportSchema = true,
@@ -28,7 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun balance(): BalanceDao
     abstract fun reviews(): ReviewDao
     abstract fun usage(): UsageDao
-    abstract fun checklist(): ChecklistDao
+    abstract fun reviewQuestions(): ReviewQuestionDao
     abstract fun commits(): CommitDao
     abstract fun restore(): RestoreDao
 

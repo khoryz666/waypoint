@@ -8,8 +8,7 @@ import androidx.room.Query
 /** Bulk writes for restoring a backup with its original ids (spec 9.5). */
 @Dao
 interface RestoreDao {
-    @Query("DELETE FROM checklist_questions") suspend fun clearQuestions()
-    @Query("DELETE FROM pillars") suspend fun clearPillars()
+    @Query("DELETE FROM review_questions") suspend fun clearQuestions()
     @Query("DELETE FROM units") suspend fun clearUnits()
     @Query("DELETE FROM tracks") suspend fun clearTracks()
     @Query("DELETE FROM logs") suspend fun clearLogs()
@@ -25,7 +24,7 @@ interface RestoreDao {
     @Query("DELETE FROM commits") suspend fun clearCommits()
 
     suspend fun clearAll() {
-        clearQuestions(); clearPillars(); clearUnits(); clearTracks(); clearLogs(); clearFeedback(); clearNextSteps()
+        clearQuestions(); clearUnits(); clearTracks(); clearLogs(); clearFeedback(); clearNextSteps()
         clearSessions(); clearDayTypes(); clearAssignments(); clearSleep(); clearBalance(); clearReviews(); clearUsage(); clearCommits()
     }
 
@@ -41,7 +40,6 @@ interface RestoreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun balance(rows: List<BalanceEvent>)
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun reviews(rows: List<Review>)
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun usage(rows: List<UsageRecord>)
-    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun pillars(rows: List<Pillar>)
-    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun questions(rows: List<ChecklistQuestion>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun questions(rows: List<ReviewQuestion>)
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun commits(rows: List<GitCommit>)
 }

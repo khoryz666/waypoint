@@ -1,7 +1,6 @@
 package com.khoryz666.waypoint.domain
 
 import com.khoryz666.waypoint.data.BalanceEvent
-import com.khoryz666.waypoint.data.Track
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -57,15 +56,14 @@ class BalanceTest {
     }
 
     @Test
-    fun `goal progress and required monthly saving`() {
-        val track = Track(1, Domain.MONEY, "Fund", goalCriteria = listOf(GoalCriterion("Balance", "balance", "RM 10,000")), createdAt = 0, updatedAt = 0)
-        val goal = moneyGoalMinor(track, "MYR")!!
-        assertEquals(10_000_00, goal)
-        val p = moneyGoalProgress(goal, 4_000_00, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 7, 1))
+    fun `savings goal progress and required monthly saving`() {
+        val goal = SavingsGoal(10_000_00, LocalDate.of(2026, 7, 1))
+        val p = savingsProgress(goal, 4_000_00, LocalDate.of(2026, 1, 1))
         assertEquals(6_000_00, p.remainingMinor)
         assertEquals(6, p.monthsLeft)
         assertEquals(true, p.requiredPerMonthMinor!! in 1_000_00..1_010_00)
-        assertNull(moneyGoalProgress(goal, 0, LocalDate.of(2026, 1, 1), null).requiredPerMonthMinor)
+        assertNull(savingsProgress(goal.copy(by = null), 0, LocalDate.of(2026, 1, 1)).requiredPerMonthMinor)
+        assertEquals(0, savingsProgress(goal, 12_000_00, LocalDate.of(2026, 1, 1)).remainingMinor)
     }
 
     @Test

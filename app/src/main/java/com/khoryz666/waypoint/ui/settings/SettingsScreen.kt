@@ -59,7 +59,7 @@ import java.util.Locale
 private data class Edit(val title: String, val initial: String, val number: Boolean = false, val apply: (String) -> Unit)
 
 @Composable
-fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, onDayTypes: () -> Unit, onChecklist: () -> Unit) {
+fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, onDayTypes: () -> Unit) {
     val s by vm.settings.collectAsState()
     val usage by vm.usage.collectAsState()
     val budget by vm.budget.collectAsState()
@@ -125,7 +125,6 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
             item {
                 SectionCard(title = stringResource(R.string.days_and_reviews)) {
                     TextButton(onClick = onDayTypes) { Text(stringResource(R.string.day_types)) }
-                    TextButton(onClick = onChecklist) { Text(stringResource(R.string.edit_checklist)) }
                     TimeRow(stringResource(R.string.daily_close_time), s.dailyCloseTime) { t -> vm.update { it.copy(dailyCloseTime = t) }; vm.rescheduleReminders() }
                     LabeledRow(stringResource(R.string.review_day)) {
                         ChoiceChip(s.weeklyReviewDay.getDisplayName(TextStyle.SHORT, locale), DayOfWeek.entries, { it.getDisplayName(TextStyle.SHORT, locale) }, { d -> vm.update { it.copy(weeklyReviewDay = d) }; vm.rescheduleReminders() })
@@ -138,11 +137,6 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
             }
             item {
                 SectionCard(title = stringResource(R.string.sleep)) {
-                    Row(stringResource(R.string.sleep_min), "${s.profile.sleep.minTotalMin} min") { edit = Edit(it, s.profile.sleep.minTotalMin.toString(), true) { v -> v.toIntOrNull()?.let { m -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(minTotalMin = m))) } } } }
-                    Row(stringResource(R.string.sleep_max), "${s.profile.sleep.maxTotalMin} min") { edit = Edit(it, s.profile.sleep.maxTotalMin.toString(), true) { v -> v.toIntOrNull()?.let { m -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(maxTotalMin = m))) } } } }
-                    Row(stringResource(R.string.target_bedtime), s.profile.sleep.bedtime?.toString() ?: "—") {
-                        edit = Edit(it, s.profile.sleep.bedtime?.toString().orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(bedtime = runCatching { LocalTime.parse(v.trim()) }.getOrNull()))) } }
-                    }
                     Row(stringResource(R.string.sleep_app), s.profile.sleepAppHint ?: "—") { edit = Edit(it, s.profile.sleepAppHint.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleepAppHint = v.ifBlank { null })) } } }
                 }
             }

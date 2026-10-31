@@ -3,15 +3,14 @@ package com.khoryz666.waypoint.backup
 import androidx.room.withTransaction
 import com.khoryz666.waypoint.data.AppDatabase
 import com.khoryz666.waypoint.data.BalanceEvent
-import com.khoryz666.waypoint.data.ChecklistQuestion
 import com.khoryz666.waypoint.data.DayAssignment
 import com.khoryz666.waypoint.data.DayType
 import com.khoryz666.waypoint.data.Feedback
 import com.khoryz666.waypoint.data.GitCommit
 import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.NextStep
-import com.khoryz666.waypoint.data.Pillar
 import com.khoryz666.waypoint.data.Review
+import com.khoryz666.waypoint.data.ReviewQuestion
 import com.khoryz666.waypoint.data.Session
 import com.khoryz666.waypoint.data.SleepRecord
 import com.khoryz666.waypoint.data.Track
@@ -40,8 +39,7 @@ data class Tables(
     val balance: List<BalanceEvent> = emptyList(),
     val reviews: List<Review> = emptyList(),
     val usage: List<UsageRecord> = emptyList(),
-    val pillars: List<Pillar> = emptyList(),
-    val questions: List<ChecklistQuestion> = emptyList(),
+    val questions: List<ReviewQuestion> = emptyList(),
     val commits: List<GitCommit> = emptyList(),
 )
 
@@ -59,8 +57,8 @@ object BackupFormat {
                 tracks = db.tracks().all(), units = db.units().all(), logs = db.logs().all(), feedback = db.feedback().all(),
                 nextSteps = db.nextSteps().all(), sessions = db.sessions().all(), dayTypes = db.dayTypes().all(),
                 dayAssignments = db.dayTypes().allAssignments(), sleep = db.sleep().all(), balance = db.balance().all(),
-                reviews = db.reviews().all(), usage = db.usage().since(usageSince), pillars = db.checklist().pillars(),
-                questions = db.checklist().questions(), commits = db.commits().all(),
+                reviews = db.reviews().all(), usage = db.usage().since(usageSince),
+                questions = db.reviewQuestions().all(), commits = db.commits().all(),
             )
         }
         return WaypointJson.encodeToString(BackupDocument.serializer(), BackupDocument(BACKUP_SCHEMA_VERSION, now, appVersion, tables)).toByteArray()
@@ -92,6 +90,6 @@ object BackupFormat {
         r.clearAll()
         r.tracks(t.tracks); r.units(t.units); r.logs(t.logs); r.feedback(t.feedback); r.nextSteps(t.nextSteps)
         r.sessions(t.sessions); r.dayTypes(t.dayTypes); r.dayAssignments(t.dayAssignments); r.sleep(t.sleep)
-        r.balance(t.balance); r.reviews(t.reviews); r.usage(t.usage); r.pillars(t.pillars); r.questions(t.questions); r.commits(t.commits)
+        r.balance(t.balance); r.reviews(t.reviews); r.usage(t.usage); r.questions(t.questions); r.commits(t.commits)
     }
 }

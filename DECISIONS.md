@@ -63,12 +63,20 @@ section 1, "Rules for the implementing agents"). Newest last.
 - **`minutes` in a log is informational.** Focus time comes only from timer sessions;
   retro-logged time becomes a session.
 - **The timer tracks focus on a track only; there is no Joy timer** (user's call, departs from
-  spec 5.5). The starter Joy pillar stays as a no-targets pillar: its auto question lists time
-  and logs on the tracks you assign to it. The unreleased v1 schema was edited in place.
+  spec 5.5). The unreleased v1 schema was edited in place.
+- **Money is not a track domain** (user's call, departs from spec 3). Like sleep, it lives on
+  the Foundation tab, with one optional savings goal (amount, optional date) in the profile.
+  The sleep goal is edited there too. "Fundamentals" is shown as "Basics" (基础知识, so it
+  doesn't clash with the Foundation tab's 基础); the enum keeps its name.
 - **Sleep:** a night's bed time from 12:00 onwards belongs to the evening before the wake
   date. The noon reminder checks for a record with today's wake date (last night).
 
 ### Learning and reviews
+- **The weekly review replaces the spec 7.2 checklist** (user's call): no pillars, auto
+  questions or Markdown import. DeepSeek writes 3-5 one-line questions from the active tracks
+  the first time Review opens with a track, and again on "New questions"; without the API,
+  one plain question per track. Questions can be edited. Answers are stored with the question
+  text, so past reviews keep their wording. Onboarding drops the checklist step (7 steps).
 - **The first revision is scheduled when a unit is marked DONE**, so a skipped recall check
   still gets revised. A grade then reschedules it.
 - **Without the API (no key, 401/402, budget), revisions still work:** a plain "explain X

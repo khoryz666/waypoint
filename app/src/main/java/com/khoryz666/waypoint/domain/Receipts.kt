@@ -37,7 +37,7 @@ object Receipts {
     ).joinToString(SEP)
 
     /** "Balance RM 4,210 · 30 days +RM 620 · goal RM 5,790 to go, RM 970/month" */
-    fun balance(balance: Long, net7: Long, net30: Long, goal: MoneyGoalProgress?, currency: String, firstEntry: Boolean, lang: Lang): String {
+    fun balance(balance: Long, net7: Long, net30: Long, goal: SavingsProgress?, currency: String, firstEntry: Boolean, lang: Lang): String {
         val locale = Locale.getDefault()
         val parts = mutableListOf(lang.t("Balance ", "余额 ") + formatMoney(balance, currency, locale))
         if (firstEntry) {

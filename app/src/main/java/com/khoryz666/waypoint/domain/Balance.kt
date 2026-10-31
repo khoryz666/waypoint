@@ -1,7 +1,6 @@
 package com.khoryz666.waypoint.domain
 
 import com.khoryz666.waypoint.data.BalanceEvent
-import com.khoryz666.waypoint.data.Track
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
@@ -54,22 +53,21 @@ fun parseMoneyShortcut(text: String, currencyCode: String): MoneyShortcut? {
     }
 }
 
-/** A money track's goal amount: the first criterion whose target parses as a number. */
-fun moneyGoalMinor(track: Track, currencyCode: String): Long? =
-    track.goalCriteria.firstNotNullOfOrNull { c -> c.target?.let { t -> Regex("""[0-9][0-9,]*(?:\.[0-9]+)?""").find(t)?.value }?.let { parseMinor(it, currencyCode) } }
 
-data class MoneyGoalProgress(val goalMinor: Long, val remainingMinor: Long, val monthsLeft: Int?, val requiredPerMonthMinor: Long?)
+/** A savings goal set on the Foundation tab: an amount, optionally by a date. */
+data class SavingsGoal(val amountMinor: Long, val by: LocalDate? = null)
 
-/** Distance to the goal and the average monthly saving needed to reach it by its target date. */
-fun moneyGoalProgress(goalMinor: Long, balance: Long, today: LocalDate, targetDate: LocalDate?): MoneyGoalProgress {
-    val remaining = (goalMinor - balance).coerceAtLeast(0)
-    val months = targetDate?.let { ChronoUnit.DAYS.between(today, it).coerceAtLeast(0) / 30.44 }
-    val monthsLeft = months?.let { ceil(it).toInt() }
+data class SavingsProgress(val goalMinor: Long, val remainingMinor: Long, val monthsLeft: Int?, val requiredPerMonthMinor: Long?)
+
+/** Distance to the goal and the average monthly saving needed to reach it by its date. */
+fun savingsProgress(goal: SavingsGoal, balance: Long, today: LocalDate): SavingsProgress {
+    val remaining = (goal.amountMinor - balance).coerceAtLeast(0)
+    val months = goal.by?.let { ChronoUnit.DAYS.between(today, it).coerceAtLeast(0) / 30.44 }
     val required = when {
         months == null -> null
         remaining == 0L -> 0
         months <= 0.0 -> remaining
         else -> ceil(remaining / months.coerceAtLeast(1.0)).toLong()
     }
-    return MoneyGoalProgress(goalMinor, remaining, monthsLeft, required)
+    return SavingsProgress(goal.amountMinor, remaining, months?.let { ceil(it).toInt() }, required)
 }
