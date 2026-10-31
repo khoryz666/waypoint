@@ -10,7 +10,7 @@ Waypoint v3: a new app (package `com.khoryz666.waypoint`) that replaces the v2 t
 No data carries over from v2.
 
 ### Added
-- Tracks for exercise, money, projects, fundamentals, math and reading, created through
+- Tracks for exercise, projects, basics, math and reading, created through
   a DeepSeek-app handoff (copy prompt → discuss → paste the block), with repair via the
   API and a manual form as fallbacks. Draft / active / paused / completed / aborted
   lifecycle, eight-active limit, "Start next level" and revision tracks.
@@ -22,12 +22,13 @@ No data carries over from v2.
 - Timer ported from v2: focus on a track, a notification with the last three
   tracks, "做了什么?" after a session of 10+ minutes, retro-logging, idle nudges.
 - Day types with minimum and plan targets, and a streak.
-- Sleep from screenshots of any sleep app or by hand, with weekly status; balance chart
-  and money goals; exercise next session and "今天做不了" fallbacks.
+- A Foundation tab for sleep and money, which are not tracks: sleep from screenshots of
+  any sleep app or by hand, with weekly status and an editable sleep goal; a balance chart
+  and a savings goal; exercise next session and "今天做不了" fallbacks.
 - GitHub commit sync, a daily commit summary and once-a-day ownership checks.
-- Daily close, a weekly checklist (starter template or Markdown import) with auto-filled
-  answers and a Pro-written review, plus monthly and yearly reviews and "Ask about this
-  track".
+- Daily close and a weekly review: a summary line per track plus sleep and money, 3-5
+  questions DeepSeek writes from your tracks, "one thing to fix" and "top 3", then a
+  Pro-written review. Monthly and yearly reviews, and "Ask about this track".
 - DeepSeek cost meter with a monthly budget cap, model picker and editable price table.
 - Encrypted automatic backup to Google Drive's app folder, and restore at first launch.
 - English and Simplified Chinese UI.
