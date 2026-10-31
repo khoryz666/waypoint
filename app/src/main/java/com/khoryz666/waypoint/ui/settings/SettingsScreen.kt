@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
@@ -104,7 +105,7 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
             }
             item {
                 SectionCard(title = stringResource(R.string.targets_and_reminders)) {
-                    TextButton(onClick = onDailyTarget) { Text(stringResource(R.string.daily_target)) }
+                    LabeledRow(stringResource(R.string.daily_target), Modifier.clickable(onClick = onDailyTarget).padding(vertical = 6.dp)) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null) }
                     TimeRow(stringResource(R.string.daily_close_time), s.dailyCloseTime) { t -> vm.update { it.copy(dailyCloseTime = t) }; vm.rescheduleReminders() }
                     LabeledRow(stringResource(R.string.review_day)) {
                         ChoiceChip(s.weeklyReviewDay.getDisplayName(TextStyle.SHORT, locale), DayOfWeek.entries, { it.getDisplayName(TextStyle.SHORT, locale) }, { d -> vm.update { it.copy(weeklyReviewDay = d) }; vm.rescheduleReminders() })
@@ -119,7 +120,7 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
                 SectionCard(title = "DeepSeek") {
                     Row(stringResource(R.string.api_key), s.apiKeyHint?.let { "••••$it" } ?: "—") { edit = Edit(it, "") { v -> vm.setApiKey(v) } }
                     Row(stringResource(R.string.monthly_budget), "¥%.0f".format(s.monthlyBudgetCny)) { edit = Edit(it, s.monthlyBudgetCny.toString(), number = true) { v -> v.toDoubleOrNull()?.let { b -> vm.update { st -> st.copy(monthlyBudgetCny = b) } } } }
-                    budget?.let { b -> Text(stringResource(R.string.spend_line, "¥%.2f".format(usage.sumOf { it.costCny }), "¥%.2f".format(b.projectedCny))) }
+                    budget?.let { b -> Muted(stringResource(R.string.spend_line, "¥%.2f".format(usage.sumOf { it.costCny }), "¥%.2f".format(b.projectedCny))) }
                 }
             }
             item {
