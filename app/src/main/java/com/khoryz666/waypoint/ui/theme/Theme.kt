@@ -2,6 +2,7 @@ package com.khoryz666.waypoint.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -87,6 +88,8 @@ fun WaypointTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = if (dark) Dark else Light,
         typography = WaypointTypography,
-        content = content,
-    )
+    ) {
+        // Screens without a Scaffold (onboarding) still get the theme's text colour, not black.
+        Surface(color = MaterialTheme.colorScheme.background, content = content)
+    }
 }
