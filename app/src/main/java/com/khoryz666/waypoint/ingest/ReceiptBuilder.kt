@@ -14,6 +14,7 @@ import com.khoryz666.waypoint.domain.balanceAt
 import com.khoryz666.waypoint.domain.compareBestSets
 import com.khoryz666.waypoint.domain.dailyTime
 import com.khoryz666.waypoint.domain.netChange
+import com.khoryz666.waypoint.domain.savingsProgress
 import com.khoryz666.waypoint.domain.sleepWeek
 import com.khoryz666.waypoint.domain.weekStart
 
@@ -36,7 +37,7 @@ class ReceiptBuilder(
             is Structured.Balance -> {
                 val events = db.balance().live()
                 val balance = balanceAt(events)
-                Receipts.balance(balance, netChange(events, clock.now(), 7), netChange(events, clock.now(), 30), s.profile.currency, events.size <= 1, lang)
+                Receipts.balance(balance, netChange(events, clock.now(), 7), netChange(events, clock.now(), 30), s.profile.savings?.let { savingsProgress(it, balance, today) }, s.profile.currency, events.size <= 1, lang)
             }
             is Structured.Sleep -> {
                 val records = db.sleep().between(week, week.plusDays(7))

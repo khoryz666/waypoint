@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.ModelPrice
+import com.khoryz666.waypoint.domain.SavingsGoal
 import com.khoryz666.waypoint.domain.SleepTargets
 import com.khoryz666.waypoint.domain.WakingHours
 import com.khoryz666.waypoint.domain.WaypointJson
@@ -73,6 +74,7 @@ class SettingsStore(private val store: DataStore<Preferences>, private val secre
                 bedtimeWindowMin = 45,
             ),
             sleepAppHint = p[K.sleepAppHint],
+            savings = p[K.savingsGoal]?.let { SavingsGoal(it, p[K.savingsBy]?.let(LocalDate::parse)) },
         ),
         hasApiKey = p[K.apiKey] != null,
         apiKeyHint = p[K.apiKeyHint]?.ifEmpty { null },
@@ -117,6 +119,8 @@ class SettingsStore(private val store: DataStore<Preferences>, private val secre
         p[K.sleepMax] = s.profile.sleep.maxTotalMin
         p.putOrRemove(K.bedtime, s.profile.sleep.bedtime?.toString())
         p.putOrRemove(K.sleepAppHint, s.profile.sleepAppHint)
+        p.putOrRemove(K.savingsGoal, s.profile.savings?.amountMinor)
+        p.putOrRemove(K.savingsBy, s.profile.savings?.by?.toString())
         p[K.fastModel] = s.fastModel
         p[K.reviewModel] = s.reviewModel
         p[K.prices] = WaypointJson.encodeToString(priceMap, s.prices)
@@ -158,6 +162,8 @@ class SettingsStore(private val store: DataStore<Preferences>, private val secre
         val sleepMax = intPreferencesKey("sleepMax")
         val bedtime = stringPreferencesKey("bedtime")
         val sleepAppHint = stringPreferencesKey("sleepAppHint")
+        val savingsGoal = longPreferencesKey("savingsGoal")
+        val savingsBy = stringPreferencesKey("savingsBy")
         val apiKey = stringPreferencesKey("apiKey")
         val apiKeyHint = stringPreferencesKey("apiKeyHint")
         val fastModel = stringPreferencesKey("fastModel")

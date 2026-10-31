@@ -4,6 +4,7 @@ import com.khoryz666.waypoint.data.BalanceEvent
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import java.time.LocalDate
 
 class BalanceTest {
     private fun delta(id: Long, at: Long, amount: Long) = BalanceEvent(id, at, BalanceKind.DELTA, amount)
@@ -52,6 +53,17 @@ class BalanceTest {
         assertNull(parseMoneyShortcut("-42.505 too precise", "MYR"))
         assertNull(parseMoneyShortcut("今天收到 1200 稿费", "CNY"))
         assertNull(parseMoneyShortcut("- not a number", "MYR"))
+    }
+
+    @Test
+    fun `savings goal progress and required monthly saving`() {
+        val goal = SavingsGoal(10_000_00, LocalDate.of(2026, 7, 1))
+        val p = savingsProgress(goal, 4_000_00, LocalDate.of(2026, 1, 1))
+        assertEquals(6_000_00, p.remainingMinor)
+        assertEquals(6, p.monthsLeft)
+        assertEquals(true, p.requiredPerMonthMinor!! in 1_000_00..1_010_00)
+        assertNull(savingsProgress(goal.copy(by = null), 0, LocalDate.of(2026, 1, 1)).requiredPerMonthMinor)
+        assertEquals(0, savingsProgress(goal, 12_000_00, LocalDate.of(2026, 1, 1)).remainingMinor)
     }
 
     @Test

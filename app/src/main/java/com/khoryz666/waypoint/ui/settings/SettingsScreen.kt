@@ -138,11 +138,6 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
             }
             item {
                 SectionCard(title = stringResource(R.string.sleep)) {
-                    Row(stringResource(R.string.sleep_min), "${s.profile.sleep.minTotalMin} min") { edit = Edit(it, s.profile.sleep.minTotalMin.toString(), true) { v -> v.toIntOrNull()?.let { m -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(minTotalMin = m))) } } } }
-                    Row(stringResource(R.string.sleep_max), "${s.profile.sleep.maxTotalMin} min") { edit = Edit(it, s.profile.sleep.maxTotalMin.toString(), true) { v -> v.toIntOrNull()?.let { m -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(maxTotalMin = m))) } } } }
-                    Row(stringResource(R.string.target_bedtime), s.profile.sleep.bedtime?.toString() ?: "—") {
-                        edit = Edit(it, s.profile.sleep.bedtime?.toString().orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleep = st.profile.sleep.copy(bedtime = runCatching { LocalTime.parse(v.trim()) }.getOrNull()))) } }
-                    }
                     Row(stringResource(R.string.sleep_app), s.profile.sleepAppHint ?: "—") { edit = Edit(it, s.profile.sleepAppHint.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleepAppHint = v.ifBlank { null })) } } }
                 }
             }

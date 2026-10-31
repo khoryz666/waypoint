@@ -3,6 +3,7 @@ package com.khoryz666.waypoint.data
 import com.khoryz666.waypoint.domain.DEFAULT_PRICES
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.ModelPrice
+import com.khoryz666.waypoint.domain.SavingsGoal
 import com.khoryz666.waypoint.domain.SleepTargets
 import com.khoryz666.waypoint.domain.WakingHours
 import java.time.DayOfWeek
@@ -19,6 +20,7 @@ data class UserProfile(
     val currency: String = "USD",
     val sleep: SleepTargets = SleepTargets(),
     val sleepAppHint: String? = null,
+    val savings: SavingsGoal? = null,
 )
 
 /** Why the API queue is paused (spec 8.1): a 401 or a 402 from DeepSeek. */

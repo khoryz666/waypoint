@@ -23,6 +23,8 @@
     <string name="ask">提问</string>
     <string name="ask_hint">问一个问题</string>
     <string name="ask_track">问问这个 track</string>
+    <string name="at_least_hm">至少 (h:mm)</string>
+    <string name="at_most_hm">至多 (h:mm)</string>
     <string name="back">返回</string>
     <string name="back_up_now">立即备份</string>
     <string name="backup">备份到 Google Drive</string>
@@ -90,6 +92,8 @@
     <string name="github_repos">GitHub 仓库 (owner/repo)</string>
     <string name="github_token">只读 token</string>
     <string name="goal">目标</string>
+    <string name="goal_amount">金额</string>
+    <string name="goal_by">截止日期 (YYYY-MM-DD，可选)</string>
     <string name="grade_partial">部分</string>
     <string name="grade_solid">扎实</string>
     <string name="grade_weak">薄弱</string>
@@ -190,6 +194,7 @@
     <string name="reflection">反思</string>
     <string name="refresh_models">刷新模型列表</string>
     <string name="region">地区</string>
+    <string name="remove_goal">取消目标</string>
     <string name="rename">重命名</string>
     <string name="repair_with_api">用 API 修复</string>
     <string name="replace_checklist">会替换现在的清单。</string>
@@ -203,10 +208,16 @@
     <string name="revision">复习</string>
     <string name="save">✓ 保存</string>
     <string name="save_draft">存为草稿</string>
+    <string name="savings_goal">存钱目标</string>
+    <string name="savings_left">目标 %1$s · 还差 %2$s</string>
+    <string name="savings_left_by">目标 %2$s 前存到 %1$s · 还差 %3$s</string>
+    <string name="savings_per_month">每月大约 %1$s</string>
+    <string name="savings_reached">已存到目标 %1$s</string>
     <string name="self_grade">连不上 DeepSeek，自己打个分吧。</string>
     <string name="send">发送</string>
     <string name="sessions">计时记录</string>
     <string name="sessions_this_week">本周 %1$d 次</string>
+    <string name="set_savings_goal">设一个存钱目标</string>
     <string name="set_up_backup">设置备份</string>
     <string name="sets_hint">如 10×12, 10×12 或 30s</string>
     <string name="settings">设置</string>
@@ -214,8 +225,9 @@
     <string name="skip_handoff">跳过，手动填写</string>
     <string name="sleep">睡眠</string>
     <string name="sleep_app">你截图的睡眠 App</string>
-    <string name="sleep_band">目标 %1$s – %2$s，点柱子看数值。</string>
     <string name="sleep_exists">已有记录: %1$s</string>
+    <string name="sleep_goal">目标 %1$s – %2$s</string>
+    <string name="sleep_goal_bed">目标 %1$s – %2$s · %3$s 前睡</string>
     <string name="sleep_max">目标至多</string>
     <string name="sleep_min">目标至少</string>
     <string name="sleep_not_enough">记录还不够</string>

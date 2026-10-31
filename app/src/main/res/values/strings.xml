@@ -23,6 +23,8 @@
     <string name="ask">Ask</string>
     <string name="ask_hint">Ask one thing</string>
     <string name="ask_track">Ask about this track</string>
+    <string name="at_least_hm">At least (h:mm)</string>
+    <string name="at_most_hm">At most (h:mm)</string>
     <string name="back">Back</string>
     <string name="back_up_now">Back up now</string>
     <string name="backup">Backup to Google Drive</string>
@@ -90,6 +92,8 @@
     <string name="github_repos">GitHub repos (owner/repo)</string>
     <string name="github_token">Read-only token</string>
     <string name="goal">Goal</string>
+    <string name="goal_amount">Amount</string>
+    <string name="goal_by">By (YYYY-MM-DD, optional)</string>
     <string name="grade_partial">Partial</string>
     <string name="grade_solid">Solid</string>
     <string name="grade_weak">Weak</string>
@@ -190,6 +194,7 @@
     <string name="reflection">Reflection</string>
     <string name="refresh_models">Refresh model list</string>
     <string name="region">Region</string>
+    <string name="remove_goal">Remove goal</string>
     <string name="rename">Rename</string>
     <string name="repair_with_api">Repair with API</string>
     <string name="replace_checklist">This replaces your current checklist.</string>
@@ -203,10 +208,16 @@
     <string name="revision">Revision</string>
     <string name="save">✓ Save</string>
     <string name="save_draft">Save as draft</string>
+    <string name="savings_goal">Savings goal</string>
+    <string name="savings_left">Goal %1$s · %2$s to go</string>
+    <string name="savings_left_by">Goal %1$s by %2$s · %3$s to go</string>
+    <string name="savings_per_month">About %1$s a month</string>
+    <string name="savings_reached">Goal %1$s reached</string>
     <string name="self_grade">Can\'t reach DeepSeek. How did you do?</string>
     <string name="send">Send</string>
     <string name="sessions">Sessions</string>
     <string name="sessions_this_week">%1$d sessions this week</string>
+    <string name="set_savings_goal">Set a savings goal</string>
     <string name="set_up_backup">Set up backup</string>
     <string name="sets_hint">e.g. 10×12, 10×12 or 30s</string>
     <string name="settings">Settings</string>
@@ -214,8 +225,9 @@
     <string name="skip_handoff">Skip and fill in by hand</string>
     <string name="sleep">Sleep</string>
     <string name="sleep_app">Sleep app you screenshot</string>
-    <string name="sleep_band">Target %1$s – %2$s. Tap a bar to see it.</string>
     <string name="sleep_exists">Already recorded: %1$s</string>
+    <string name="sleep_goal">Goal %1$s – %2$s</string>
+    <string name="sleep_goal_bed">Goal %1$s – %2$s · in bed by %3$s</string>
     <string name="sleep_max">Target at most</string>
     <string name="sleep_min">Target at least</string>
     <string name="sleep_not_enough">Not enough nights yet</string>

@@ -43,6 +43,10 @@ import com.khoryz666.waypoint.domain.formatMoney
 import com.khoryz666.waypoint.domain.formatMoneyDelta
 import com.khoryz666.waypoint.domain.minorUnitFactor
 import com.khoryz666.waypoint.domain.netChange
+import com.khoryz666.waypoint.domain.parseMinor
+import com.khoryz666.waypoint.domain.SavingsGoal
+import com.khoryz666.waypoint.domain.SleepTargets
+import com.khoryz666.waypoint.domain.savingsProgress
 import com.khoryz666.waypoint.domain.sleepWeek
 import com.khoryz666.waypoint.domain.weekStart
 import com.khoryz666.waypoint.ui.ConfirmDialog
@@ -68,6 +72,8 @@ fun FoundationScreen(c: AppContainer) {
     val weekLogs by c.db.logs().observeConfirmedIn(range.start, range.end).collectAsState(initial = emptyList())
     val steps by c.db.nextSteps().observeOpen().collectAsState(initial = emptyList())
     var addSleep by remember { mutableStateOf(false) }
+    var editSleepGoal by remember { mutableStateOf(false) }
+    var editSavings by remember { mutableStateOf(false) }
 
     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_foundation)) }) }) { padding ->
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp, padding.calculateTopPadding() + 8.dp, 16.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -80,18 +86,26 @@ fun FoundationScreen(c: AppContainer) {
                     }
                 }
             }
-            item { SleepCard(sleep, settings, today, c) { addSleep = true } }
-            item { BalanceCard(balance, settings.profile.currency, c) }
+            item { SleepCard(sleep, settings, today, c, onAdd = { addSleep = true }, onEditGoal = { editSleepGoal = true }) }
+            item { BalanceCard(balance, settings, c) { editSavings = true } }
         }
     }
     if (addSleep) ManualSleepDialog(today, onDismiss = { addSleep = false }) { record ->
         addSleep = false
         c.scope.launch { c.input.addSleep(record) }
     }
+    if (editSleepGoal) SleepGoalDialog(settings.profile.sleep, onDismiss = { editSleepGoal = false }) { targets ->
+        editSleepGoal = false
+        c.scope.launch { c.settings.update { it.copy(profile = it.profile.copy(sleep = targets)) } }
+    }
+    if (editSavings) SavingsGoalDialog(settings.profile.savings, settings.profile.currency, onDismiss = { editSavings = false }) { goal ->
+        editSavings = false
+        c.scope.launch { c.settings.update { it.copy(profile = it.profile.copy(savings = goal)) } }
+    }
 }
 
 @Composable
-private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate, c: AppContainer, onAdd: () -> Unit) {
+private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate, c: AppContainer, onAdd: () -> Unit, onEditGoal: () -> Unit) {
     var days by remember { mutableStateOf(7) }
     val targets = s.profile.sleep
     val week = today.weekStart(s.profile.weekStart)
@@ -125,13 +139,19 @@ private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate,
             listOf(7, 30, 365).forEach { d -> FilterChip(selected = days == d, onClick = { days = d }, label = { Text(stringResource(R.string.days_n, d)) }) }
         }
         BarChart(points, band = targets.minTotalMin.toFloat()..targets.maxTotalMin.toFloat())
-        Muted(stringResource(R.string.sleep_band, formatMinutes(targets.minTotalMin.toLong()), formatMinutes(targets.maxTotalMin.toLong())))
-        TextButton(onClick = onAdd) { Text(stringResource(R.string.add_sleep_manually)) }
+        val min = formatMinutes(targets.minTotalMin.toLong())
+        val max = formatMinutes(targets.maxTotalMin.toLong())
+        Muted(targets.bedtime?.let { stringResource(R.string.sleep_goal_bed, min, max, it.toString()) } ?: stringResource(R.string.sleep_goal, min, max))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = onAdd) { Text(stringResource(R.string.add_sleep_manually)) }
+            TextButton(onClick = onEditGoal) { Text(stringResource(R.string.edit)) }
+        }
     }
 }
 
 @Composable
-private fun BalanceCard(events: List<BalanceEvent>, currency: String, c: AppContainer) {
+private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer, onEditGoal: () -> Unit) {
+    val currency = s.profile.currency
     val now = c.clock.now()
     val scope = rememberCoroutineScope()
     var deleting by remember { mutableStateOf<BalanceEvent?>(null) }
@@ -146,6 +166,23 @@ private fun BalanceCard(events: List<BalanceEvent>, currency: String, c: AppCont
         Text(formatMoney(balanceAt(events), currency), style = MaterialTheme.typography.headlineSmall)
         Muted(stringResource(R.string.balance_nets, formatMoneyDelta(netChange(events, now, 7), currency), formatMoneyDelta(netChange(events, now, 30), currency)))
         LineChart(points)
+        val goal = s.profile.savings
+        if (goal == null) {
+            TextButton(onClick = onEditGoal) { Text(stringResource(R.string.set_savings_goal)) }
+        } else {
+            val p = savingsProgress(goal, balanceAt(events), c.clock.today())
+            val amount = formatMoney(goal.amountMinor, currency)
+            Column(Modifier.fillMaxWidth().clickable(onClick = onEditGoal).padding(vertical = 4.dp)) {
+                Text(
+                    when {
+                        p.remainingMinor == 0L -> stringResource(R.string.savings_reached, amount)
+                        goal.by != null -> stringResource(R.string.savings_left_by, amount, goal.by.toString(), formatMoney(p.remainingMinor, currency))
+                        else -> stringResource(R.string.savings_left, amount, formatMoney(p.remainingMinor, currency))
+                    },
+                )
+                p.requiredPerMonthMinor?.takeIf { it > 0 }?.let { Muted(stringResource(R.string.savings_per_month, formatMoney(it, currency))) }
+            }
+        }
         Muted(stringResource(R.string.balance_hint))
         events.takeLast(8).reversed().forEach { e ->
             Row(Modifier.fillMaxWidth().clickable { deleting = e }.padding(vertical = 2.dp)) {
@@ -190,6 +227,61 @@ private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (
             }
         },
         confirmButton = { TextButton(onClick = { record?.let(onSave) }, enabled = record != null) { Text(stringResource(R.string.ok)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
+    )
+}
+
+private fun hm(min: Int) = "%d:%02d".format(min / 60, min % 60)
+
+private fun parseHm(text: String): Int? {
+    val parts = text.trim().split(':')
+    val h = parts[0].toIntOrNull() ?: return null
+    val m = parts.getOrNull(1)?.toIntOrNull() ?: 0
+    return (h * 60 + m).takeIf { m in 0..59 && it in 1..24 * 60 }
+}
+
+@Composable
+private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave: (SleepTargets) -> Unit) {
+    var min by remember { mutableStateOf(hm(current.minTotalMin)) }
+    var max by remember { mutableStateOf(hm(current.maxTotalMin)) }
+    var bed by remember { mutableStateOf(current.bedtime?.toString().orEmpty()) }
+    val minM = parseHm(min)
+    val maxM = parseHm(max)
+    val bedTime = bed.trim().takeIf { it.isNotEmpty() }?.let { runCatching { LocalTime.parse(it) }.getOrNull() }
+    val valid = minM != null && maxM != null && minM <= maxM && (bed.isBlank() || bedTime != null)
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.sleep)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(min, { min = it }, label = { Text(stringResource(R.string.at_least_hm)) }, singleLine = true)
+                OutlinedTextField(max, { max = it }, label = { Text(stringResource(R.string.at_most_hm)) }, singleLine = true)
+                OutlinedTextField(bed, { bed = it }, label = { Text(stringResource(R.string.target_bedtime)) }, singleLine = true)
+            }
+        },
+        confirmButton = { TextButton(onClick = { onSave(current.copy(minTotalMin = minM!!, maxTotalMin = maxM!!, bedtime = bedTime)) }, enabled = valid) { Text(stringResource(R.string.ok)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
+    )
+}
+
+@Composable
+private fun SavingsGoalDialog(current: SavingsGoal?, currency: String, onDismiss: () -> Unit, onSave: (SavingsGoal?) -> Unit) {
+    var amount by remember { mutableStateOf(current?.let { (it.amountMinor / minorUnitFactor(currency).toDouble()).toBigDecimal().stripTrailingZeros().toPlainString() }.orEmpty()) }
+    var by by remember { mutableStateOf(current?.by?.toString().orEmpty()) }
+    val minor = parseMinor(amount.trim(), currency)?.takeIf { it > 0 }
+    val date = by.trim().takeIf { it.isNotEmpty() }?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
+    val valid = minor != null && (by.isBlank() || date != null)
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.savings_goal)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(amount, { amount = it }, label = { Text(stringResource(R.string.goal_amount)) }, singleLine = true)
+                OutlinedTextField(by, { by = it }, label = { Text(stringResource(R.string.goal_by)) }, singleLine = true)
+                if (current != null) TextButton(onClick = { onSave(null) }) { Text(stringResource(R.string.remove_goal)) }
+            }
+        },
+        confirmButton = { TextButton(onClick = { onSave(SavingsGoal(minor!!, date)) }, enabled = valid) { Text(stringResource(R.string.ok)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
 }
