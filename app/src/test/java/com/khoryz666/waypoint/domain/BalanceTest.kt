@@ -25,6 +25,14 @@ class BalanceTest {
     }
 
     @Test
+    fun `a period opens at the starting balance set inside it`() {
+        val events = listOf(BalanceEvent(1, 20, BalanceKind.SET, 1200_00), delta(2, 30, -42_50))
+        assertEquals(1200_00, openingBalance(events, from = 10))
+        assertEquals(0, openingBalance(listOf(delta(1, 20, 500)), from = 10))
+        assertEquals(1157_50, openingBalance(events, from = 40))
+    }
+
+    @Test
     fun `net change over a window`() {
         val events = listOf(BalanceEvent(1, 0, BalanceKind.SET, 1000_00), delta(2, 40 * DAY_MS, 620_00), delta(3, 50 * DAY_MS, -20_00))
         assertEquals(600_00, netChange(events, now = 55 * DAY_MS, days = 30))

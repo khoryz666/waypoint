@@ -270,7 +270,7 @@
     <string name="use_new">使用新的</string>
     <string name="use_saved_passphrase">使用已保存的密码</string>
     <string name="use_starter">初始模板</string>
-    <string name="use_starter_types">使用 Class、Deep、Light</string>
+    <string name="use_starter_types">使用 Moderate、Deep、Light</string>
     <string name="wake_date">起床日期 (YYYY-MM-DD)</string>
     <string name="wake_time">起床时间 (HH:mm)</string>
     <string name="waking_end">清醒时段结束</string>

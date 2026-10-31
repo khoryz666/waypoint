@@ -154,7 +154,7 @@
     <string name="onboarding_welcome">Tell it what you did. It keeps the log and your next step. You can change everything later.</string>
     <string name="one_thing_to_fix">One thing to fix</string>
     <string name="open">Open</string>
-    <string name="open_cards">%1$d cards still to confirm</string>
+    <string name="open_cards">Still to confirm: %1$d</string>
     <string name="open_deepseek">Open DeepSeek</string>
     <string name="optional">Optional</string>
     <string name="optional_note">Optional note</string>
@@ -270,7 +270,7 @@
     <string name="use_new">Use new</string>
     <string name="use_saved_passphrase">Use saved passphrase</string>
     <string name="use_starter">Starter template</string>
-    <string name="use_starter_types">Start with Class, Deep, Light</string>
+    <string name="use_starter_types">Start with Moderate, Deep, Light</string>
     <string name="wake_date">Wake-up date (YYYY-MM-DD)</string>
     <string name="wake_time">Wake time (HH:mm)</string>
     <string name="waking_end">Waking hours end</string>

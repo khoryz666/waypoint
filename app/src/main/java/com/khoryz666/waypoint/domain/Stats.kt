@@ -128,7 +128,7 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
         planDays = planDays,
         daysWithMinimum = daysWithMinimum,
         sleep = SleepStats(sleep.size, dates.size, sleep.count { input.sleepTargets.inRange(it.totalMin) }, sleep.takeIf { it.isNotEmpty() }?.map { it.totalMin }?.average()?.toInt(), sleepStatus),
-        balance = BalanceStats(balanceAt(input.balance, range.start - 1), balanceAt(input.balance, endAt), netChange(input.balance, endAt, 30), input.currency),
+        balance = BalanceStats(openingBalance(input.balance, range.start), balanceAt(input.balance, endAt), netChange(input.balance, endAt, 30), input.currency),
         ownershipAnswered = ownership.count { it.answer != null },
         ownershipSkipped = ownership.count { it.skipped },
         recallSolid = recalls.count { it.grade == Grade.SOLID },
