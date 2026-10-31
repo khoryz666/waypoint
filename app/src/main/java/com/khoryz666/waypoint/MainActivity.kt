@@ -47,6 +47,7 @@ class MainActivity : ComponentActivity() {
             if (c.settings.current().onboarded) {
                 TimerService.start(this@MainActivity)
                 c.scheduleWork()
+                c.ensureDailyTarget()
                 // Commit sync also runs at app open (spec 6.4).
                 CommitSyncWorker.now(this@MainActivity)
             }
