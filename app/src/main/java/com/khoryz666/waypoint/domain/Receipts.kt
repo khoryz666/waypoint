@@ -29,11 +29,11 @@ object Receipts {
         return parts.joinToString(SEP)
     }
 
-    /** "Focus today 2h 03m · at least: ✓ · streak 4 days" */
+    /** "Focus today 2h 03m · at least: ✓ · 4-day streak" */
     fun focus(focusTodayMs: Long, minimumMet: Boolean?, streak: Int, lang: Lang): String = listOfNotNull(
         lang.t("Focus today ", "今日专注 ") + formatDuration(focusTodayMs),
         minimumMet?.let { lang.t("at least: ", "至少: ") + if (it) "✓" else "✗" },
-        lang.t("streak $streak days", "连续 $streak 天"),
+        lang.t("$streak-day streak", "连续 $streak 天"),
     ).joinToString(SEP)
 
     /** "Balance RM 4,210 · 30 days +RM 620 · goal RM 5,790 to go, RM 970/month" */
