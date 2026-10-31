@@ -4,31 +4,13 @@ All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 v2 (`timer`) history is in git before the `feat/waypoint-v3` branch.
 
-## [Unreleased]
+## [3.0.0] - 2026-10-31
 
-Waypoint v3: a new app (package `com.khoryz666.waypoint`) that replaces the v2 timer.
-No data carries over from v2.
+Waypoint replaces the v2 timer app. It's a new app, so nothing carries over from v2.
 
-### Added
-- Tracks for exercise, projects, basics, math and reading, created through
-  a DeepSeek-app handoff (copy prompt → discuss → paste the block), with repair via the
-  API and a manual form as fallbacks. Draft / active / paused / completed / aborted
-  lifecycle, eight-active limit, "Start next level" and revision tracks.
-- One input box for everything, plus a share target for screenshots and text. Entries are
-  saved before parsing and queued offline; `+350` / `-42.50` / `=4210` update the balance
-  without the LLM. An editable confirm card for each kind of log.
-- Instant receipts computed on the phone, then a streamed DeepSeek comment and an updated
-  next step. Recall checks with grading and spaced revision (3 / 10 / 30 days).
-- Timer ported from v2: focus on a track, a notification with the last three
-  tracks, "做了什么?" after a session of 10+ minutes, retro-logging, idle nudges.
-- Day types with minimum and plan targets, and a streak.
-- A Foundation tab for sleep and money, which are not tracks: sleep from screenshots of
-  any sleep app or by hand, with weekly status and an editable sleep goal; a balance chart
-  and a savings goal; exercise next session and "今天做不了" fallbacks.
-- GitHub commit sync, a daily commit summary and once-a-day ownership checks.
-- Daily close and a weekly review: a summary line per track plus sleep and money, 3-5
-  questions DeepSeek writes from your tracks, "one thing to fix" and "top 3", then a
-  Pro-written review. Monthly and yearly reviews, and "Ask about this track".
-- DeepSeek cost meter with a monthly budget cap, model picker and editable price table.
-- Encrypted automatic backup to Google Drive's app folder, and restore at first launch.
-- English and Simplified Chinese UI.
+- Tracks for your goals, with a focus timer in the notification bar.
+- One input box for text and screenshots; DeepSeek turns them into logs.
+- Foundation tab for sleep and money, with sleep and savings goals.
+- A short weekly review with questions DeepSeek writes from your tracks.
+- Encrypted backup to your own Google Drive.
+- English and Simplified Chinese.
