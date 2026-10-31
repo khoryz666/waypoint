@@ -38,7 +38,7 @@ import com.khoryz666.waypoint.ui.onboarding.OnboardingScreen
 import com.khoryz666.waypoint.ui.onboarding.OnboardingViewModel
 import com.khoryz666.waypoint.ui.review.ReviewScreen
 import com.khoryz666.waypoint.ui.review.ReviewViewModel
-import com.khoryz666.waypoint.ui.settings.DayTypesScreen
+import com.khoryz666.waypoint.ui.settings.DailyTargetScreen
 import com.khoryz666.waypoint.ui.settings.SettingsScreen
 import com.khoryz666.waypoint.ui.settings.SettingsViewModel
 import com.khoryz666.waypoint.ui.today.TodayScreen
@@ -105,9 +105,9 @@ fun WaypointNavigation(c: AppContainer, destination: MutableStateFlow<Destinatio
                 composable(Tab.FOUNDATION.route) { FoundationScreen(c) }
                 composable(Tab.REVIEW.route) { ReviewScreen(viewModel { ReviewViewModel(c) }) }
                 composable("settings") {
-                    SettingsScreen(viewModel { SettingsViewModel(c) }, c, onBack = nav::popBackStack, onDayTypes = { nav.navigate("dayTypes") })
+                    SettingsScreen(viewModel { SettingsViewModel(c) }, c, onBack = nav::popBackStack, onDailyTarget = { nav.navigate("dailyTarget") })
                 }
-                composable("dayTypes") { DayTypesScreen(c, onBack = nav::popBackStack) }
+                composable("dailyTarget") { DailyTargetScreen(c, onBack = nav::popBackStack) }
                 composable("dailyClose") { DailyCloseScreen(c, onBack = nav::popBackStack) }
                 composable(
                     "newTrack?predecessor={predecessor}",

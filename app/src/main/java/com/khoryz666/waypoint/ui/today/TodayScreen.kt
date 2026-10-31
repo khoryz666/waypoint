@@ -53,7 +53,6 @@ import com.khoryz666.waypoint.ingest.CommentState
 import com.khoryz666.waypoint.ingest.FeedbackCard
 import com.khoryz666.waypoint.ingest.SkipReason
 import com.khoryz666.waypoint.ui.Banner
-import com.khoryz666.waypoint.ui.ChoiceChip
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TargetRow
@@ -83,9 +82,6 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
                     }
                 },
                 actions = {
-                    day?.let { d ->
-                        if (d.types.isNotEmpty()) ChoiceChip(d.dayType?.name ?: stringResource(R.string.day_type_none), d.types, { it.name }, vm::setDayType, selected = d.dayTypeAssigned)
-                    }
                     IconButton(onClick = onDailyClose) { Text("☾") }
                     IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, stringResource(R.string.settings)) }
                 },

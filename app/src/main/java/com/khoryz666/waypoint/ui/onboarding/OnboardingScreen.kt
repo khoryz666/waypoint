@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +20,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -42,10 +40,8 @@ import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.backup.BackupFile
 import com.khoryz666.waypoint.data.Settings
 import com.khoryz666.waypoint.domain.Lang
-import com.khoryz666.waypoint.ui.LabeledRow
 import com.khoryz666.waypoint.ui.BrandHeader
 import com.khoryz666.waypoint.ui.Muted
-import com.khoryz666.waypoint.ui.SectionCard
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Instant
@@ -77,7 +73,6 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
             Step.LANGUAGE -> LanguageStep(vm)
             Step.REGION -> RegionStep(vm, s)
             Step.API -> ApiStep(vm, s)
-            Step.DAY_TYPES -> DayTypeStep(vm)
             Step.SLEEP -> SleepStep(vm)
             Step.OPTIONAL -> OptionalStep(vm, s)
             Step.RESTORE -> RestoreStep(vm)
@@ -88,7 +83,7 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
 
 @Composable
 private fun StepTitle(n: Int, title: String) {
-    Muted(stringResource(R.string.step_n, n, 7))
+    Muted(stringResource(R.string.step_n, n, 6))
     Text(title, style = MaterialTheme.typography.titleLarge)
 }
 
@@ -146,35 +141,12 @@ private fun ApiStep(vm: OnboardingViewModel, s: Settings) {
 }
 
 @Composable
-private fun DayTypeStep(vm: OnboardingViewModel) {
-    val types by vm.starterTypes.collectAsState()
-    val use by vm.useStarterTypes.collectAsState()
-    StepTitle(5, stringResource(R.string.day_types))
-    Muted(stringResource(R.string.day_types_hint))
-    LabeledRow(stringResource(R.string.use_starter_types)) { Switch(checked = use, onCheckedChange = { vm.useStarterTypes.value = it }) }
-    if (use) types.forEachIndexed { i, (name, days) ->
-        SectionCard {
-            OutlinedTextField(name, { v -> vm.starterTypes.value = types.toMutableList().also { it[i] = v to days } }, Modifier.fillMaxWidth(), singleLine = true)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                (1..7).forEach { d ->
-                    // A weekday belongs to one type: picking it here removes it from the others.
-                    FilterChip(selected = d in days, onClick = {
-                        vm.starterTypes.value = types.mapIndexed { j, (n, ds) -> n to if (j == i) (if (d in ds) ds - d else ds + d) else ds - d }
-                    }, label = { Text(DayOfWeek.of(d).getDisplayName(TextStyle.NARROW, Locale.getDefault())) })
-                }
-            }
-        }
-    }
-    Nav(onNext = vm::saveDayTypes, onSkip = { vm.go(Step.SLEEP) })
-}
-
-@Composable
 private fun SleepStep(vm: OnboardingViewModel) {
     var min by remember { mutableStateOf("420") }
     var max by remember { mutableStateOf("510") }
     var bed by remember { mutableStateOf("") }
     var app by remember { mutableStateOf("") }
-    StepTitle(6, stringResource(R.string.sleep))
+    StepTitle(5, stringResource(R.string.sleep))
     OutlinedTextField(min, { min = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_min) + " (min)") }, singleLine = true)
     OutlinedTextField(max, { max = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_max) + " (min)") }, singleLine = true)
     OutlinedTextField(bed, { bed = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_bedtime)) }, singleLine = true)
@@ -187,7 +159,7 @@ private fun OptionalStep(vm: OnboardingViewModel, s: Settings) {
     val activity = LocalContext.current as? Activity
     var token by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
-    StepTitle(7, stringResource(R.string.optional))
+    StepTitle(6, stringResource(R.string.optional))
     OutlinedTextField(token, { token = it }, Modifier.fillMaxWidth(), label = { Text("GitHub · " + stringResource(R.string.github_token)) }, singleLine = true)
     if (!s.backup.hasKey) {
         OutlinedTextField(pass, { pass = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.backup_passphrase)) }, singleLine = true)

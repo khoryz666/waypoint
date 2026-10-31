@@ -10,7 +10,6 @@ import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.ParseStatus
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.UnitStatus
-import com.khoryz666.waypoint.domain.dayTypeFor
 import com.khoryz666.waypoint.llm.ApiException
 import com.khoryz666.waypoint.llm.ContextBuilder
 import com.khoryz666.waypoint.llm.LlmService
@@ -71,8 +70,7 @@ class Parser(
 
     private suspend fun profileBlock(sleepHint: Boolean): String {
         val s = settings.current()
-        val type = dayTypeFor(clock.today(), db.dayTypes().all(), db.dayTypes().assignments(clock.today(), clock.today().plusDays(1)))
-        return context.profile(s.profile, type?.name, sleepHint)
+        return context.profile(s.profile, null, sleepHint)
     }
 
     private suspend fun parseSleep(log: LogEntry): LogEntry {

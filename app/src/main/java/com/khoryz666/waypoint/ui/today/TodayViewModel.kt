@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khoryz666.waypoint.AppContainer
 import com.khoryz666.waypoint.data.DayStatus
-import com.khoryz666.waypoint.data.DayType
 import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.NextStep
 import com.khoryz666.waypoint.data.Settings
@@ -105,7 +104,6 @@ class TodayViewModel(private val c: AppContainer) : ViewModel() {
     fun reparse(log: LogEntry, text: String, trackId: Long?) = viewModelScope.launch { c.input.reparse(log, text, trackId) }
     fun dismissFeedback() = c.feedback.dismiss()
 
-    fun setDayType(type: DayType) = viewModelScope.launch { c.stats.setDayType(c.clock.today(), type) }
     fun start(trackId: Long) = viewModelScope.launch { c.tracker.switchTo(trackId) }
     fun stop() = viewModelScope.launch { c.tracker.stop() }
     fun stepDone(step: NextStep) = viewModelScope.launch { c.db.nextSteps().markDone(step.id) }

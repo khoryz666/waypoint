@@ -3,7 +3,6 @@
 <resources>
     <string name="abort">Abort</string>
     <string name="activate">Activate</string>
-    <string name="add">Add</string>
     <string name="add_as_draft">Add as draft</string>
     <string name="add_images">Attach images</string>
     <string name="add_question">Add question</string>
@@ -52,11 +51,8 @@
     <string name="current_state">Current status</string>
     <string name="daily_close">Daily close</string>
     <string name="daily_close_time">Daily close</string>
-    <string name="day_type_none">Day type</string>
-    <string name="day_types">Day types</string>
-    <string name="day_types_hint">Each day type has a minimum (still a win) and a plan. Set targets once you have tracks.</string>
+    <string name="daily_target">Daily target</string>
     <string name="days_ago">%1$d days ago</string>
-    <string name="days_and_reviews">Days and reviews</string>
     <string name="days_n">%1$d days</string>
     <string name="deepseek_key">DeepSeek API key</string>
     <string name="deepseek_key_hint">For parsing and short comments. Stays encrypted on this phone, never backed up.</string>
@@ -144,7 +140,6 @@
     <string name="next_week">Next week</string>
     <string name="next_x">Next: %1$s</string>
     <string name="no_backups">No backups on this account.</string>
-    <string name="no_day_types">No day types yet.</string>
     <string name="no_logs">Nothing yet.</string>
     <string name="no_tracks">No tracks yet.</string>
     <string name="notes">Notes</string>
@@ -257,6 +252,7 @@
     <string name="target_date">Deadline (YYYY-MM-DD, optional)</string>
     <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Targets</string>
+    <string name="targets_and_reminders">Targets and reminders</string>
     <string name="this_week">This week</string>
     <string name="timer">Timer</string>
     <string name="timezone">Time zone</string>
@@ -278,7 +274,6 @@
     <string name="units_short">units</string>
     <string name="use_new">Use new</string>
     <string name="use_saved_passphrase">Use saved passphrase</string>
-    <string name="use_starter_types">Start with Moderate, Deep, Light</string>
     <string name="wake_date">Wake-up date (YYYY-MM-DD)</string>
     <string name="wake_time">Wake time (HH:mm)</string>
     <string name="waking_end">Waking hours end</string>

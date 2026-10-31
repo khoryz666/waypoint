@@ -10,7 +10,6 @@ import com.khoryz666.waypoint.backup.NeedsAuthorization
 import com.khoryz666.waypoint.backup.NewerBackup
 import com.khoryz666.waypoint.backup.WrongPassphrase
 import com.khoryz666.waypoint.data.BalanceEvent
-import com.khoryz666.waypoint.data.DayType
 import com.khoryz666.waypoint.domain.BalanceKind
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.parseMinor
@@ -20,7 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 /** Onboarding steps in spec 5.0 order. Everything but language can be skipped. */
-enum class Step { START, LANGUAGE, REGION, API, DAY_TYPES, SLEEP, OPTIONAL, RESTORE, RESTORE_KEY }
+enum class Step { START, LANGUAGE, REGION, API, SLEEP, OPTIONAL, RESTORE, RESTORE_KEY }
 
 class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
     val step = MutableStateFlow(Step.START)
@@ -32,10 +31,6 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
     val settings = c.settings.settings
     private var restored = false
     private var token: String? = null
-
-    /** Starter day types (spec 5.6): renamed or deleted freely, no weekday schedule assumed. */
-    val starterTypes = MutableStateFlow(listOf("Moderate", "Deep", "Light").map { it to emptySet<Int>() })
-    val useStarterTypes = MutableStateFlow(true)
 
     fun go(next: Step) {
         error.value = null
@@ -78,16 +73,7 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
                 )
             }
         }
-        go(if (restored) finishStep() else Step.DAY_TYPES)
-    }
-
-    fun saveDayTypes() = viewModelScope.launch {
-        if (useStarterTypes.value) {
-            starterTypes.value.filter { it.first.isNotBlank() }.forEachIndexed { i, (name, days) ->
-                c.db.dayTypes().insert(DayType(name = name.trim(), order = i, weekdays = days.toList().sorted(), nudges = name.trim().lowercase() != "light"))
-            }
-        }
-        go(Step.SLEEP)
+        go(if (restored) finishStep() else Step.SLEEP)
     }
 
     fun setSleep(min: Int?, max: Int?, bedtime: String, app: String) = viewModelScope.launch {
@@ -152,6 +138,7 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
 
     /** Ends on Today; re-arms workers and the timer (restore included). */
     fun finish() = viewModelScope.launch {
+        c.ensureDailyTarget()
         c.settings.update { it.copy(onboarded = true) }
         c.scheduleWork()
         TimerService.start(c.appContext)

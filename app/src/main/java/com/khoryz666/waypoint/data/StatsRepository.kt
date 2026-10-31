@@ -27,9 +27,6 @@ data class DayStatus(
     val date: LocalDate,
     val now: Long,
     val dayType: DayType?,
-    /** True when today's type was picked explicitly rather than from the weekday default. */
-    val dayTypeAssigned: Boolean,
-    val types: List<DayType>,
     val time: DayTime,
     val progress: DayProgress,
     val minimum: TargetResult,
@@ -89,8 +86,6 @@ class StatsRepository(private val db: AppDatabase, private val settings: Setting
             date = date,
             now = now,
             dayType = type,
-            dayTypeAssigned = assignments.any { it.date == date },
-            types = types,
             time = progress.time,
             progress = progress,
             minimum = type?.let { evaluate(it.minimum, progress, active, lang) } ?: TargetResult(emptyList()),
@@ -100,8 +95,6 @@ class StatsRepository(private val db: AppDatabase, private val settings: Setting
             activeTracks = active,
         )
     }
-
-    suspend fun setDayType(date: LocalDate, type: DayType) = db.dayTypes().assign(DayAssignment(date, type.id))
 
     private companion object {
         /** How far back streaks look; long enough for any realistic streak. */

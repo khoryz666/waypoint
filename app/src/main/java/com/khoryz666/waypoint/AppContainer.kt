@@ -7,6 +7,7 @@ import com.khoryz666.waypoint.backup.BackupManager
 import com.khoryz666.waypoint.backup.DriveClient
 import com.khoryz666.waypoint.backup.GoogleAuth
 import com.khoryz666.waypoint.data.AppDatabase
+import com.khoryz666.waypoint.data.DayType
 import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.ReviewRepository
 import com.khoryz666.waypoint.github.CommitSync
@@ -129,5 +130,20 @@ class AppContainer(context: Context) {
         if (structured is Structured.Sleep) return
         if ((log.confidence ?: 1.0) < ROUTE_CONFIDENCE) return
         feedback.onConfirmed(input.confirm(log, structured, log.trackId))
+    }
+
+    /**
+     * Ensures the one daily target row exists and applies to every weekday (spec 5.6). Older
+     * installs have a few named day types with no weekdays; they stay but the first one becomes
+     * the default.
+     */
+    suspend fun ensureDailyTarget() {
+        val types = db.dayTypes().all()
+        val first = types.minByOrNull { it.order }
+        when {
+            first == null -> db.dayTypes().insert(DayType(name = "Daily", order = 0, weekdays = (1..7).toList(), nudges = true))
+            first.weekdays.isEmpty() && types.none { it.weekdays.isNotEmpty() } ->
+                db.dayTypes().update(first.copy(weekdays = (1..7).toList()))
+        }
     }
 }

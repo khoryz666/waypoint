@@ -3,7 +3,6 @@
 <resources>
     <string name="abort">中止</string>
     <string name="activate">激活</string>
-    <string name="add">添加</string>
     <string name="add_as_draft">加为草稿</string>
     <string name="add_images">添加图片</string>
     <string name="add_question">添加问题</string>
@@ -52,11 +51,8 @@
     <string name="current_state">当前状态</string>
     <string name="daily_close">每日收尾</string>
     <string name="daily_close_time">每日收尾</string>
-    <string name="day_type_none">日类型</string>
-    <string name="day_types">日类型</string>
-    <string name="day_types_hint">每种日类型有最低目标 (达到就算赢) 和计划。有了 track 再设目标。</string>
+    <string name="daily_target">每日目标</string>
     <string name="days_ago">%1$d 天前</string>
-    <string name="days_and_reviews">日类型与复盘</string>
     <string name="days_n">%1$d 天</string>
     <string name="deepseek_key">DeepSeek API key</string>
     <string name="deepseek_key_hint">用于解析和短评。加密存在手机上，不会备份。</string>
@@ -144,7 +140,6 @@
     <string name="next_week">下周</string>
     <string name="next_x">下一次: %1$s</string>
     <string name="no_backups">这个账号没有备份。</string>
-    <string name="no_day_types">还没有日类型。</string>
     <string name="no_logs">还没有记录。</string>
     <string name="no_tracks">还没有 track。</string>
     <string name="notes">笔记</string>
@@ -257,6 +252,7 @@
     <string name="target_date">截止日期 (YYYY-MM-DD，可选)</string>
     <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">目标</string>
+    <string name="targets_and_reminders">目标与提醒</string>
     <string name="this_week">本周</string>
     <string name="timer">计时</string>
     <string name="timezone">时区</string>
@@ -278,7 +274,6 @@
     <string name="units_short">单元</string>
     <string name="use_new">使用新的</string>
     <string name="use_saved_passphrase">使用已保存的密码</string>
-    <string name="use_starter_types">使用 Moderate、Deep、Light</string>
     <string name="wake_date">起床日期 (YYYY-MM-DD)</string>
     <string name="wake_time">起床时间 (HH:mm)</string>
     <string name="waking_end">清醒时段结束</string>

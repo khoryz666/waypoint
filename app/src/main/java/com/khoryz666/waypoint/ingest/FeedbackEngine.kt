@@ -15,7 +15,6 @@ import com.khoryz666.waypoint.domain.ParseStatus
 import com.khoryz666.waypoint.domain.RecallSource
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.applyGrade
-import com.khoryz666.waypoint.domain.dayTypeFor
 import com.khoryz666.waypoint.domain.sectionProgress
 import com.khoryz666.waypoint.llm.BudgetExceeded
 import com.khoryz666.waypoint.llm.ContextBuilder
@@ -147,8 +146,7 @@ class FeedbackEngine(
 
     private suspend fun userText(track: Track?, input: String): String {
         val s = settings.current()
-        val type = dayTypeFor(clock.today(), db.dayTypes().all(), db.dayTypes().assignments(clock.today(), clock.today().plusDays(1)))
-        val profile = context.profile(s.profile, type?.name)
+        val profile = context.profile(s.profile, null)
         if (track == null) return profile + "\n" + input
         val recent = db.logs().recentConfirmed(track.id, 6).drop(1).take(5)
         return context.fit(profile, { context.track(track, null) }, { context.track(track, null, includeSummary = false) }, recent, input)

@@ -40,7 +40,7 @@ data class NotificationContent(
                 status.activeTracks.map { it.id }).distinct().take(3)
             val switches = focusTargets.filter { it != running?.trackId }.map { QuickAction.Switch(it, byId.getValue(it).title) }
             val actions = listOfNotNull(QuickAction.Stop(lang.t("Stop", "停止")).takeIf { running != null }) + switches
-            return NotificationContent(title, text, status.dayType?.name, running?.startAt, actions)
+            return NotificationContent(title, text, null, running?.startAt, actions)
         }
     }
 }
