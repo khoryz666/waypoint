@@ -146,7 +146,7 @@ class FeedbackEngine(
 
     private suspend fun userText(track: Track?, input: String): String {
         val s = settings.current()
-        val profile = context.profile(s.profile, null)
+        val profile = context.profile(s.profile)
         if (track == null) return profile + "\n" + input
         val recent = db.logs().recentConfirmed(track.id, 6).drop(1).take(5)
         return context.fit(profile, { context.track(track, null) }, { context.track(track, null, includeSummary = false) }, recent, input)
@@ -160,7 +160,7 @@ class FeedbackEngine(
         val lang = settings.current().profile.language
         val mode = if (reason == null) "mode: next" else "mode: fallback\nReason: ${lang.t(reason.en, reason.zh)}${if (reason.restOnly) " (rest or mobility only, no progression)" else ""}" + (note?.let { "\nUser note: $it" } ?: "")
         val recent = db.logs().recentConfirmed(track.id, 5)
-        val text = context.fit(context.profile(settings.current().profile, null), { context.track(track, null) }, { context.track(track, null, false) }, recent, mode)
+        val text = context.fit(context.profile(settings.current().profile), { context.track(track, null) }, { context.track(track, null, false) }, recent, mode)
         val out = llm.json("exercise_next", listOf(Part.Text(text)), 500, ExerciseOutput.serializer())
         val step = out.text + (out.rule?.let { "\n$it" } ?: "")
         db.nextSteps().replace(NextStep(trackId = track.id, text = step, dueHint = out.dueHint, createdAt = clock.now()))

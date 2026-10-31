@@ -66,7 +66,7 @@ class PromptGoldenTest {
 
     @Test
     fun `context blocks`() {
-        check("block_profile", context.profile(UserProfile(displayName = "H", language = Lang.ZH, sleepAppHint = "Huawei Health"), "Deep", sleepHint = true))
+        check("block_profile", context.profile(UserProfile(displayName = "H", language = Lang.ZH, sleepAppHint = "Huawei Health"), sleepHint = true))
         check("block_track", context.track(track, units))
         check("block_recent", context.recent(logs))
     }
@@ -82,7 +82,7 @@ class PromptGoldenTest {
     fun `fit drops recent logs before the summary`() {
         val huge = (1..400).map { LogEntry(occurredAt = clock.now(), createdAt = 0, rawText = "a long log line about ownership and borrowing rules number $it") }
         val notes = mutableListOf<String>()
-        val text = context.fit(context.profile(UserProfile(), null), { context.track(track, units) }, { context.track(track, units, includeSummary = false) }, huge, "input", onTruncate = notes::add)
+        val text = context.fit(context.profile(UserProfile()), { context.track(track, units) }, { context.track(track, units, includeSummary = false) }, huge, "input", onTruncate = notes::add)
         assertTrue(estimateTokens(text) <= FLASH_INPUT_TOKENS)
         assertTrue(text.contains("Summary so far"))
     }

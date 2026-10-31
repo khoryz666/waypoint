@@ -70,7 +70,7 @@ class Parser(
 
     private suspend fun profileBlock(sleepHint: Boolean): String {
         val s = settings.current()
-        return context.profile(s.profile, null, sleepHint)
+        return context.profile(s.profile, sleepHint)
     }
 
     private suspend fun parseSleep(log: LogEntry): LogEntry {

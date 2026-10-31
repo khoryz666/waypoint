@@ -26,14 +26,13 @@ const val RECENT_TOKENS = 1_500
  */
 class ContextBuilder(private val prompts: PromptBuilder, private val clock: AppClock) {
 
-    fun profile(profile: UserProfile, dayType: String?, sleepHint: Boolean = false): String = prompts.render(
+    fun profile(profile: UserProfile, sleepHint: Boolean = false): String = prompts.render(
         "block_profile",
         mapOf(
             "name" to profile.displayName,
             "now" to DateTimeFormatter.ofPattern("yyyy-MM-dd EEE HH:mm", java.util.Locale.ENGLISH).format(Instant.ofEpochMilli(clock.now()).atZone(clock.zone())),
             "zone" to clock.zone().id,
             "language" to profile.language.tag,
-            "dayType" to dayType,
             "sleepApp" to profile.sleepAppHint.takeIf { sleepHint },
         ),
     )
