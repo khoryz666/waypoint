@@ -8,6 +8,16 @@ You tell it what you did. It keeps the record and does the counting. It tells yo
 
 It is an Android app for one person. Your data stays on your phone. It can also go into an encrypted backup in your own Google Drive. It uses DeepSeek to read what you write and to reply in a few words. It still works without DeepSeek. You just type a little more by hand.
 
+## Before you start: one-time setup
+
+Do these once, in this order, before you rely on the app. Steps 1 and 2 need your own passwords and Google account, so nobody can do them for you.
+
+1. **Make your release key.** Every Android app is signed with a private key, like a wax seal. Android only installs an update if the seal matches, and Google uses it to recognise the app. Make the key once and keep a copy in your password manager. If you lose it, you cannot update the app without wiping it. How: [docs/signing.md](docs/signing.md).
+2. **Register the app with Google.** Backups go to a hidden folder in your own Google Drive. Even so, Google only lets an app use Drive after the app is registered. This is free and takes about 10 minutes. Without it, everything else works, but your data lives only on your phone. How: [docs/google-setup.md](docs/google-setup.md).
+3. **Install the app built with your key.**
+4. **Add your DeepSeek API key** in Settings. Without it, the timer, money entries and all the numbers still work. Text logs just wait as "Not parsed yet".
+5. **Turn on backup** in Settings and choose a passphrase.
+
 ## How to use it
 
 ### 1. Set it up (about five minutes)
@@ -83,7 +93,7 @@ The flake gives you JDK 17 and the Android SDK (platform 35). `nix develop .#emu
 - UI text lives in `tools/strings_table.py`. Run `python3 tools/strings.py` after you edit it.
 - The package is `com.khoryz666.waypoint`. Debug builds add `.debug`. `minSdk` is 29 and `targetSdk` is 35.
 - Choices the spec left open are in [DECISIONS.md](DECISIONS.md).
-- Release signing: [docs/signing.md](docs/signing.md). Google Drive setup: [docs/google-setup.md](docs/google-setup.md).
+- To check how well DeepSeek parses your real sleep screenshots and logs, put samples in `fixtures/` and run the fixture check. It uses your API key and costs a few tokens, so it never runs in CI. How: [fixtures/README.md](fixtures/README.md).
 
 ## Release
 
