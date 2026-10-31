@@ -2,7 +2,10 @@ package com.khoryz666.waypoint.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -97,7 +100,8 @@ fun WaypointNavigation(c: AppContainer, destination: MutableStateFlow<Destinatio
             }
         },
     ) { padding ->
-        Box(Modifier.fillMaxSize().padding(bottom = padding.calculateBottomPadding())) {
+        // The keyboard shrinks the screen area (minus the nav bar it covers) instead of panning the window.
+        Box(Modifier.fillMaxSize().padding(bottom = padding.calculateBottomPadding()).consumeWindowInsets(PaddingValues(bottom = padding.calculateBottomPadding())).imePadding()) {
             NavHost(nav, startDestination = Tab.TODAY.route) {
                 composable(Tab.TODAY.route) {
                     TodayScreen(viewModel { TodayViewModel(c) }, onSettings = { nav.navigate("settings") }, onNewTrack = { nav.navigate("newTrack") }, onDailyClose = { nav.navigate("dailyClose") }, onDailyTarget = { nav.navigate("dailyTarget") })
