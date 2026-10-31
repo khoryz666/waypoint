@@ -38,7 +38,8 @@
     <string name="cancel">取消</string>
     <string name="cant_today">今天做不了</string>
     <string name="checkpoints">检查点</string>
-    <string name="checkpoints_lines">检查点，每行一个: 内容 | 截止 (可选)</string>
+    <string name="checkpoints_example">每行一个，如 读完第一部分 | 2026-12-01</string>
+    <string name="checkpoints_lines">检查点 (可选)</string>
     <string name="closest_goal">下一个检查点: %1$s</string>
     <string name="col_done">完成</string>
     <string name="col_logs">记录</string>

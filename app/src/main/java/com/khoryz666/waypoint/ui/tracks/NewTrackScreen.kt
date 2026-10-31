@@ -158,7 +158,7 @@ private fun PreviewStep(vm: NewTrackViewModel) {
     OutlinedTextField(form.initialState, { v -> set { it.copy(initialState = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.current_state)) }, minLines = 2)
     OutlinedTextField(form.units, { v -> set { it.copy(units = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.units_lines)) }, minLines = 4, maxLines = 12)
     DateField(stringResource(R.string.target_date), runCatching { LocalDate.parse(form.targetDate) }.getOrNull(), onClear = { set { it.copy(targetDate = "") } }) { d -> set { it.copy(targetDate = d.toString()) } }
-    OutlinedTextField(form.checkpoints, { v -> set { it.copy(checkpoints = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.checkpoints_lines)) }, minLines = 2)
+    OutlinedTextField(form.checkpoints, { v -> set { it.copy(checkpoints = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.checkpoints_lines)) }, placeholder = { Text(stringResource(R.string.checkpoints_example)) }, minLines = 2)
     if (domain == Domain.PROJECT) OutlinedTextField(form.repos, { v -> set { it.copy(repos = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.github_repos)) }, singleLine = true)
     error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

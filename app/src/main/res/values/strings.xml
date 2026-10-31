@@ -38,7 +38,8 @@
     <string name="cancel">Cancel</string>
     <string name="cant_today">Can\'t today</string>
     <string name="checkpoints">Checkpoints</string>
-    <string name="checkpoints_lines">Checkpoints, one per line: what | by when (optional)</string>
+    <string name="checkpoints_example">One per line, e.g. Finish part 1 | 2026-12-01</string>
+    <string name="checkpoints_lines">Checkpoints (optional)</string>
     <string name="closest_goal">Next checkpoint: %1$s</string>
     <string name="col_done">Done</string>
     <string name="col_logs">Logs</string>
