@@ -10,19 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,14 +50,15 @@ import com.khoryz666.waypoint.domain.savingsProgress
 import com.khoryz666.waypoint.domain.sleepWeek
 import com.khoryz666.waypoint.domain.weekStart
 import com.khoryz666.waypoint.ui.ConfirmDialog
+import com.khoryz666.waypoint.ui.DateField
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
+import com.khoryz666.waypoint.ui.TimeField
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 /** Exercise tracks, sleep (7 / 30 / 365 days) and the balance: the foundations (spec 5.1). */
@@ -210,15 +204,11 @@ private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer
 }
 
 /** Bed and wake time for a night without a wearable (spec 6.2). */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (SleepRecord) -> Unit) {
     var date by remember { mutableStateOf(today) }
     var bed by remember { mutableStateOf(LocalTime.of(23, 30)) }
     var wake by remember { mutableStateOf(LocalTime.of(7, 0)) }
-    var pickDate by remember { mutableStateOf(false) }
-    var pickBed by remember { mutableStateOf(false) }
-    var pickWake by remember { mutableStateOf(false) }
     val zone = ZoneId.systemDefault()
     val record = runCatching {
         val bedAt = (if (bed.hour >= 12) date.minusDays(1) else date).atTime(bed).atZone(zone).toInstant().toEpochMilli()
@@ -231,55 +221,15 @@ private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (
         title = { Text(stringResource(R.string.add_sleep_manually)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.wake_date), Modifier.weight(1f))
-                    TextButton(onClick = { pickDate = true }) { Text(date.toString()) }
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.bed_time), Modifier.weight(1f))
-                    TextButton(onClick = { pickBed = true }) { Text(bed.toString()) }
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.wake_time), Modifier.weight(1f))
-                    TextButton(onClick = { pickWake = true }) { Text(wake.toString()) }
-                }
+                DateField(stringResource(R.string.wake_date), date) { date = it }
+                TimeField(stringResource(R.string.bed_time), bed) { bed = it }
+                TimeField(stringResource(R.string.wake_time), wake) { wake = it }
                 record?.let { Muted(formatMinutes(it.totalMin.toLong())) }
             }
         },
         confirmButton = { TextButton(onClick = { record?.let(onSave) }, enabled = record != null) { Text(stringResource(R.string.ok)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
-    if (pickDate) {
-        val dateState = rememberDatePickerState(initialSelectedDateMillis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli())
-        DatePickerDialog(
-            onDismissRequest = { pickDate = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    dateState.selectedDateMillis?.let { date = Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate() }
-                    pickDate = false
-                }) { Text(stringResource(R.string.ok)) }
-            },
-            dismissButton = { TextButton(onClick = { pickDate = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { DatePicker(state = dateState) }
-    }
-    if (pickBed) {
-        val bedState = rememberTimePickerState(initialHour = bed.hour, initialMinute = bed.minute, is24Hour = true)
-        AlertDialog(
-            onDismissRequest = { pickBed = false },
-            confirmButton = { TextButton(onClick = { bed = LocalTime.of(bedState.hour, bedState.minute); pickBed = false }) { Text(stringResource(R.string.ok)) } },
-            dismissButton = { TextButton(onClick = { pickBed = false }) { Text(stringResource(R.string.cancel)) } },
-            text = { TimePicker(state = bedState) },
-        )
-    }
-    if (pickWake) {
-        val wakeState = rememberTimePickerState(initialHour = wake.hour, initialMinute = wake.minute, is24Hour = true)
-        AlertDialog(
-            onDismissRequest = { pickWake = false },
-            confirmButton = { TextButton(onClick = { wake = LocalTime.of(wakeState.hour, wakeState.minute); pickWake = false }) { Text(stringResource(R.string.ok)) } },
-            dismissButton = { TextButton(onClick = { pickWake = false }) { Text(stringResource(R.string.cancel)) } },
-            text = { TimePicker(state = wakeState) },
-        )
-    }
 }
 
 private fun hm(min: Int) = "%d:%02d".format(min / 60, min % 60)
@@ -291,13 +241,11 @@ private fun parseHm(text: String): Int? {
     return (h * 60 + m).takeIf { m in 0..59 && it in 1..24 * 60 }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave: (SleepTargets) -> Unit) {
     var min by remember { mutableStateOf(hm(current.minTotalMin)) }
     var max by remember { mutableStateOf(hm(current.maxTotalMin)) }
     var bed by remember { mutableStateOf(current.bedtime) }
-    var pickBed by remember { mutableStateOf(false) }
     val minM = parseHm(min)
     val maxM = parseHm(max)
     val valid = minM != null && maxM != null && minM <= maxM
@@ -308,25 +256,13 @@ private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(min, { min = it }, label = { Text(stringResource(R.string.at_least_hm)) }, singleLine = true)
                 OutlinedTextField(max, { max = it }, label = { Text(stringResource(R.string.at_most_hm)) }, singleLine = true)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.target_bedtime), Modifier.weight(1f))
-                    TextButton(onClick = { pickBed = true }) { Text(bed?.toString() ?: stringResource(R.string.none)) }
-                }
+                TimeField(stringResource(R.string.target_bedtime), bed) { bed = it }
                 if (bed != null) TextButton(onClick = { bed = null }) { Text(stringResource(R.string.remove)) }
             }
         },
         confirmButton = { TextButton(onClick = { onSave(current.copy(minTotalMin = minM!!, maxTotalMin = maxM!!, bedtime = bed)) }, enabled = valid) { Text(stringResource(R.string.ok)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
-    if (pickBed) {
-        val bedState = rememberTimePickerState(initialHour = bed?.hour ?: 22, initialMinute = bed?.minute ?: 30, is24Hour = true)
-        AlertDialog(
-            onDismissRequest = { pickBed = false },
-            confirmButton = { TextButton(onClick = { bed = LocalTime.of(bedState.hour, bedState.minute); pickBed = false }) { Text(stringResource(R.string.ok)) } },
-            dismissButton = { TextButton(onClick = { pickBed = false }) { Text(stringResource(R.string.cancel)) } },
-            text = { TimePicker(state = bedState) },
-        )
-    }
 }
 
 @Composable

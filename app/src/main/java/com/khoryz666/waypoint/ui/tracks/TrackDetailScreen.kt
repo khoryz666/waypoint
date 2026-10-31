@@ -15,11 +15,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -29,10 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,16 +49,17 @@ import com.khoryz666.waypoint.domain.TrackStatus
 import com.khoryz666.waypoint.domain.UnitStatus
 import com.khoryz666.waypoint.domain.formatDuration
 import com.khoryz666.waypoint.ui.ConfirmDialog
+import com.khoryz666.waypoint.ui.DateField
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TextDialog
+import com.khoryz666.waypoint.ui.TimeField
 import com.khoryz666.waypoint.ui.domainLabel
 import com.khoryz666.waypoint.ui.statusLabel
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 private enum class Dialog { PAUSE, COMPLETE, ABORT, ADD_UNIT, REPOS, SESSION, NEXT_LEVEL }
@@ -258,7 +253,6 @@ private fun describe(log: LogEntry, units: List<TrackUnit>): String {
 
 private fun fmt(ms: Long) = DateTimeFormatter.ofPattern("MM-dd HH:mm").withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(ms))
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SessionDialog(existing: Session?, onDismiss: () -> Unit, onDelete: () -> Unit, onSave: (Long, Int) -> Unit) {
     val zone = ZoneId.systemDefault()
@@ -266,21 +260,13 @@ private fun SessionDialog(existing: Session?, onDismiss: () -> Unit, onDelete: (
     var date by remember { mutableStateOf(start?.toLocalDate() ?: LocalDate.now()) }
     var time by remember { mutableStateOf(start?.toLocalTime() ?: LocalTime.now().withSecond(0).withNano(0)) }
     var minutes by remember { mutableStateOf(existing?.endAt?.let { ((it - existing.startAt) / 60_000).toString() } ?: "30") }
-    var pickDate by remember { mutableStateOf(false) }
-    var pickTime by remember { mutableStateOf(false) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(if (existing == null) R.string.add_session else R.string.edit_session)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.date), Modifier.weight(1f))
-                    TextButton(onClick = { pickDate = true }) { Text(date.toString()) }
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.time), Modifier.weight(1f))
-                    TextButton(onClick = { pickTime = true }) { Text(time.toString().take(5)) }
-                }
+                DateField(stringResource(R.string.date), date) { date = it }
+                TimeField(stringResource(R.string.time), time) { time = it }
                 OutlinedTextField(minutes, { minutes = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.minutes)) }, singleLine = true)
             }
         },
@@ -294,28 +280,4 @@ private fun SessionDialog(existing: Session?, onDismiss: () -> Unit, onDelete: (
             }
         },
     )
-    if (pickDate) {
-        val dateState = rememberDatePickerState(initialSelectedDateMillis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli())
-        DatePickerDialog(
-            onDismissRequest = { pickDate = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    dateState.selectedDateMillis?.let { date = Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate() }
-                    pickDate = false
-                }) { Text(stringResource(R.string.ok)) }
-            },
-            dismissButton = { TextButton(onClick = { pickDate = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { DatePicker(state = dateState) }
-    }
-    if (pickTime) {
-        val timeState = rememberTimePickerState(initialHour = time.hour, initialMinute = time.minute, is24Hour = true)
-        AlertDialog(
-            onDismissRequest = { pickTime = false },
-            confirmButton = {
-                TextButton(onClick = { time = LocalTime.of(timeState.hour, timeState.minute); pickTime = false }) { Text(stringResource(R.string.ok)) }
-            },
-            dismissButton = { TextButton(onClick = { pickTime = false }) { Text(stringResource(R.string.cancel)) } },
-            text = { TimePicker(state = timeState) },
-        )
-    }
 }
