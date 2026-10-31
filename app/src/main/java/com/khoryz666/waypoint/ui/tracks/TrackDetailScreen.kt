@@ -61,6 +61,7 @@ import com.khoryz666.waypoint.ui.TextDialog
 import com.khoryz666.waypoint.ui.TimeField
 import com.khoryz666.waypoint.ui.domainLabel
 import com.khoryz666.waypoint.ui.statusLabel
+import com.khoryz666.waypoint.ui.uiLang
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -139,7 +140,7 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
                     sessions.take(10).forEach { s ->
                         Row(Modifier.fillMaxWidth().clickable { editingSession = s; dialog = Dialog.SESSION }, verticalAlignment = Alignment.CenterVertically) {
                             Text(fmt(s.startAt), Modifier.weight(1f))
-                            Text(formatDuration(s.durationMs(vm.clock.now())))
+                            Text(formatDuration(s.durationMs(vm.clock.now()), uiLang()))
                         }
                     }
                     TextButton(onClick = { editingSession = null; dialog = Dialog.SESSION }) { Text(stringResource(R.string.add_session)) }

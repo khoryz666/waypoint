@@ -31,7 +31,7 @@ object Receipts {
 
     /** "Focus today 2h 03m · at least: ✓ · 4-day streak" */
     fun focus(focusTodayMs: Long, minimumMet: Boolean?, streak: Int, lang: Lang): String = listOfNotNull(
-        lang.t("Focus today ", "今日专注 ") + formatDuration(focusTodayMs),
+        lang.t("Focus today ", "今日专注 ") + formatDuration(focusTodayMs, lang),
         minimumMet?.let { lang.t("at least: ", "至少: ") + if (it) "✓" else "✗" },
         lang.t("$streak-day streak", "连续 $streak 天"),
     ).joinToString(SEP)
@@ -56,8 +56,8 @@ object Receipts {
 
     /** "Sleep 6h 40m · week average 7h 05m · in range 4/6 nights" */
     fun sleep(totalMin: Int, week: SleepWeek, lang: Lang): String = listOfNotNull(
-        lang.t("Sleep ", "睡眠 ") + formatMinutes(totalMin.toLong()),
-        week.averageMin?.let { lang.t("week average ", "本周均值 ") + formatMinutes(it.toLong()) },
+        lang.t("Sleep ", "睡眠 ") + formatMinutes(totalMin.toLong(), lang),
+        week.averageMin?.let { lang.t("week average ", "本周均值 ") + formatMinutes(it.toLong(), lang) },
         lang.t("in range ${week.nightsInRange}/${week.recorded} nights", "目标内 ${week.nightsInRange}/${week.recorded} 晚"),
     ).joinToString(SEP)
 
@@ -75,8 +75,8 @@ object Receipts {
 
     /** "Project today 1h 20m · this week 6h · 3 commits today · milestones 2/7" */
     fun project(track: Track, focusTodayMs: Long, focusWeekMs: Long, commitsToday: Int, milestonesDone: Int, milestones: Int, lang: Lang): String = listOfNotNull(
-        "${track.title} ${lang.t("today", "今天")} ${formatDuration(focusTodayMs)}",
-        lang.t("this week ", "本周 ") + formatDuration(focusWeekMs),
+        "${track.title} ${lang.t("today", "今天")} ${formatDuration(focusTodayMs, lang)}",
+        lang.t("this week ", "本周 ") + formatDuration(focusWeekMs, lang),
         lang.t("$commitsToday commits today", "今天 $commitsToday 个 commit").takeIf { track.githubRepos.isNotEmpty() },
         (lang.t("milestones ", "里程碑 ") + "$milestonesDone/$milestones").takeIf { milestones > 0 },
     ).joinToString(SEP)

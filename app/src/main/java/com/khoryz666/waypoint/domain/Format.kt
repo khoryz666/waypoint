@@ -10,16 +10,23 @@ const val MINUTE_MS = 60_000L
 const val HOUR_MS = 60 * MINUTE_MS
 const val DAY_MS = 24 * HOUR_MS
 
-/** "0m", "45m", "3h", "3h 12m" - rounded down to the minute. */
-fun formatDuration(ms: Long): String = formatMinutes(ms.coerceAtLeast(0) / MINUTE_MS)
+/** "0m", "45m", "3h", "3h 12m" (Chinese "45分钟", "3小时", "3小时12分") - rounded down to the minute. */
+fun formatDuration(ms: Long, lang: Lang): String = formatMinutes(ms.coerceAtLeast(0) / MINUTE_MS, lang)
 
-fun formatMinutes(totalMinutes: Long): String {
+fun formatMinutes(totalMinutes: Long, lang: Lang): String {
     val hours = totalMinutes / 60
     val minutes = totalMinutes % 60
-    return when {
-        hours == 0L -> "${minutes}m"
-        minutes == 0L -> "${hours}h"
-        else -> "${hours}h ${minutes.toString().padStart(2, '0')}m"
+    return when (lang) {
+        Lang.EN -> when {
+            hours == 0L -> "${minutes}m"
+            minutes == 0L -> "${hours}h"
+            else -> "${hours}h ${minutes.toString().padStart(2, '0')}m"
+        }
+        Lang.ZH -> when {
+            hours == 0L -> "${minutes}分钟"
+            minutes == 0L -> "${hours}小时"
+            else -> "${hours}小时${minutes}分"
+        }
     }
 }
 

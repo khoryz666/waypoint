@@ -56,6 +56,7 @@ import com.khoryz666.waypoint.ui.DateField
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TimeField
+import com.khoryz666.waypoint.ui.uiLang
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
@@ -121,13 +122,13 @@ private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate,
             val start = week.minusWeeks(back.toLong())
             val nights = (0L until 7L).mapNotNull { byDate[start.plusDays(it)] }
             val avg = nights.takeIf { it.isNotEmpty() }?.map { it.totalMin }?.average()?.toFloat()
-            ChartPoint(start.toString(), avg, "$start · " + (avg?.let { formatMinutes(it.toLong()) } ?: "—") + " · ${nights.size}/7")
+            ChartPoint(start.toString(), avg, "$start · " + (avg?.let { formatMinutes(it.toLong(), uiLang()) } ?: "—") + " · ${nights.size}/7")
         }
     } else {
         (days - 1 downTo 0).map { back ->
             val date = today.minusDays(back.toLong())
             val r = byDate[date]
-            ChartPoint(date.toString(), r?.totalMin?.toFloat(), "$date · " + (r?.let { formatMinutes(it.totalMin.toLong()) + (it.napMin?.let { n -> " + nap ${n}m" } ?: "") } ?: "—"))
+            ChartPoint(date.toString(), r?.totalMin?.toFloat(), "$date · " + (r?.let { formatMinutes(it.totalMin.toLong(), uiLang()) + (it.napMin?.let { n -> " + nap ${n}m" } ?: "") } ?: "—"))
         }
     }
     val status = when (thisWeek.status) {
@@ -138,13 +139,13 @@ private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate,
     }
     SectionCard(title = stringResource(R.string.sleep)) {
         Text("✦ " + stringResource(status), style = MaterialTheme.typography.titleMedium)
-        Muted(stringResource(R.string.sleep_week_line, thisWeek.recorded, thisWeek.averageMin?.let { formatMinutes(it.toLong()) } ?: "—", thisWeek.nightsInRange))
+        Muted(stringResource(R.string.sleep_week_line, thisWeek.recorded, thisWeek.averageMin?.let { formatMinutes(it.toLong(), uiLang()) } ?: "—", thisWeek.nightsInRange))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(7, 30, 365).forEach { d -> FilterChip(selected = days == d, onClick = { days = d }, label = { Text(stringResource(R.string.days_n, d)) }) }
         }
         BarChart(points, band = targets.minTotalMin.toFloat()..targets.maxTotalMin.toFloat())
-        val min = formatMinutes(targets.minTotalMin.toLong())
-        val max = formatMinutes(targets.maxTotalMin.toLong())
+        val min = formatMinutes(targets.minTotalMin.toLong(), uiLang())
+        val max = formatMinutes(targets.maxTotalMin.toLong(), uiLang())
         Muted(targets.bedtime?.let { stringResource(R.string.sleep_goal_bed, min, max, it.toString()) } ?: stringResource(R.string.sleep_goal, min, max))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             TextButton(onClick = onAdd) { Text(stringResource(R.string.add_sleep_manually)) }
@@ -229,7 +230,7 @@ private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (
                 DateField(stringResource(R.string.wake_date), date) { date = it }
                 TimeField(stringResource(R.string.bed_time), bed) { bed = it }
                 TimeField(stringResource(R.string.wake_time), wake) { wake = it }
-                record?.let { Muted(formatMinutes(it.totalMin.toLong())) }
+                record?.let { Muted(formatMinutes(it.totalMin.toLong(), uiLang())) }
             }
         },
         confirmButton = { TextButton(onClick = { record?.let(onSave) }, enabled = record != null) { Text(stringResource(R.string.ok)) } },

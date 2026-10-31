@@ -57,6 +57,7 @@ import com.khoryz666.waypoint.ui.MoonIcon
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TargetRow
+import com.khoryz666.waypoint.ui.uiLang
 import com.khoryz666.waypoint.ui.theme.Numeric
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -234,7 +235,7 @@ private fun TimerCard(running: com.khoryz666.waypoint.data.Session?, now: Long, 
                 Button(onClick = vm::stop) { Text(stringResource(R.string.stop)) }
             }
         }
-        Muted(stringResource(R.string.focus_today, formatDuration(focusMs)))
+        Muted(stringResource(R.string.focus_today, formatDuration(focusMs, uiLang())))
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             active.filter { running?.trackId != it.id }.forEach { t ->
                 AssistChip(onClick = { vm.start(t.id) }, label = { Text(t.title, maxLines = 1) })

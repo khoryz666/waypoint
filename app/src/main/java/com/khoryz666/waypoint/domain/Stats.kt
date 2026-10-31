@@ -175,7 +175,7 @@ fun reviewSummary(stats: ReviewStats, previous: ReviewStats?, period: ReviewPeri
     val tracks = stats.tracks.filter { it.status == TrackStatus.ACTIVE || it.focusMinutes > 0 || it.logs > 0 || it.unitsDone > 0 }.map { t ->
         TrackLine(
             title = t.title,
-            time = if (t.focusMinutes > 0) formatMinutes(t.focusMinutes.toLong()) else DASH,
+            time = if (t.focusMinutes > 0) formatMinutes(t.focusMinutes.toLong(), lang) else DASH,
             // Exercise has no outline to finish; its sessions are what gets done.
             done = count(if (t.domain == Domain.EXERCISE) t.exerciseSessions else t.unitsDone),
             logs = count(t.logs),
@@ -184,11 +184,11 @@ fun reviewSummary(stats: ReviewStats, previous: ReviewStats?, period: ReviewPeri
     val sl = stats.sleep
     val sleep = KeyLine(
         label = lang.t("Sleep", "睡眠"),
-        value = sl.averageMin?.let { formatMinutes(it.toLong()) } ?: DASH,
+        value = sl.averageMin?.let { formatMinutes(it.toLong(), lang) } ?: DASH,
         detail = if (sl.recorded == 0) lang.t("No nights recorded", "没有记录")
         else listOfNotNull(
             lang.t("${sl.inRange}/${sl.recorded} nights in range", "${sl.inRange}/${sl.recorded} 晚达标"),
-            previous?.sleep?.averageMin?.let { "$last ${formatMinutes(it.toLong())}" },
+            previous?.sleep?.averageMin?.let { "$last ${formatMinutes(it.toLong(), lang)}" },
         ).joinToString(SEP),
     )
     val b = stats.balance

@@ -44,6 +44,7 @@ import com.khoryz666.waypoint.ingest.SleepConflict
 import com.khoryz666.waypoint.ui.ChoiceChip
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
+import com.khoryz666.waypoint.ui.uiLang
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -183,7 +184,7 @@ private fun StructuredEditor(
         }
         is Structured.Session -> {
             val fmt = DateTimeFormatter.ofPattern("MM-dd HH:mm").withZone(ZoneId.systemDefault())
-            Text("${fmt.format(Instant.ofEpochMilli(s.startAt))} · ${formatMinutes(s.minutes.toLong())}")
+            Text("${fmt.format(Instant.ofEpochMilli(s.startAt))} · ${formatMinutes(s.minutes.toLong(), uiLang())}")
             MinutesField(s.minutes) { m -> onChange(s.copy(endAt = s.startAt + m * 60_000L)) }
         }
         is Structured.Note -> NotesField(s.text) { onChange(s.copy(text = it)) }
@@ -273,7 +274,7 @@ private fun NightRow(night: Night, existing: SleepRecord?, choice: SleepConflict
         OutlinedTextField(total, { total = it; it.toIntOrNull()?.let { m -> onChange(night.copy(totalMin = m), null) } }, label = { Text(stringResource(R.string.sleep_total_min)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
         Muted(listOfNotNull(night.deepMin?.let { "deep $it" }, night.lightMin?.let { "light $it" }, night.remMin?.let { "REM $it" }, night.awakeMin?.let { "awake $it" }, night.napMin?.let { "nap $it" }, night.score?.let { "score $it" }).joinToString(" · "))
         if (existing != null) {
-            Text(stringResource(R.string.sleep_exists, formatMinutes(existing.totalMin.toLong())), color = MaterialTheme.colorScheme.secondary)
+            Text(stringResource(R.string.sleep_exists, formatMinutes(existing.totalMin.toLong(), uiLang())), color = MaterialTheme.colorScheme.secondary)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(selected = choice != SleepConflict.USE_NEW, onClick = { onChange(night, SleepConflict.KEEP_OLD) }, label = { Text(stringResource(R.string.keep_old)) })
                 FilterChip(selected = choice == SleepConflict.USE_NEW, onClick = { onChange(night, SleepConflict.USE_NEW) }, label = { Text(stringResource(R.string.use_new)) })

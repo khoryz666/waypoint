@@ -40,10 +40,13 @@ class SessionsTest {
 
     @Test
     fun `formatting`() {
-        assertEquals("0m", formatDuration(0))
-        assertEquals("45m", formatDuration(45 * MINUTE_MS + 59_000))
-        assertEquals("2h 03m", formatDuration(123 * MINUTE_MS))
-        assertEquals("3h", formatDuration(3 * HOUR_MS))
+        assertEquals("0m", formatDuration(0, Lang.EN))
+        assertEquals("45m", formatDuration(45 * MINUTE_MS + 59_000, Lang.EN))
+        assertEquals("2h 03m", formatDuration(123 * MINUTE_MS, Lang.EN))
+        assertEquals("3h", formatDuration(3 * HOUR_MS, Lang.EN))
+        assertEquals("45分钟", formatDuration(45 * MINUTE_MS, Lang.ZH))
+        assertEquals("2小时3分", formatDuration(123 * MINUTE_MS, Lang.ZH))
+        assertEquals("3小时", formatDuration(3 * HOUR_MS, Lang.ZH))
         assertEquals("1:02:03", formatElapsed(3_723_000))
     }
 }

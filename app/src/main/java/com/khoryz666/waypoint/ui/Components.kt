@@ -28,11 +28,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.domain.Domain
+import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.TargetLine
 import com.khoryz666.waypoint.domain.TargetUnit
 import com.khoryz666.waypoint.domain.TrackStatus
@@ -67,7 +69,7 @@ fun Banner(text: String, action: String? = null, onAction: () -> Unit = {}) {
 @Composable
 fun TargetRow(line: TargetLine) {
     val done = when (line.unit) {
-        TargetUnit.MINUTES -> "${formatMinutes(line.done.toLong())} / ${formatMinutes(line.target.toLong())}"
+        TargetUnit.MINUTES -> "${formatMinutes(line.done.toLong(), uiLang())} / ${formatMinutes(line.target.toLong(), uiLang())}"
         TargetUnit.UNITS -> "${line.done} / ${line.target}"
         TargetUnit.CHECK -> if (line.met) "✓" else "—"
     }
@@ -172,3 +174,7 @@ fun statusLabel(status: TrackStatus): String = stringResource(
 fun Muted(text: String, modifier: Modifier = Modifier) {
     Text(text, modifier, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
+
+/** The app's UI language, for text built in code (durations). */
+@Composable
+fun uiLang(): Lang = Lang.of(LocalConfiguration.current.locales[0].toLanguageTag())
