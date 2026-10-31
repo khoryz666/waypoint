@@ -6,6 +6,18 @@ v2 (`timer`) history is in git before the `feat/waypoint-v3` branch.
 
 ## [Unreleased]
 
+## [3.1.1] - 2026-10-31
+
+- Dark mode: onboarding text is readable, and the colours are calmer.
+- Simpler setup: no time zone box, steps count from 1, and notifications are asked for after setup.
+- Anything you can fill in says **Set** instead of "None" or "—".
+- A goal's page labels its final status, starting point and deadline.
+- In Chinese, times read as 3小时36分.
+- A cleaner app icon: the whale tail now rises out of the wave.
+- The keyboard no longer pushes the screen up; the input box sits right above it.
+- Dates read naturally everywhere (Oct 31, 2026), and counts read right for one ("To check: 1").
+- Timer taps shorter than a minute are dropped instead of listed as 0m.
+
 ## [3.1.0] - 2026-10-31
 
 - Plain words everywhere: tracks are now **Goals**, Foundation is **Life**, and outline units are **steps**.
