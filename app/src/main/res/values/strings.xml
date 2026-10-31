@@ -103,7 +103,7 @@
     <string name="handoff_step2">2 · Paste the final message</string>
     <string name="hours_ago">%1$d h ago</string>
     <string name="images_attached">%1$d images ✕</string>
-    <string name="input_hint">What did you do? (-42 lunch)</string>
+    <string name="input_hint">What did you do?</string>
     <string name="keep_as_draft">Keep as draft</string>
     <string name="keep_old">Keep old</string>
     <string name="kind_exercise">Exercise</string>
