@@ -90,7 +90,7 @@
     <string name="generate_draft">Generate a draft with AI</string>
     <string name="generating">Generating…</string>
     <string name="get_fallback">Get a fallback</string>
-    <string name="github_hint">Fine-grained and read-only, for your project repos.</string>
+    <string name="github_hint">Shows your commits on Project goals.</string>
     <string name="github_repos">GitHub repos (owner/repo)</string>
     <string name="github_token">Read-only token</string>
     <string name="goal_amount">Amount</string>

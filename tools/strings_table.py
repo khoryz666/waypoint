@@ -236,7 +236,7 @@ s('spend_line', 'This month %1$s · projected %2$s', '本月 %1$s · 预计 %2$s
 s('prices', 'Prices per 1M tokens (CNY): hit / miss / output', '每百万 token 价格 (元): 命中 / 未命中 / 输出')
 s('prices_hint', 'Peak-hour prices by default. Update them if DeepSeek changes.', '默认高峰价，DeepSeek 调价时改一下。')
 s('github_token', 'Read-only token', '只读 token')
-s('github_hint', 'Fine-grained and read-only, for your project repos.', 'Fine-grained 只读 token，用于项目仓库。')
+s('github_hint', 'Shows your commits on Project goals.', '在项目类目标里显示你的 commit。')
 s('targets_and_reminders', 'Plan and reminders', '计划与提醒')
 s('daily_target', 'Daily plan', '每日计划')
 s('set_daily_target', 'Set a daily plan', '设置每日计划')
