@@ -55,6 +55,17 @@
                 android:value="Personal time tracker: shows the running session and quick start/stop/switch actions all day." />
         </service>
 
+        <!-- The input box's camera button hands the camera app a file to write to. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <receiver
             android:name=".timer.BootReceiver"
             android:exported="false">

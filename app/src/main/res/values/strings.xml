@@ -5,7 +5,7 @@
     <string name="activate">Activate</string>
     <string name="add">Add</string>
     <string name="add_as_draft">Add as draft</string>
-    <string name="add_images">Add images</string>
+    <string name="add_images">Attach images</string>
     <string name="add_question">Add question</string>
     <string name="add_session">Add session</string>
     <string name="add_sleep_manually">Add a night by hand</string>
@@ -251,6 +251,7 @@
     <string name="submit_review">Submit review</string>
     <string name="swim_min">Swim (min)</string>
     <string name="sync_failed">Sync failed: %1$s</string>
+    <string name="take_photo">Take photo</string>
     <string name="target_bedtime">Target bedtime (HH:mm)</string>
     <string name="target_date">Deadline (YYYY-MM-DD, optional)</string>
     <string name="target_date_x">Deadline: %1$s</string>

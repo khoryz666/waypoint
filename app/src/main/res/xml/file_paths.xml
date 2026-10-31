@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Where the camera button in the input box saves photos before they are imported. -->
+<paths>
+    <cache-path name="camera" path="camera/" />
+</paths>

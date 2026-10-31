@@ -251,6 +251,7 @@
     <string name="submit_review">提交复盘</string>
     <string name="swim_min">游泳 (分钟)</string>
     <string name="sync_failed">同步失败: %1$s</string>
+    <string name="take_photo">拍照</string>
     <string name="target_bedtime">目标入睡时间 (HH:mm)</string>
     <string name="target_date">截止日期 (YYYY-MM-DD，可选)</string>
     <string name="target_date_x">截止日期: %1$s</string>
