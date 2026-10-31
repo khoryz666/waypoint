@@ -25,7 +25,6 @@ Do these once, in this order, before you rely on the app. Steps 1 and 2 need you
 - Open the app and tap **Start fresh**.
 - Pick your language, time zone, currency and starting balance.
 - Add a DeepSeek API key if you have one. You can add it later in Settings.
-- Pick your day types. A day type says what counts as a win on that kind of day. For example, a Light day might need only 20 minutes of focus.
 - Set your sleep goal.
 
 ### 2. Create a track for each goal
@@ -34,20 +33,20 @@ A track is one thing you want to improve. Examples: learning Rust, reading a boo
 
 - Go to **Tracks** and tap **New track**.
 - Pick a domain: Exercise, Project, Basics, Math or Reading.
-- Say where you are now and what you want to reach.
-- Waypoint gives you a prompt to discuss in the DeepSeek app. Paste the final plan back. If you'd rather not, fill in the form yourself.
+- Name it and say where you are now.
+- Tap **Generate a draft with AI** (needs a DeepSeek key), or **Plan in DeepSeek** to talk it through in the DeepSeek app and paste the plan back. You can edit the draft before you save it, or skip both and fill it in yourself.
 - Keep only a few tracks active at once. The app allows eight at most. Fewer works better.
 
 ### 3. Every day
 
 - **Start the timer** on a track when you sit down to work. Stop it when you are done. The timer also lives in your notifications.
-- **Tell it what you did.** Type in the box on **Today**, for example "Read chapter 3, the part on habits was useful". You can also share a screenshot into the app.
-- **Check the card** that appears and tap **Save**. You get the numbers right away, then a short comment and your next step.
+- **Tell it what you did.** Type in the box on **Today**, for example "Read chapter 3, the part on habits was useful". You can also attach a photo, take one, or share a screenshot into the app.
+- Most logs save on their own; tap **Undo** if one is wrong. When the app isn't sure, a card asks you to check it first. You get the numbers right away, then a short comment and your next step.
 - **Money:** type `-42.50 lunch`, `+350` or `=4210`. It is saved at once.
 - **Sleep:** share a screenshot from your sleep app, or add the night by hand on **Foundation**.
 - At night, open **Daily close** (the moon icon). Write down tomorrow's most important thing.
 
-Small days count. Meeting the minimum on a busy day keeps your streak going.
+Small days count. Set a **daily target** from Today: a minimum that still counts as a win, and a plan. Meeting the minimum on a busy day keeps your streak going.
 
 ### 4. Every week
 
