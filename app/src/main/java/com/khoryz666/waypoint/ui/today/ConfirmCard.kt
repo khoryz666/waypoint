@@ -238,7 +238,7 @@ private fun ExerciseEditor(s: Structured.Exercise, onChange: (Structured) -> Uni
         var swim by remember { mutableStateOf(s.swimMin?.toString().orEmpty()) }
         var rpe by remember { mutableStateOf(s.rpe?.toString().orEmpty()) }
         OutlinedTextField(swim, { swim = it; onChange(s.copy(swimMin = it.toIntOrNull())) }, Modifier.weight(1f), label = { Text(stringResource(R.string.swim_min)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
-        OutlinedTextField(rpe, { rpe = it; onChange(s.copy(rpe = it.toIntOrNull()?.coerceIn(1, 10))) }, Modifier.weight(1f), label = { Text("RPE") }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+        OutlinedTextField(rpe, { rpe = it; onChange(s.copy(rpe = it.toIntOrNull()?.coerceIn(1, 10))) }, Modifier.weight(1f), label = { Text(stringResource(R.string.effort)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
     }
     OutlinedTextField(s.pain.orEmpty(), { onChange(s.copy(pain = it.ifBlank { null })) }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.pain)) }, singleLine = true)
 }
