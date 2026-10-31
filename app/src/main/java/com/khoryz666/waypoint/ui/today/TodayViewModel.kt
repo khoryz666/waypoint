@@ -43,7 +43,7 @@ data class TodayState(
 
 class TodayViewModel(private val c: AppContainer) : ViewModel() {
     private val budget = MutableStateFlow(BudgetLevel.OK)
-    val feedback = c.feedback.current
+    val feedback = c.feedback.cards
     val inbox = c.inbox
     val busy = MutableStateFlow(false)
     val message = MutableStateFlow<String?>(null)
@@ -98,11 +98,11 @@ class TodayViewModel(private val c: AppContainer) : ViewModel() {
     fun discard(log: LogEntry) = viewModelScope.launch { c.input.discard(log) }
     fun undo(logId: Long) = viewModelScope.launch {
         c.db.logs().get(logId)?.let { c.input.delete(it) }
-        c.feedback.dismiss()
+        c.feedback.dismiss(logId)
     }
 
     fun reparse(log: LogEntry, text: String, trackId: Long?) = viewModelScope.launch { c.input.reparse(log, text, trackId) }
-    fun dismissFeedback() = c.feedback.dismiss()
+    fun dismissFeedback(logId: Long) = c.feedback.dismiss(logId)
 
     fun start(trackId: Long) = viewModelScope.launch { c.tracker.switchTo(trackId) }
     fun stop() = viewModelScope.launch { c.tracker.stop() }

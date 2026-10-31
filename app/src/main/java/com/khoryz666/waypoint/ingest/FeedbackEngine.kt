@@ -29,6 +29,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+private const val MAX_CARDS = 5
+
 enum class CommentState { STREAMING, DONE, SKIPPED_BUDGET, NO_API, FAILED }
 
 /** The feedback shown after a save: the instant receipt, then the comment as it streams in. */
@@ -54,24 +56,34 @@ class FeedbackEngine(
     private val clock: AppClock,
     private val scope: CoroutineScope,
 ) {
-    private val _current = MutableStateFlow<FeedbackCard?>(null)
-    val current: StateFlow<FeedbackCard?> = _current
+    private val _cards = MutableStateFlow<List<FeedbackCard>>(emptyList())
 
-    fun dismiss() {
-        _current.value = null
+    /** One card per recent save, newest first, so a batch of saves each keeps its Undo. */
+    val cards: StateFlow<List<FeedbackCard>> = _cards
+
+    fun dismiss(logId: Long) {
+        _cards.value = _cards.value.filter { it.logId != logId }
+    }
+
+    private fun show(card: FeedbackCard) {
+        _cards.value = (listOf(card) + _cards.value.filter { it.logId != card.logId }).take(MAX_CARDS)
+    }
+
+    private fun update(logId: Long, change: (FeedbackCard) -> FeedbackCard) {
+        _cards.value = _cards.value.map { if (it.logId == logId) change(it) else it }
     }
 
     /** Shows the receipt at once and starts the follow-ups. */
     suspend fun onConfirmed(confirmed: InputRepository.Confirmed) {
         val log = confirmed.log
-        _current.value = FeedbackCard(log.id, receipts.receipt(log))
+        show(FeedbackCard(log.id, receipts.receipt(log)))
         scope.launch { followUps(log, confirmed.imageDataUrls) }
     }
 
     /** A balance shortcut: receipt only, no LLM (spec 5.2). */
     suspend fun onBalance(logId: Long) {
         val log = db.logs().get(logId) ?: return
-        _current.value = FeedbackCard(log.id, receipts.receipt(log), state = CommentState.DONE)
+        show(FeedbackCard(log.id, receipts.receipt(log), state = CommentState.DONE))
     }
 
     private suspend fun followUps(log: LogEntry, images: List<String>) {
@@ -89,13 +101,13 @@ class FeedbackEngine(
     }
 
     private fun finish(logId: Long, text: String, state: CommentState) {
-        _current.value = _current.value?.takeIf { it.logId == logId }?.copy(comment = text, state = state)
+        update(logId) { it.copy(comment = text, state = state) }
     }
 
     private suspend fun comment(log: LogEntry, track: Track?, images: List<String>) {
         val s = settings.current()
         if (!s.hasApiKey || s.apiProblem != null) return finish(log.id, "", CommentState.NO_API)
-        val receipt = _current.value?.takeIf { it.logId == log.id }?.receipt.orEmpty()
+        val receipt = _cards.value.find { it.logId == log.id }?.receipt.orEmpty()
         val input = buildString {
             append("## Receipt shown to the user\n").append(receipt)
             track?.let { t -> db.nextSteps().open(t.id)?.let { append("\n\n## Current next step\n").append(it.text) } }
@@ -112,7 +124,7 @@ class FeedbackEngine(
                 when (event) {
                     is StreamEvent.Delta -> {
                         shown.append(event.text)
-                        _current.value = _current.value?.takeIf { it.logId == log.id }?.copy(comment = visible(shown.toString()))
+                        update(log.id) { it.copy(comment = visible(shown.toString())) }
                     }
                     is StreamEvent.Done -> {
                         val (comment, next) = splitNext(event.content)

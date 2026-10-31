@@ -100,7 +100,7 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
             banners(state, onSettings)
             if (s.tomorrowTop != null && s.tomorrowTopDate == day?.date) item { SectionCard(title = stringResource(R.string.todays_one_thing)) { Text(s.tomorrowTop, style = MaterialTheme.typography.titleMedium) } }
             if (state.top3.isNotEmpty()) item { SectionCard(title = stringResource(R.string.top3)) { state.top3.forEachIndexed { i, t -> Text("${i + 1}. $t") } } }
-            feedback?.let { item { FeedbackView(it, onUndo = { vm.undo(it.logId) }, onDismiss = vm::dismissFeedback) } }
+            items(feedback, key = { "feedback-${it.logId}" }) { card -> FeedbackView(card, onUndo = { vm.undo(card.logId) }, onDismiss = { vm.dismissFeedback(card.logId) }) }
             items(state.cards, key = { "card-${it.id}" }) { log ->
                 ConfirmCard(
                     log, state.tracks, state.unitsByTrack, state.existingSleep, s.profile.currency,
