@@ -272,6 +272,10 @@
     <string name="track_auto">自动</string>
     <string name="track_label">Track</string>
     <string name="undo">撤销</string>
+    <string name="unit_doing">进行中</string>
+    <string name="unit_done">已完成</string>
+    <string name="unit_todo">未开始</string>
+    <string name="unit_weak">薄弱: 需要复习</string>
     <string name="units_lines">目标拆解，每行一步</string>
     <string name="units_short">单元</string>
     <string name="use_new">使用新的</string>

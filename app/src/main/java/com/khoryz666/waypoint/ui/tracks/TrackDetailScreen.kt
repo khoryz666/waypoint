@@ -196,24 +196,36 @@ private fun LifecycleActions(t: Track, units: List<TrackUnit>, vm: TrackDetailVi
 private fun UnitRow(unit: TrackUnit, vm: TrackDetailViewModel) {
     var menu by remember { mutableStateOf(false) }
     var rename by remember { mutableStateOf(false) }
-    val mark = when (unit.status) {
-        UnitStatus.TODO -> "○"
-        UnitStatus.DOING -> "◐"
-        UnitStatus.DONE -> "●"
-        UnitStatus.WEAK -> "◍"
-    }
+    val mark = unitMark(unit.status)
     Row(Modifier.fillMaxWidth().clickable { menu = true }.padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(mark, Modifier.padding(end = 8.dp), color = if (unit.status == UnitStatus.WEAK) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
         Text(unit.title, Modifier.weight(1f))
         unit.nextReviewAt?.let { Muted(DateTimeFormatter.ofPattern("MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(it))) }
         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
-            UnitStatus.entries.forEach { s -> DropdownMenuItem(text = { Text(s.name) }, onClick = { menu = false; vm.setUnit(unit, s) }) }
+            UnitStatus.entries.forEach { s -> DropdownMenuItem(text = { Text(unitMark(s) + "  " + unitStatusLabel(s)) }, onClick = { menu = false; vm.setUnit(unit, s) }) }
             DropdownMenuItem(text = { Text(stringResource(R.string.rename)) }, onClick = { menu = false; rename = true })
             DropdownMenuItem(text = { Text(stringResource(R.string.delete)) }, onClick = { menu = false; vm.deleteUnit(unit) })
         }
     }
     if (rename) TextDialog(stringResource(R.string.rename), initial = unit.title, singleLine = true, onDismiss = { rename = false }) { vm.renameUnit(unit, it); rename = false }
 }
+
+private fun unitMark(status: UnitStatus) = when (status) {
+    UnitStatus.TODO -> "○"
+    UnitStatus.DOING -> "◐"
+    UnitStatus.DONE -> "●"
+    UnitStatus.WEAK -> "◍"
+}
+
+@Composable
+private fun unitStatusLabel(status: UnitStatus): String = stringResource(
+    when (status) {
+        UnitStatus.TODO -> R.string.unit_todo
+        UnitStatus.DOING -> R.string.unit_doing
+        UnitStatus.DONE -> R.string.unit_done
+        UnitStatus.WEAK -> R.string.unit_weak
+    },
+)
 
 /** How far through the outline the track is, shown once it's activated. */
 @Composable

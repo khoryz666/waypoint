@@ -272,6 +272,10 @@
     <string name="track_auto">Auto</string>
     <string name="track_label">Track</string>
     <string name="undo">Undo</string>
+    <string name="unit_doing">In progress</string>
+    <string name="unit_done">Done</string>
+    <string name="unit_todo">To do</string>
+    <string name="unit_weak">Weak: needs review</string>
     <string name="units_lines">Breakdown, one step per line</string>
     <string name="units_short">units</string>
     <string name="use_new">Use new</string>
