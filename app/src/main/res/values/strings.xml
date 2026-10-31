@@ -216,6 +216,7 @@
     <string name="send">Send</string>
     <string name="sessions">Sessions</string>
     <string name="sessions_this_week">%1$d sessions this week</string>
+    <string name="set_daily_target">Set a daily target</string>
     <string name="set_savings_goal">Set a savings goal</string>
     <string name="set_up_backup">Set up backup</string>
     <string name="sets_hint">e.g. 10×12, 10×12 or 30s</string>

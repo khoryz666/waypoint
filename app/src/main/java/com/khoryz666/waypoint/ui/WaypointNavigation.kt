@@ -99,7 +99,7 @@ fun WaypointNavigation(c: AppContainer, destination: MutableStateFlow<Destinatio
         Box(Modifier.fillMaxSize().padding(bottom = padding.calculateBottomPadding())) {
             NavHost(nav, startDestination = Tab.TODAY.route) {
                 composable(Tab.TODAY.route) {
-                    TodayScreen(viewModel { TodayViewModel(c) }, onSettings = { nav.navigate("settings") }, onNewTrack = { nav.navigate("newTrack") }, onDailyClose = { nav.navigate("dailyClose") })
+                    TodayScreen(viewModel { TodayViewModel(c) }, onSettings = { nav.navigate("settings") }, onNewTrack = { nav.navigate("newTrack") }, onDailyClose = { nav.navigate("dailyClose") }, onDailyTarget = { nav.navigate("dailyTarget") })
                 }
                 composable(Tab.TRACKS.route) { TracksScreen(c, onOpen = { nav.navigate("track/$it") }, onNew = { nav.navigate("newTrack") }) }
                 composable(Tab.FOUNDATION.route) { FoundationScreen(c) }

@@ -216,6 +216,7 @@
     <string name="send">发送</string>
     <string name="sessions">计时记录</string>
     <string name="sessions_this_week">本周 %1$d 次</string>
+    <string name="set_daily_target">设置每日目标</string>
     <string name="set_savings_goal">设一个存钱目标</string>
     <string name="set_up_backup">设置备份</string>
     <string name="sets_hint">如 10×12, 10×12 或 30s</string>

@@ -63,7 +63,7 @@ import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Unit, onDailyClose: () -> Unit) {
+fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Unit, onDailyClose: () -> Unit, onDailyTarget: () -> Unit) {
     val state by vm.state.collectAsState()
     val feedback by vm.feedback.collectAsState()
     val inbox by vm.inbox.collectAsState()
@@ -120,7 +120,9 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
             items(state.steps, key = { "step-${it.step.id}" }) { item -> StepCard(item, vm) }
             day?.let { d ->
                 item { TimerCard(d.running, d.now, d.time.totalFocusMs, active, state.tracks, vm) }
-                if (d.minimum.lines.isNotEmpty() || d.plan.lines.isNotEmpty()) item {
+                if (d.minimum.lines.isEmpty() && d.plan.lines.isEmpty()) {
+                    if (active.isNotEmpty()) item { SectionCard(title = stringResource(R.string.targets)) { TextButton(onClick = onDailyTarget) { Text(stringResource(R.string.set_daily_target)) } } }
+                } else item {
                     SectionCard(title = stringResource(R.string.targets)) {
                         if (d.minimum.lines.isNotEmpty()) {
                             Text(stringResource(R.string.minimum) + if (d.minimum.met) " ✓" else "", style = MaterialTheme.typography.titleSmall, color = if (d.minimum.met) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurface)
