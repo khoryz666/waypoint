@@ -19,9 +19,6 @@
     <string name="api_key_invalid">API key 不能用，解析暂停了。</string>
     <string name="api_key_missing">加个 DeepSeek key 就能解析记录。</string>
     <string name="api_no_balance">DeepSeek 余额用完了，其他功能照常。</string>
-    <string name="ask">提问</string>
-    <string name="ask_hint">问一个问题</string>
-    <string name="ask_track">问问这个 track</string>
     <string name="at_least_hm">至少 (h:mm)</string>
     <string name="at_most_hm">至多 (h:mm)</string>
     <string name="back">返回</string>
@@ -258,7 +255,6 @@
     <string name="target_date">截止日期 (YYYY-MM-DD，可选)</string>
     <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">目标</string>
-    <string name="think_harder">深入思考 (Pro)</string>
     <string name="this_week">本周</string>
     <string name="timer">计时</string>
     <string name="timezone">时区</string>

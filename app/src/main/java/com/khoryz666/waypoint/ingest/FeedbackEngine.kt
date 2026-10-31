@@ -25,7 +25,6 @@ import com.khoryz666.waypoint.llm.LlmService
 import com.khoryz666.waypoint.llm.Part
 import com.khoryz666.waypoint.llm.QuestionsOutput
 import com.khoryz666.waypoint.llm.StreamEvent
-import com.khoryz666.waypoint.llm.Tier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -235,17 +234,6 @@ class FeedbackEngine(
     suspend fun skipRecall(log: LogEntry) {
         val recall = log.structured as? Structured.Recall ?: return
         db.logs().update(log.copy(structured = recall.copy(skipped = true)))
-    }
-
-    /** "Ask about this track" (spec 6.8): single turn, saved as Feedback on the track. */
-    suspend fun ask(track: Track, question: String, thinkHarder: Boolean): String {
-        val units = db.units().forTrack(track.id)
-        val logs = db.logs().recentConfirmed(track.id, 10)
-        val text = context.profile(settings.current().profile, null) + "\n" + context.track(track, units) + "\n" + context.recent(logs, 3_000) + "\n## Question\n" + question
-        val answer = llm.text("ask_track", listOf(Part.Text(text)), 800, if (thinkHarder) Tier.REVIEW else Tier.FAST, thinking = thinkHarder)
-        val s = settings.current()
-        db.feedback().insert(Feedback(trackId = track.id, question = question, text = answer, model = if (thinkHarder) s.reviewModel else s.fastModel, promptName = "ask_track", createdAt = clock.now()))
-        return answer
     }
 
     /** Rewrites a track's long-term memory from the old summary and the logs since (spec 8.4). */

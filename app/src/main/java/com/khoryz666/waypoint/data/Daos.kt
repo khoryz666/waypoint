@@ -141,9 +141,6 @@ interface FeedbackDao {
     @Query("SELECT * FROM feedback WHERE logId = :logId ORDER BY createdAt DESC LIMIT 1")
     fun observeForLog(logId: Long): Flow<Feedback?>
 
-    @Query("SELECT * FROM feedback WHERE trackId = :trackId AND question IS NOT NULL ORDER BY createdAt DESC")
-    fun observeAnswers(trackId: Long): Flow<List<Feedback>>
-
     @Query("SELECT * FROM feedback")
     suspend fun all(): List<Feedback>
 

@@ -19,9 +19,6 @@
     <string name="api_key_invalid">API key isn\'t working, so parsing is paused.</string>
     <string name="api_key_missing">Add a DeepSeek key to parse logs.</string>
     <string name="api_no_balance">DeepSeek balance is empty. Everything else still works.</string>
-    <string name="ask">Ask</string>
-    <string name="ask_hint">Ask one thing</string>
-    <string name="ask_track">Ask about this track</string>
     <string name="at_least_hm">At least (h:mm)</string>
     <string name="at_most_hm">At most (h:mm)</string>
     <string name="back">Back</string>
@@ -258,7 +255,6 @@
     <string name="target_date">Deadline (YYYY-MM-DD, optional)</string>
     <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Targets</string>
-    <string name="think_harder">Think harder (Pro)</string>
     <string name="this_week">This week</string>
     <string name="timer">Timer</string>
     <string name="timezone">Time zone</string>

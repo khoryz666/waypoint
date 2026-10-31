@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -69,10 +68,7 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
     val units by vm.units.collectAsState()
     val logs by vm.logs.collectAsState()
     val sessions by vm.sessions.collectAsState()
-    val answers by vm.answers.collectAsState()
     val nextStep by vm.nextStep.collectAsState()
-    val asking by vm.asking.collectAsState()
-    val message by vm.message.collectAsState()
     val tooMany by vm.tooMany.collectAsState()
     val successor by vm.successor.collectAsState()
     var dialog by remember { mutableStateOf<Dialog?>(null) }
@@ -129,7 +125,6 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
                     TextButton(onClick = { dialog = Dialog.ADD_UNIT }) { Text(stringResource(R.string.add_unit)) }
                 }
             }
-            item { AskBox(asking, message, answers.map { it.question.orEmpty() to it.text }, onAsk = vm::ask) }
             item {
                 SectionCard(title = stringResource(R.string.sessions)) {
                     sessions.take(10).forEach { s ->
@@ -233,26 +228,6 @@ private fun Progress(units: List<TrackUnit>) {
     val done = units.count { it.status == UnitStatus.DONE }
     LinearProgressIndicator(progress = { done.toFloat() / units.size }, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
     Muted(stringResource(R.string.progress_x, done, units.size, done * 100 / units.size))
-}
-
-@Composable
-private fun AskBox(asking: Boolean, message: String?, answers: List<Pair<String, String>>, onAsk: (String, Boolean) -> Unit) {
-    var question by remember { mutableStateOf("") }
-    var harder by remember { mutableStateOf(false) }
-    SectionCard(title = stringResource(R.string.ask_track)) {
-        OutlinedTextField(question, { question = it }, Modifier.fillMaxWidth(), placeholder = { Text(stringResource(R.string.ask_hint)) }, minLines = 2)
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Switch(checked = harder, onCheckedChange = { harder = it })
-            Text(stringResource(R.string.think_harder), Modifier.padding(start = 8.dp).weight(1f))
-            Button(onClick = { onAsk(question, harder); question = "" }, enabled = question.isNotBlank() && !asking) { Text(stringResource(R.string.ask)) }
-        }
-        if (asking) LinearProgressIndicator(Modifier.fillMaxWidth())
-        message?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-        answers.take(5).forEach { (q, a) ->
-            Text(q, style = MaterialTheme.typography.titleSmall)
-            Text(a)
-        }
-    }
 }
 
 @Composable

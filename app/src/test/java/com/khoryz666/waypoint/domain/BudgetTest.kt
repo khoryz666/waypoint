@@ -24,7 +24,7 @@ class BudgetTest {
         assertTrue(capped.allows("parse_input"))
         assertTrue(capped.allows("review_week"))
         assertFalse(capped.allows("comment_log"))
-        assertFalse(capped.allows("ask_track"))
+        assertFalse(capped.allows("track_summary"))
     }
 
     @Test

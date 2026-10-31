@@ -9,7 +9,6 @@ import com.khoryz666.waypoint.data.Session
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.data.TrackUnit
 import com.khoryz666.waypoint.domain.UnitStatus
-import com.khoryz666.waypoint.llm.BudgetExceeded
 import com.khoryz666.waypoint.work.CommitSyncWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,10 +20,7 @@ class TrackDetailViewModel(private val c: AppContainer, val id: Long) : ViewMode
     val units = c.tracks.observeUnits(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val logs = c.db.logs().observeFor(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val sessions = c.db.sessions().observeFor(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
-    val answers = c.db.feedback().observeAnswers(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val nextStep = MutableStateFlow<String?>(null)
-    val asking = MutableStateFlow(false)
-    val message = MutableStateFlow<String?>(null)
     val tooMany = MutableStateFlow<List<Track>>(emptyList())
     val successor = MutableStateFlow<Long?>(null)
     val clock = c.clock
@@ -80,18 +76,4 @@ class TrackDetailViewModel(private val c: AppContainer, val id: Long) : ViewMode
     }
 
     fun deleteSession(session: Session) = viewModelScope.launch { c.db.sessions().deleteFinished(session.id) }
-
-    fun ask(question: String, thinkHarder: Boolean) = viewModelScope.launch {
-        val t = track.value ?: return@launch
-        asking.value = true
-        try {
-            c.feedback.ask(t, question, thinkHarder)
-        } catch (e: BudgetExceeded) {
-            message.value = e.message
-        } catch (e: Exception) {
-            message.value = e.message
-        } finally {
-            asking.value = false
-        }
-    }
 }
