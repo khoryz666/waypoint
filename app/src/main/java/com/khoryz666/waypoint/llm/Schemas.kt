@@ -46,6 +46,9 @@ data class ReviewOutput(
 )
 
 @Serializable
+data class ReviewQuestionsOutput(val questions: List<String> = emptyList())
+
+@Serializable
 data class Suggestion(val topic: String, val book: String? = null)
 
 /**

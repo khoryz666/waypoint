@@ -57,7 +57,7 @@ class PromptGoldenTest {
 
     @Test
     fun `json prompts mention json and show an example`() {
-        listOf("parse_input", "parse_sleep_image", "exercise_next", "recall_question", "recall_grade", "repair_track_json", "review_week", "review_month", "review_year").forEach {
+        listOf("parse_input", "parse_sleep_image", "exercise_next", "recall_question", "recall_grade", "repair_track_json", "review_week", "review_month", "review_year", "review_questions").forEach {
             val text = prompts.template(it)
             assertTrue("$it must say json", text.contains("json"))
             assertTrue("$it must show an example", text.contains("{\""))

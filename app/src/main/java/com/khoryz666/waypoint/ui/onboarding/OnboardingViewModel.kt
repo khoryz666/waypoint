@@ -13,16 +13,14 @@ import com.khoryz666.waypoint.data.BalanceEvent
 import com.khoryz666.waypoint.data.DayType
 import com.khoryz666.waypoint.domain.BalanceKind
 import com.khoryz666.waypoint.domain.Lang
-import com.khoryz666.waypoint.domain.parseChecklistMarkdown
 import com.khoryz666.waypoint.domain.parseMinor
-import com.khoryz666.waypoint.domain.starterChecklist
 import com.khoryz666.waypoint.timer.TimerService
 import com.khoryz666.waypoint.ui.Locales
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 /** Onboarding steps in spec 5.0 order. Everything but language can be skipped. */
-enum class Step { START, LANGUAGE, REGION, API, DAY_TYPES, SLEEP, REVIEW, OPTIONAL, RESTORE, RESTORE_KEY }
+enum class Step { START, LANGUAGE, REGION, API, DAY_TYPES, SLEEP, OPTIONAL, RESTORE, RESTORE_KEY }
 
 class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
     val step = MutableStateFlow(Step.START)
@@ -103,12 +101,6 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
                 sleepAppHint = app.ifBlank { null },
             ))
         }
-        go(Step.REVIEW)
-    }
-
-    fun setChecklist(markdown: String?) = viewModelScope.launch {
-        val drafts = markdown?.let(::parseChecklistMarkdown)?.takeIf { it.isNotEmpty() } ?: starterChecklist(c.settings.current().profile.language)
-        c.reviews.replaceChecklist(drafts)
         go(Step.OPTIONAL)
     }
 

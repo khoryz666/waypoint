@@ -11,8 +11,6 @@ import com.khoryz666.waypoint.domain.GoalCriterion
 import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.NextStepStatus
 import com.khoryz666.waypoint.domain.ParseStatus
-import com.khoryz666.waypoint.domain.QuestionKey
-import com.khoryz666.waypoint.domain.QuestionType
 import com.khoryz666.waypoint.domain.ReviewPeriod
 import com.khoryz666.waypoint.domain.SleepSource
 import com.khoryz666.waypoint.domain.Structured
@@ -192,9 +190,8 @@ data class Review(
     @Serializable(with = LocalDateSerializer::class) val end: LocalDate,
     /** JSON computed by domain/ (ReviewStats). */
     val stats: String,
-    /** JSON map of question id to answer. */
+    /** JSON map of question text to answer, so a past review keeps the questions it was answered with. */
     val answers: String = "{}",
-    val reflection: String = "",
     val narrative: String = "",
     val oneThingToFix: String = "",
     val top3: List<String> = emptyList(),
@@ -215,30 +212,13 @@ data class UsageRecord(
 )
 
 /** A user-defined group of weekly-review questions (spec 7.2). */
+/** One weekly review question, written by DeepSeek from the user's tracks or edited by hand. */
 @Serializable
-@Entity(tableName = "pillars")
-data class Pillar(
+@Entity(tableName = "review_questions")
+data class ReviewQuestion(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val name: String,
-    val order: Int,
-    /** Shows logged time and logs of [trackIds] without judgment (the starter Joy pillar). */
-    val noTargets: Boolean = false,
-    val trackIds: List<Long> = emptyList(),
-)
-
-@Serializable
-@Entity(
-    tableName = "checklist_questions",
-    foreignKeys = [ForeignKey(entity = Pillar::class, parentColumns = ["id"], childColumns = ["pillarId"], onDelete = ForeignKey.CASCADE)],
-    indices = [Index("pillarId")],
-)
-data class ChecklistQuestion(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val pillarId: Long,
     val order: Int,
     val text: String,
-    val type: QuestionType,
-    val key: QuestionKey? = null,
 )
 
 /** A commit pulled from GitHub (6.4). Messages only, no diffs. */

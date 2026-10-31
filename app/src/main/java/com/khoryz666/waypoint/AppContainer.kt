@@ -95,7 +95,7 @@ class AppContainer(context: Context) {
         // Seed the zone and language before anything reads them, then follow changes.
         runBlocking { settings.settings.first() }.let { s -> clock.zoneOverride = s.profile.timezoneOverride; lang = s.profile.language }
         // Every write pushes the debounced backup 10 minutes out (spec 9.3), once a passphrase exists.
-        db.invalidationTracker.addObserver(object : InvalidationTracker.Observer(arrayOf("tracks", "units", "logs", "sessions", "sleep_records", "balance_events", "reviews", "day_types", "pillars", "checklist_questions")) {
+        db.invalidationTracker.addObserver(object : InvalidationTracker.Observer(arrayOf("tracks", "units", "logs", "sessions", "sleep_records", "balance_events", "reviews", "day_types", "review_questions")) {
             override fun onInvalidated(tables: Set<String>) {
                 scope.launch { if (settings.current().backup.hasKey) BackupWorker.afterWrite(app) }
             }

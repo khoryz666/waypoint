@@ -38,7 +38,6 @@ import com.khoryz666.waypoint.ui.onboarding.OnboardingScreen
 import com.khoryz666.waypoint.ui.onboarding.OnboardingViewModel
 import com.khoryz666.waypoint.ui.review.ReviewScreen
 import com.khoryz666.waypoint.ui.review.ReviewViewModel
-import com.khoryz666.waypoint.ui.settings.ChecklistScreen
 import com.khoryz666.waypoint.ui.settings.DayTypesScreen
 import com.khoryz666.waypoint.ui.settings.SettingsScreen
 import com.khoryz666.waypoint.ui.settings.SettingsViewModel
@@ -104,12 +103,11 @@ fun WaypointNavigation(c: AppContainer, destination: MutableStateFlow<Destinatio
                 }
                 composable(Tab.TRACKS.route) { TracksScreen(c, onOpen = { nav.navigate("track/$it") }, onNew = { nav.navigate("newTrack") }) }
                 composable(Tab.FOUNDATION.route) { FoundationScreen(c) }
-                composable(Tab.REVIEW.route) { ReviewScreen(viewModel { ReviewViewModel(c) }, onEditChecklist = { nav.navigate("checklist") }) }
+                composable(Tab.REVIEW.route) { ReviewScreen(viewModel { ReviewViewModel(c) }) }
                 composable("settings") {
-                    SettingsScreen(viewModel { SettingsViewModel(c) }, c, onBack = nav::popBackStack, onDayTypes = { nav.navigate("dayTypes") }, onChecklist = { nav.navigate("checklist") })
+                    SettingsScreen(viewModel { SettingsViewModel(c) }, c, onBack = nav::popBackStack, onDayTypes = { nav.navigate("dayTypes") })
                 }
                 composable("dayTypes") { DayTypesScreen(c, onBack = nav::popBackStack) }
-                composable("checklist") { ChecklistScreen(c, onBack = nav::popBackStack) }
                 composable("dailyClose") { DailyCloseScreen(c, onBack = nav::popBackStack) }
                 composable(
                     "newTrack?predecessor={predecessor}",

@@ -78,7 +78,6 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
             Step.API -> ApiStep(vm, s)
             Step.DAY_TYPES -> DayTypeStep(vm)
             Step.SLEEP -> SleepStep(vm)
-            Step.REVIEW -> ReviewStep(vm)
             Step.OPTIONAL -> OptionalStep(vm, s)
             Step.RESTORE -> RestoreStep(vm)
             Step.RESTORE_KEY -> Unit
@@ -88,7 +87,7 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
 
 @Composable
 private fun StepTitle(n: Int, title: String) {
-    Muted(stringResource(R.string.step_n, n, 8))
+    Muted(stringResource(R.string.step_n, n, 7))
     Text(title, style = MaterialTheme.typography.titleLarge)
 }
 
@@ -179,17 +178,7 @@ private fun SleepStep(vm: OnboardingViewModel) {
     OutlinedTextField(max, { max = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_max) + " (min)") }, singleLine = true)
     OutlinedTextField(bed, { bed = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_bedtime)) }, singleLine = true)
     OutlinedTextField(app, { app = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.sleep_app)) }, singleLine = true)
-    Nav(onNext = { vm.setSleep(min.toIntOrNull(), max.toIntOrNull(), bed, app) }, onSkip = { vm.go(Step.REVIEW) })
-}
-
-@Composable
-private fun ReviewStep(vm: OnboardingViewModel) {
-    var md by remember { mutableStateOf("") }
-    StepTitle(7, stringResource(R.string.weekly_review))
-    Muted(stringResource(R.string.weekly_review_hint))
-    Button(onClick = { vm.setChecklist(null) }) { Text(stringResource(R.string.use_starter)) }
-    OutlinedTextField(md, { md = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.markdown_hint)) }, minLines = 4)
-    Nav(onNext = { vm.setChecklist(md.ifBlank { null }) }, onSkip = { vm.go(Step.OPTIONAL) }, nextEnabled = md.isNotBlank())
+    Nav(onNext = { vm.setSleep(min.toIntOrNull(), max.toIntOrNull(), bed, app) }, onSkip = { vm.go(Step.OPTIONAL) })
 }
 
 @Composable
@@ -197,7 +186,7 @@ private fun OptionalStep(vm: OnboardingViewModel, s: Settings) {
     val activity = LocalContext.current as? Activity
     var token by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
-    StepTitle(8, stringResource(R.string.optional))
+    StepTitle(7, stringResource(R.string.optional))
     OutlinedTextField(token, { token = it }, Modifier.fillMaxWidth(), label = { Text("GitHub · " + stringResource(R.string.github_token)) }, singleLine = true)
     if (!s.backup.hasKey) {
         OutlinedTextField(pass, { pass = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.backup_passphrase)) }, singleLine = true)

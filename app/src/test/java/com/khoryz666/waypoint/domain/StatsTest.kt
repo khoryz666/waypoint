@@ -8,7 +8,6 @@ import com.khoryz666.waypoint.data.SleepRecord
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.data.TrackUnit
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -51,7 +50,37 @@ class StatsTest {
         assertEquals(1000_00L, stats.balance.startMinor)
         assertEquals(1050_00L, stats.balance.endMinor)
         assertEquals(listOf("Gym"), stats.started)
-        assertTrue(autoAnswer(QuestionKey.MINIMUM_PLAN_DAYS, stats, Lang.EN).startsWith("minimum 1/7"))
+        assertEquals(50_00L, stats.balance.netMinor)
+    }
+
+    @Test
+    fun `the summary has a line per track, then sleep and money against the period before`() {
+        val stats = ReviewStats(
+            start = "2026-10-26", end = "2026-11-01", focusMinutes = 70,
+            tracks = listOf(
+                TrackStats(1, "Rust", Domain.FUNDAMENTAL, TrackStatus.ACTIVE, focusMinutes = 70, unitsDone = 1, unitsTotal = 5, logs = 2),
+                TrackStats(2, "Gym", Domain.EXERCISE, TrackStatus.ACTIVE, focusMinutes = 0, unitsDone = 0, unitsTotal = 0, logs = 1, exerciseSessions = 1),
+                TrackStats(3, "Old", Domain.READING, TrackStatus.PAUSED, focusMinutes = 0, unitsDone = 0, unitsTotal = 0, logs = 0),
+            ),
+            minimumDays = 0, planDays = 0, daysWithMinimum = 0,
+            sleep = SleepStats(recorded = 5, nights = 7, inRange = 4, averageMin = 450, status = null),
+            balance = BalanceStats(1000_00, 1050_00, 50_00, "MYR", netMinor = 50_00),
+            ownershipAnswered = 0, ownershipSkipped = 0, recallSolid = 0, recallPartial = 0, recallWeak = 0,
+            started = emptyList(), completed = emptyList(), aborted = emptyList(),
+        )
+        val previous = stats.copy(sleep = stats.sleep.copy(averageMin = 400), balance = stats.balance.copy(netMinor = -20_00))
+        assertEquals(
+            listOf(
+                "Rust · 1h 10m · 1 done · 2 logs",
+                "Gym · 1 session · 1 log",
+                "Sleep · average 7h 30m · 4/5 nights in range (last week 6h 40m)",
+                "Money · RM 1,050 · +RM 50 (last week -RM 20)",
+            ),
+            reviewSummary(stats, previous, ReviewPeriod.WEEK, Lang.EN),
+        )
+        val empty = previous.copy(balance = BalanceStats(0, 0, 0, "MYR"))
+        assertEquals("Money · RM 1,050 · +RM 50", reviewSummary(stats, empty, ReviewPeriod.WEEK, Lang.EN).last())
+        assertEquals("Sleep · no nights recorded", reviewSummary(stats.copy(sleep = SleepStats(0, 7, 0, null, null)), null, ReviewPeriod.WEEK, Lang.EN)[2])
     }
 
     @Test

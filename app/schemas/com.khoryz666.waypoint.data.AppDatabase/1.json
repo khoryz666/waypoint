@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bbb36f21851a57daa5046e59c7822989",
+    "identityHash": "c1af594b4a015eb90534b7e6a7b066fa",
     "entities": [
       {
         "tableName": "tracks",
@@ -839,7 +839,7 @@
       },
       {
         "tableName": "reviews",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `period` TEXT NOT NULL, `start` TEXT NOT NULL, `end` TEXT NOT NULL, `stats` TEXT NOT NULL, `answers` TEXT NOT NULL, `reflection` TEXT NOT NULL, `narrative` TEXT NOT NULL, `oneThingToFix` TEXT NOT NULL, `top3` TEXT NOT NULL, `submittedAt` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `period` TEXT NOT NULL, `start` TEXT NOT NULL, `end` TEXT NOT NULL, `stats` TEXT NOT NULL, `answers` TEXT NOT NULL, `narrative` TEXT NOT NULL, `oneThingToFix` TEXT NOT NULL, `top3` TEXT NOT NULL, `submittedAt` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -874,12 +874,6 @@
           {
             "fieldPath": "answers",
             "columnName": "answers",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "reflection",
-            "columnName": "reflection",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -1001,62 +995,12 @@
         "foreignKeys": []
       },
       {
-        "tableName": "pillars",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, `noTargets` INTEGER NOT NULL, `trackIds` TEXT NOT NULL)",
+        "tableName": "review_questions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `order` INTEGER NOT NULL, `text` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "order",
-            "columnName": "order",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "noTargets",
-            "columnName": "noTargets",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "trackIds",
-            "columnName": "trackIds",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "checklist_questions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pillarId` INTEGER NOT NULL, `order` INTEGER NOT NULL, `text` TEXT NOT NULL, `type` TEXT NOT NULL, `key` TEXT, FOREIGN KEY(`pillarId`) REFERENCES `pillars`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "pillarId",
-            "columnName": "pillarId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -1071,18 +1015,6 @@
             "columnName": "text",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "key",
-            "columnName": "key",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -1091,30 +1023,8 @@
             "id"
           ]
         },
-        "indices": [
-          {
-            "name": "index_checklist_questions_pillarId",
-            "unique": false,
-            "columnNames": [
-              "pillarId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_checklist_questions_pillarId` ON `${TABLE_NAME}` (`pillarId`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "pillars",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "pillarId"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       },
       {
         "tableName": "commits",
@@ -1187,7 +1097,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbb36f21851a57daa5046e59c7822989')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c1af594b4a015eb90534b7e6a7b066fa')"
     ]
   }
 }

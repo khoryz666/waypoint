@@ -342,39 +342,30 @@ interface UsageDao {
 }
 
 @Dao
-interface ChecklistDao {
-    @Query("SELECT * FROM pillars ORDER BY `order`")
-    fun observePillars(): Flow<List<Pillar>>
+abstract class ReviewQuestionDao {
+    @Query("SELECT * FROM review_questions ORDER BY `order`, id")
+    abstract fun observeAll(): Flow<List<ReviewQuestion>>
 
-    @Query("SELECT * FROM checklist_questions ORDER BY pillarId, `order`")
-    fun observeQuestions(): Flow<List<ChecklistQuestion>>
-
-    @Query("SELECT * FROM pillars ORDER BY `order`")
-    suspend fun pillars(): List<Pillar>
-
-    @Query("SELECT * FROM checklist_questions ORDER BY pillarId, `order`")
-    suspend fun questions(): List<ChecklistQuestion>
+    @Query("SELECT * FROM review_questions ORDER BY `order`, id")
+    abstract suspend fun all(): List<ReviewQuestion>
 
     @Insert
-    suspend fun insertPillar(pillar: Pillar): Long
+    abstract suspend fun insert(question: ReviewQuestion): Long
 
     @Update
-    suspend fun updatePillar(pillar: Pillar)
+    abstract suspend fun update(question: ReviewQuestion)
 
-    @Query("DELETE FROM pillars WHERE id = :id")
-    suspend fun deletePillar(id: Long)
+    @Query("DELETE FROM review_questions WHERE id = :id")
+    abstract suspend fun delete(id: Long)
 
-    @Insert
-    suspend fun insertQuestion(question: ChecklistQuestion): Long
+    @Query("DELETE FROM review_questions")
+    protected abstract suspend fun clear()
 
-    @Update
-    suspend fun updateQuestion(question: ChecklistQuestion)
-
-    @Query("DELETE FROM checklist_questions WHERE id = :id")
-    suspend fun deleteQuestion(id: Long)
-
-    @Query("DELETE FROM pillars")
-    suspend fun clear()
+    @Transaction
+    open suspend fun replace(texts: List<String>) {
+        clear()
+        texts.forEachIndexed { i, t -> insert(ReviewQuestion(order = i, text = t)) }
+    }
 }
 
 @Dao
