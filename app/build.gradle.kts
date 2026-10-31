@@ -97,6 +97,11 @@ ksp {
 tasks.withType<Test>().configureEach {
     // -Dgolden.update=true rewrites the prompt golden files (see PromptGoldenTest).
     systemProperty("golden.update", providers.systemProperty("golden.update").getOrElse("false"))
+    // -Dfixtures=true plus DEEPSEEK_API_KEY runs FixtureParseRun against the real API (fixtures/README.md).
+    systemProperty("fixtures", providers.systemProperty("fixtures").getOrElse("false"))
+    listOf("DEEPSEEK_API_KEY", "DEEPSEEK_FAST_MODEL", "FIXTURE_LANG", "FIXTURE_CURRENCY").forEach { name ->
+        providers.environmentVariable(name).orNull?.let { environment(name, it) }
+    }
     testLogging {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
