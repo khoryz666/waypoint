@@ -154,7 +154,6 @@
     <string name="no_backups">No backups on this account.</string>
     <string name="no_logs">Nothing yet.</string>
     <string name="no_tracks">No goals yet.</string>
-    <string name="none">None</string>
     <string name="notes">Notes</string>
     <string name="nudges">Remind me after 3 hours with no log</string>
     <string name="ok">OK</string>
@@ -226,6 +225,7 @@
     <string name="send">Send</string>
     <string name="sessions">Focus time</string>
     <string name="sessions_this_week">%1$d workouts this week</string>
+    <string name="set">Set</string>
     <string name="set_daily_target">Set a daily plan</string>
     <string name="set_savings_goal">Set a savings goal</string>
     <string name="set_up_backup">Set up backup</string>

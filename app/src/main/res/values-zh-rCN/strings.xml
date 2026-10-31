@@ -154,7 +154,6 @@
     <string name="no_backups">这个账号没有备份。</string>
     <string name="no_logs">还没有记录。</string>
     <string name="no_tracks">还没有目标。</string>
-    <string name="none">无</string>
     <string name="notes">笔记</string>
     <string name="nudges">3 小时没记录就提醒我</string>
     <string name="ok">确定</string>
@@ -226,6 +225,7 @@
     <string name="send">发送</string>
     <string name="sessions">专注记录</string>
     <string name="sessions_this_week">本周运动 %1$d 次</string>
+    <string name="set">设置</string>
     <string name="set_daily_target">设置每日计划</string>
     <string name="set_savings_goal">设一个存钱目标</string>
     <string name="set_up_backup">设置备份</string>

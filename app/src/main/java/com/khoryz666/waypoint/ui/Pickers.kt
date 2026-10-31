@@ -47,7 +47,7 @@ fun TimeField(label: String, time: LocalTime?, fallback: LocalTime = LocalTime.o
 private fun PickerRow(label: String, value: String?, onClear: (() -> Unit)?, onOpen: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(label, Modifier.weight(1f))
-        TextButton(onClick = onOpen) { Text(value ?: stringResource(R.string.none)) }
+        TextButton(onClick = onOpen) { Text(value ?: stringResource(R.string.set)) }
         if (onClear != null) IconButton(onClick = onClear) { Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.remove)) }
     }
 }
