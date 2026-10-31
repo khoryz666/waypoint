@@ -40,6 +40,9 @@
     <string name="cancel">取消</string>
     <string name="cant_today">今天做不了</string>
     <string name="closest_goal">最接近的目标: %1$s</string>
+    <string name="col_done">完成</string>
+    <string name="col_logs">记录</string>
+    <string name="col_time">时间</string>
     <string name="comment_no_api">连不上 DeepSeek，没有点评。</string>
     <string name="comment_skipped_budget">预算用完，没有点评。</string>
     <string name="complete">完成</string>

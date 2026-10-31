@@ -40,6 +40,9 @@
     <string name="cancel">Cancel</string>
     <string name="cant_today">Can\'t today</string>
     <string name="closest_goal">Closest goal: %1$s</string>
+    <string name="col_done">Done</string>
+    <string name="col_logs">Logs</string>
+    <string name="col_time">Time</string>
     <string name="comment_no_api">No comment: couldn\'t reach DeepSeek.</string>
     <string name="comment_skipped_budget">No comment: budget used up.</string>
     <string name="complete">Complete</string>

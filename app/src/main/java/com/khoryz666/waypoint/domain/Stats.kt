@@ -142,40 +142,69 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
     )
 }
 
+/** One track's row in the review summary table; "–" stands for zero. */
+data class TrackLine(val title: String, val time: String, val done: String, val logs: String)
+
+/** A labelled summary row (sleep, money): the headline value and a muted detail line. */
+data class KeyLine(val label: String, val value: String, val detail: String)
+
+/** The review's summary: a table of tracks, then sleep and money against the period before. */
+data class ReviewSummary(val tracks: List<TrackLine>, val sleep: KeyLine, val money: KeyLine) {
+    /** Plain lines for prompts. */
+    fun lines(lang: Lang): List<String> =
+        tracks.map { "${it.title} · " + lang.t("time ${it.time} · done ${it.done} · logs ${it.logs}", "时间 ${it.time} · 完成 ${it.done} · 记录 ${it.logs}") } +
+            listOf(sleep, money).map { "${it.label} · ${it.value} · ${it.detail}" }
+}
+
 /**
- * The review's summary: one line per track that is active or saw activity, then one line each
- * for sleep and money, compared with [previous] (the period before) when there is one.
+ * Builds the summary for a period: every track that is active or saw activity, then sleep and
+ * money, compared with [previous] (the period before) when it has data.
  */
-fun reviewSummary(stats: ReviewStats, previous: ReviewStats?, period: ReviewPeriod, lang: Lang): List<String> {
+fun reviewSummary(stats: ReviewStats, previous: ReviewStats?, period: ReviewPeriod, lang: Lang): ReviewSummary {
     val last = when (period) {
         ReviewPeriod.WEEK -> lang.t("last week", "上周")
         ReviewPeriod.MONTH -> lang.t("the month before", "上个月")
         ReviewPeriod.YEAR -> lang.t("the year before", "去年")
     }
-    val tracks = stats.tracks.filter { it.status == TrackStatus.ACTIVE || it.focusMinutes > 0 || it.logs > 0 || it.unitsDone > 0 }.map { t ->
-        val parts = listOfNotNull(
-            formatMinutes(t.focusMinutes.toLong()).takeIf { t.focusMinutes > 0 },
-            lang.t("${t.unitsDone} done", "完成 ${t.unitsDone}").takeIf { t.unitsDone > 0 },
-            lang.t(plural(t.exerciseSessions, "session"), "${t.exerciseSessions} 次").takeIf { t.domain == Domain.EXERCISE && t.exerciseSessions > 0 },
-            lang.t(plural(t.commits, "commit"), "${t.commits} 个 commit").takeIf { t.commits > 0 },
-            lang.t(plural(t.logs, "log"), "${t.logs} 条记录").takeIf { t.logs > 0 },
-        )
-        t.title + SEP + parts.ifEmpty { listOf(lang.t("nothing logged", "没有记录")) }.joinToString(SEP)
+    val now = when (period) {
+        ReviewPeriod.WEEK -> lang.t("this week", "本周")
+        ReviewPeriod.MONTH -> lang.t("this month", "本月")
+        ReviewPeriod.YEAR -> lang.t("this year", "今年")
     }
-    val sleep = stats.sleep.averageMin?.let { avg ->
-        lang.t("Sleep", "睡眠") + SEP + lang.t("average ", "平均 ") + formatMinutes(avg.toLong()) + SEP +
-            lang.t("${stats.sleep.inRange}/${stats.sleep.recorded} nights in range", "${stats.sleep.inRange}/${stats.sleep.recorded} 晚达标") +
-            (previous?.sleep?.averageMin?.let { " (" + last + " " + formatMinutes(it.toLong()) + ")" } ?: "")
-    } ?: (lang.t("Sleep", "睡眠") + SEP + lang.t("no nights recorded", "没有记录"))
+    fun count(n: Int) = if (n > 0) n.toString() else DASH
+    val tracks = stats.tracks.filter { it.status == TrackStatus.ACTIVE || it.focusMinutes > 0 || it.logs > 0 || it.unitsDone > 0 }.map { t ->
+        TrackLine(
+            title = t.title,
+            time = if (t.focusMinutes > 0) formatMinutes(t.focusMinutes.toLong()) else DASH,
+            // Exercise has no outline to finish; its sessions are what gets done.
+            done = count(if (t.domain == Domain.EXERCISE) t.exerciseSessions else t.unitsDone),
+            logs = count(t.logs),
+        )
+    }
+    val sl = stats.sleep
+    val sleep = KeyLine(
+        label = lang.t("Sleep", "睡眠"),
+        value = sl.averageMin?.let { formatMinutes(it.toLong()) } ?: DASH,
+        detail = if (sl.recorded == 0) lang.t("No nights recorded", "没有记录")
+        else listOfNotNull(
+            lang.t("${sl.inRange}/${sl.recorded} nights in range", "${sl.inRange}/${sl.recorded} 晚达标"),
+            previous?.sleep?.averageMin?.let { "$last ${formatMinutes(it.toLong())}" },
+        ).joinToString(SEP),
+    )
     val b = stats.balance
-    val money = lang.t("Money", "钱") + SEP + formatMoney(b.endMinor, b.currency) + SEP + formatMoneyDelta(b.netMinor, b.currency) +
-        (previous?.balance?.takeIf { it.endMinor != 0L || it.netMinor != 0L }?.let { " (" + last + " " + formatMoneyDelta(it.netMinor, b.currency) + ")" } ?: "")
-    return tracks + sleep + money
+    val money = KeyLine(
+        label = lang.t("Money", "钱"),
+        value = formatMoney(b.endMinor, b.currency),
+        detail = listOfNotNull(
+            "${formatMoneyDelta(b.netMinor, b.currency)} $now",
+            previous?.balance?.takeIf { it.endMinor != 0L || it.netMinor != 0L }?.let { "$last ${formatMoneyDelta(it.netMinor, b.currency)}" },
+        ).joinToString(SEP),
+    )
+    return ReviewSummary(tracks, sleep, money)
 }
 
 private const val SEP = " · "
-
-private fun plural(n: Int, word: String) = if (n == 1) "1 $word" else "$n ${word}s"
+private const val DASH = "–"
 
 /** Successor chains for the yearly review: "Pull-up: 0 reps → 1 rep → 5 reps". */
 fun successorChains(tracks: List<Track>): List<String> {

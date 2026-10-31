@@ -8,6 +8,7 @@ import com.khoryz666.waypoint.data.ReviewQuestion
 import com.khoryz666.waypoint.data.ReviewRepository
 import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.ReviewPeriod
+import com.khoryz666.waypoint.domain.ReviewSummary
 import com.khoryz666.waypoint.domain.reviewSummary
 import com.khoryz666.waypoint.llm.Suggestion
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,7 @@ class ReviewViewModel(private val c: AppContainer) : ViewModel() {
     val questions = c.reviews.questions.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val activeTracks = c.tracks.active.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val open = MutableStateFlow<Review?>(null)
-    val summary = MutableStateFlow<List<String>>(emptyList())
+    val summary = MutableStateFlow<ReviewSummary?>(null)
     val answers = MutableStateFlow<Map<String, String>>(emptyMap())
     val fix = MutableStateFlow("")
     val top3 = MutableStateFlow("")
@@ -60,7 +61,7 @@ class ReviewViewModel(private val c: AppContainer) : ViewModel() {
         top3.value = review.top3.joinToString("\n")
         suggestions.value = emptyList()
         error.value = null
-        summary.value = ReviewRepository.decodeStats(review.stats)?.let { reviewSummary(it, c.reviews.previousStats(review), review.period, lang) }.orEmpty()
+        summary.value = ReviewRepository.decodeStats(review.stats)?.let { reviewSummary(it, c.reviews.previousStats(review), review.period, lang) }
     }
 
     fun answer(question: String, text: String) {

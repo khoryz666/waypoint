@@ -160,7 +160,7 @@ class ReviewRepository(
         val text = buildString {
             append("UI language: ${s.profile.language.tag}\n")
             append("## This period (${review.start} – ${review.end})\n").append(review.stats).append("\n")
-            decodeStats(review.stats)?.let { st -> append("## Summary shown to the user\n").append(reviewSummary(st, previousStats(review), review.period, s.profile.language).joinToString("\n")).append("\n") }
+            decodeStats(review.stats)?.let { st -> append("## Summary shown to the user\n").append(reviewSummary(st, previousStats(review), review.period, s.profile.language).lines(s.profile.language).joinToString("\n")).append("\n") }
             when (review.period) {
                 ReviewPeriod.WEEK -> {
                     val last = db.reviews().find(ReviewPeriod.WEEK, review.start.minusDays(7))
