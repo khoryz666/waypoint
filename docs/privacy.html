@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waypoint privacy policy</title>
+<meta name="description" content="How the Waypoint Android app handles your data.">
+<link rel="icon" href="logo-120.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header><img src="logo-120.png" alt=""><a href="./">Waypoint</a></header>
+
+  <h1>Privacy policy</h1>
+  <p class="muted">Last updated: October 31, 2026</p>
+
+  <p>Waypoint is a personal Android app. This page explains what data it handles, where that data goes, and what it never does.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>Your data is stored on your phone.</li>
+    <li>There is no Waypoint server, no account, no ads and no analytics.</li>
+    <li>Data leaves your phone only for three things you turn on yourself: DeepSeek, Google Drive backup and GitHub sync.</li>
+    <li>We never sell or share your data.</li>
+  </ul>
+
+  <h2>What is stored on your phone</h2>
+  <p>Your tracks, logs, timer sessions, sleep records, balance entries, reviews and settings. They live in the app's private storage, which Android encrypts. Screenshots you share into the app are deleted once you save or discard the entry.</p>
+  <p>Your DeepSeek API key and GitHub token are encrypted with a key held in the Android Keystore. They are never included in backups and never shown in full after you enter them.</p>
+
+  <h2>DeepSeek</h2>
+  <p>If you add your own DeepSeek API key, the app sends what you submit to DeepSeek so it can be read and answered: the text you type, screenshots you share, and short summaries of the related track. The app talks to DeepSeek directly with your key. DeepSeek's own privacy policy covers how it handles that data. Money entries typed as shortcuts (<code>+350</code>, <code>-42.50 lunch</code>, <code>=4210</code>) are saved without DeepSeek. Reviews send only money totals, such as your balance and how it changed. Money you describe in words is sent like any other text you type.</p>
+  <p>Without a key, nothing is sent to DeepSeek.</p>
+
+  <h2>Google Drive backup</h2>
+  <p>If you turn on backup, the app asks Google for one permission: <code>drive.appdata</code>. This lets it create, read and delete its own files in a hidden app folder in your Google Drive. It cannot see any of your other Drive files.</p>
+  <p>Before upload, the backup is encrypted on your phone with a passphrase only you know (AES-256-GCM, with a key derived using PBKDF2). Nobody can read it without that passphrase, including us and Google. The app uses this permission only to store, list, restore and clean up your own backups.</p>
+  <p>Waypoint's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h2>GitHub</h2>
+  <p>If you add a read-only GitHub token, the app reads the commit messages of the repositories you attach to a project track. It does not read your code. Commit messages may be summarized by DeepSeek if you also added a DeepSeek key.</p>
+
+  <h2>Deleting your data</h2>
+  <p>Uninstalling the app deletes everything on your phone. To delete your backups, open Google Drive on the web, go to Settings → Manage apps, find Waypoint and choose "Delete hidden app data". You can also remove the app's access at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</p>
+
+  <h2>Children</h2>
+  <p>Waypoint is not directed at children under 13.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be posted on this page with a new date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about privacy: open an issue at <a href="https://github.com/khoryz666/timer/issues">github.com/khoryz666/timer/issues</a>.</p>
+
+  <footer><a href="./">Home</a> · <a href="https://github.com/khoryz666/timer">Source code</a></footer>
+</main>
+</body>
+</html>
