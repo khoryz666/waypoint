@@ -44,7 +44,7 @@ fun DailyCloseScreen(c: AppContainer, onBack: () -> Unit) {
     LaunchedEffect(Unit) {
         summary = ReminderWorker.dailySummary(c)
         val day = c.clock.dayBounds(c.clock.today())
-        receipts = c.db.logs().confirmedIn(day.start, day.end).filter { it.structured !is com.khoryz666.waypoint.domain.Structured.Recall }.map { runCatching { c.receipts.receipt(it) }.getOrDefault(it.rawText.orEmpty()) }
+        receipts = c.db.logs().confirmedIn(day.start, day.end).filter { it.structured !is com.khoryz666.waypoint.domain.Structured.Recall }.map { runCatching { c.receipts.receipt(it) }.getOrDefault(it.rawText.orEmpty()) }.distinct()
         tomorrow = c.settings.current().tomorrowTop.takeIf { c.settings.current().tomorrowTopDate == c.clock.today().plusDays(1) }.orEmpty()
     }
     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.daily_close)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back)) } }) }) { padding ->
