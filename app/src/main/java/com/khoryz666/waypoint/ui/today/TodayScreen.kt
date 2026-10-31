@@ -120,7 +120,9 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
                     Button(onClick = onNewTrack) { Text(stringResource(R.string.new_track)) }
                 }
             }
+            items(state.steps, key = { "step-${it.step.id}" }) { item -> StepCard(item, vm) }
             day?.let { d ->
+                item { TimerCard(d.running, d.now, d.time.totalFocusMs, active, state.tracks, vm) }
                 if (d.minimum.lines.isNotEmpty() || d.plan.lines.isNotEmpty()) item {
                     SectionCard(title = stringResource(R.string.targets)) {
                         if (d.minimum.lines.isNotEmpty()) {
@@ -133,9 +135,7 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
                         }
                     }
                 }
-                item { TimerCard(d.running, d.now, d.time.totalFocusMs, active, state.tracks, vm) }
             }
-            items(state.steps, key = { "step-${it.step.id}" }) { item -> StepCard(item, vm) }
         }
     }
 }
