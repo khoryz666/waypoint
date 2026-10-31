@@ -106,7 +106,7 @@
     <string name="handoff_step1">1 · Discuss in DeepSeek</string>
     <string name="handoff_step2">2 · Paste the final message</string>
     <string name="hours_ago">%1$d h ago</string>
-    <string name="images_attached">%1$d images ✕</string>
+    <string name="images_attached">Images: %1$d ✕</string>
     <string name="input_hint">What did you do?</string>
     <string name="keep_as_draft">Keep as draft</string>
     <string name="keep_old">Keep old</string>
@@ -159,7 +159,7 @@
     <string name="onboarding_welcome">Tell it what you did. It keeps the log and your next step. You can change everything later.</string>
     <string name="one_thing_to_fix">One thing to fix</string>
     <string name="open">Open</string>
-    <string name="open_cards">%1$d entries to check</string>
+    <string name="open_cards">To check: %1$d</string>
     <string name="optional">Backup and GitHub</string>
     <string name="optional_note">Optional note</string>
     <string name="optional_reason">Reason (optional)</string>
@@ -187,7 +187,7 @@
     <string name="prices">Prices per 1M tokens (CNY): hit / miss / output</string>
     <string name="prices_hint">Peak-hour prices by default. Update them if DeepSeek changes.</string>
     <string name="profile">Profile</string>
-    <string name="progress_x">%1$d of %2$d steps done · %3$d%%</string>
+    <string name="progress_x">Steps done: %1$d of %2$d · %3$d%%</string>
     <string name="questions_need_track">Questions show up once you have a goal.</string>
     <string name="reading_ideas">Key ideas (comma-separated)</string>
     <string name="reading_recall">Quiz me after each chapter I read</string>
@@ -224,7 +224,7 @@
     <string name="self_grade">Can\'t reach DeepSeek. How did you do?</string>
     <string name="send">Send</string>
     <string name="sessions">Focus time</string>
-    <string name="sessions_this_week">%1$d workouts this week</string>
+    <string name="sessions_this_week">Workouts this week: %1$d</string>
     <string name="set">Set</string>
     <string name="set_daily_target">Set a daily plan</string>
     <string name="set_savings_goal">Set a savings goal</string>
