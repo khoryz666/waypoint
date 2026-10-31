@@ -6,10 +6,16 @@ v2 (`timer`) history is in git before the `feat/waypoint-v3` branch.
 
 ## [Unreleased]
 
-- Simpler track setup: goal, current status, breakdown, deadline and checkpoints.
-- One button copies the prompt and opens a new DeepSeek chat, which now answers in short sentences.
-- A progress bar on active tracks; outline statuses are spelled out ("Weak: needs review").
-- The input box has separate buttons to attach images and take a photo.
+## [3.1.0] - 2026-10-31
+
+- Plain words everywhere: tracks are now **Goals**, Foundation is **Life**, and outline units are **steps**.
+- New goals: name one and AI drafts the final status, steps, deadline and checkpoints. Or plan it in DeepSeek with one tap.
+- A progress bar on active goals.
+- Logs save on their own, each with its own Undo.
+- **Today's plan** (at least / ideally) replaces day types; set it from Today.
+- Pick dates and times instead of typing them.
+- Attach a photo or take one from the input box.
+- A simpler Settings screen, with expert options under Advanced.
 - Removed "Ask about this track".
 
 ## [3.0.0] - 2026-10-31
