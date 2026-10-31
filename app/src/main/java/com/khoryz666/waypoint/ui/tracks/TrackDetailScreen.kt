@@ -30,7 +30,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
-import androidx.compose.material3.TimePickerDialog
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -310,12 +309,13 @@ private fun SessionDialog(existing: Session?, onDismiss: () -> Unit, onDelete: (
     }
     if (pickTime) {
         val timeState = rememberTimePickerState(initialHour = time.hour, initialMinute = time.minute, is24Hour = true)
-        TimePickerDialog(
+        AlertDialog(
             onDismissRequest = { pickTime = false },
             confirmButton = {
                 TextButton(onClick = { time = LocalTime.of(timeState.hour, timeState.minute); pickTime = false }) { Text(stringResource(R.string.ok)) }
             },
             dismissButton = { TextButton(onClick = { pickTime = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { TimePicker(state = timeState) }
+            text = { TimePicker(state = timeState) },
+        )
     }
 }

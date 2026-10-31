@@ -20,7 +20,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
-import androidx.compose.material3.TimePickerDialog
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -265,19 +264,21 @@ private fun ManualSleepDialog(today: LocalDate, onDismiss: () -> Unit, onSave: (
     }
     if (pickBed) {
         val bedState = rememberTimePickerState(initialHour = bed.hour, initialMinute = bed.minute, is24Hour = true)
-        TimePickerDialog(
+        AlertDialog(
             onDismissRequest = { pickBed = false },
             confirmButton = { TextButton(onClick = { bed = LocalTime.of(bedState.hour, bedState.minute); pickBed = false }) { Text(stringResource(R.string.ok)) } },
             dismissButton = { TextButton(onClick = { pickBed = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { TimePicker(state = bedState) }
+            text = { TimePicker(state = bedState) },
+        )
     }
     if (pickWake) {
         val wakeState = rememberTimePickerState(initialHour = wake.hour, initialMinute = wake.minute, is24Hour = true)
-        TimePickerDialog(
+        AlertDialog(
             onDismissRequest = { pickWake = false },
             confirmButton = { TextButton(onClick = { wake = LocalTime.of(wakeState.hour, wakeState.minute); pickWake = false }) { Text(stringResource(R.string.ok)) } },
             dismissButton = { TextButton(onClick = { pickWake = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { TimePicker(state = wakeState) }
+            text = { TimePicker(state = wakeState) },
+        )
     }
 }
 
@@ -319,11 +320,12 @@ private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave
     )
     if (pickBed) {
         val bedState = rememberTimePickerState(initialHour = bed?.hour ?: 22, initialMinute = bed?.minute ?: 30, is24Hour = true)
-        TimePickerDialog(
+        AlertDialog(
             onDismissRequest = { pickBed = false },
             confirmButton = { TextButton(onClick = { bed = LocalTime.of(bedState.hour, bedState.minute); pickBed = false }) { Text(stringResource(R.string.ok)) } },
             dismissButton = { TextButton(onClick = { pickBed = false }) { Text(stringResource(R.string.cancel)) } },
-        ) { TimePicker(state = bedState) }
+            text = { TimePicker(state = bedState) },
+        )
     }
 }
 
