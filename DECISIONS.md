@@ -105,6 +105,6 @@ section 1, "Rules for the implementing agents"). Newest last.
 
 ### Not verified on a real phone
 Everything above passed unit tests and a walkthrough on an API 35 emulator (onboarding,
-track creation, timer + notification, money shortcut, offline queue, Body, Review, Settings,
+track creation, timer + notification, money shortcut, offline queue, Foundation, Review, Settings,
 Chinese UI). The device checks in spec 10.2 — a real DeepSeek paste, real sleep screenshots,
 Drive restore after reinstall, private-repo sync, a week of use — are still open.

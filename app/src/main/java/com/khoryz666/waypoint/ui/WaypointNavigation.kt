@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -34,7 +33,7 @@ import com.khoryz666.waypoint.AppContainer
 import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.data.Settings
 import com.khoryz666.waypoint.timer.Destination
-import com.khoryz666.waypoint.ui.body.BodyScreen
+import com.khoryz666.waypoint.ui.foundation.FoundationScreen
 import com.khoryz666.waypoint.ui.onboarding.OnboardingScreen
 import com.khoryz666.waypoint.ui.onboarding.OnboardingViewModel
 import com.khoryz666.waypoint.ui.review.ReviewScreen
@@ -56,7 +55,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 enum class Tab(val route: String, @StringRes val label: Int, val icon: ImageVector) {
     TODAY("today", R.string.nav_today, Icons.Filled.Home),
     TRACKS("tracks", R.string.nav_tracks, Icons.AutoMirrored.Filled.List),
-    BODY("body", R.string.nav_body, Icons.Filled.Favorite),
+    FOUNDATION("foundation", R.string.nav_foundation, FoundationIcon),
     REVIEW("review", R.string.nav_review, Icons.Filled.DateRange),
 }
 
@@ -104,7 +103,7 @@ fun WaypointNavigation(c: AppContainer, destination: MutableStateFlow<Destinatio
                     TodayScreen(viewModel { TodayViewModel(c) }, onSettings = { nav.navigate("settings") }, onNewTrack = { nav.navigate("newTrack") }, onDailyClose = { nav.navigate("dailyClose") })
                 }
                 composable(Tab.TRACKS.route) { TracksScreen(c, onOpen = { nav.navigate("track/$it") }, onNew = { nav.navigate("newTrack") }) }
-                composable(Tab.BODY.route) { BodyScreen(c) }
+                composable(Tab.FOUNDATION.route) { FoundationScreen(c) }
                 composable(Tab.REVIEW.route) { ReviewScreen(viewModel { ReviewViewModel(c) }, onEditChecklist = { nav.navigate("checklist") }) }
                 composable("settings") {
                     SettingsScreen(viewModel { SettingsViewModel(c) }, c, onBack = nav::popBackStack, onDayTypes = { nav.navigate("dayTypes") }, onChecklist = { nav.navigate("checklist") })

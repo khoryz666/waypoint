@@ -1,4 +1,4 @@
-package com.khoryz666.waypoint.ui.body
+package com.khoryz666.waypoint.ui.foundation
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
