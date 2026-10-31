@@ -2,6 +2,7 @@ package com.khoryz666.waypoint.data
 
 import com.khoryz666.waypoint.domain.AppClock
 import com.khoryz666.waypoint.domain.Domain
+import com.khoryz666.waypoint.domain.Lang
 import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.ReviewPeriod
 import com.khoryz666.waypoint.domain.ReviewStats
@@ -117,8 +118,20 @@ class ReviewRepository(
         val questions = runCatching { llm.json("review_questions", listOf(Part.Text(text)), 400, ReviewQuestionsOutput.serializer()).questions }
             .getOrNull()?.map { it.trim() }?.filter { it.isNotEmpty() }?.take(5)
             ?.ifEmpty { null }
-            ?: tracks.take(5).map { lang.t("How did ${it.title} go this week?", "${it.title} 这周怎么样？") }
+            ?: defaultQuestions(tracks, lang)
         db.reviewQuestions().replace(questions)
+    }
+
+    private fun defaultQuestions(tracks: List<Track>, lang: Lang) = tracks.take(5).map { lang.t("How did ${it.title} go this week?", "${it.title} 这周怎么样？") }
+
+    /**
+     * After a language change, swaps the built-in questions for the same ones in [to]. Questions
+     * DeepSeek wrote or the user edited are kept, since they can't be redone without losing words.
+     */
+    suspend fun translateDefaultQuestions(from: Lang, to: Lang) {
+        val tracks = db.tracks().active()
+        val current = db.reviewQuestions().all().map { it.text }
+        if (current.isNotEmpty() && current == defaultQuestions(tracks, from)) db.reviewQuestions().replace(defaultQuestions(tracks, to))
     }
 
     suspend fun addQuestion(text: String) = db.reviewQuestions().insert(ReviewQuestion(order = db.reviewQuestions().all().size, text = text))

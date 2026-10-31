@@ -36,7 +36,9 @@ class SettingsViewModel(private val c: AppContainer) : ViewModel() {
     fun update(change: (Settings) -> Settings) = viewModelScope.launch { c.settings.update(change) }
 
     fun setLanguage(lang: Lang, activity: Activity?) = viewModelScope.launch {
+        val from = c.settings.current().profile.language
         c.settings.update { it.copy(profile = it.profile.copy(language = lang)) }
+        c.reviews.translateDefaultQuestions(from, lang)
         Locales.save(c.appContext, lang.tag)
         activity?.recreate()
     }
