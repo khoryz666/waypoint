@@ -112,10 +112,7 @@ private fun HandoffStep(vm: NewTrackViewModel) {
     var pasted by remember { mutableStateOf("") }
     SectionCard(title = stringResource(R.string.handoff_step1)) {
         Muted(stringResource(R.string.handoff_explain))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { scope.launch { copy(context, vm.prompt()) } }) { Text(stringResource(R.string.copy_prompt)) }
-            OutlinedButton(onClick = { openDeepSeek(context) }) { Text(stringResource(R.string.open_deepseek)) }
-        }
+        Button(onClick = { scope.launch { copy(context, vm.prompt()); openDeepSeek(context) } }) { Text(stringResource(R.string.copy_open_deepseek)) }
     }
     SectionCard(title = stringResource(R.string.handoff_step2)) {
         OutlinedTextField(pasted, { pasted = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.paste_result)) }, minLines = 4, maxLines = 10)
@@ -164,8 +161,11 @@ private fun copy(context: Context, text: String) {
 private fun paste(context: Context): String =
     context.getSystemService(ClipboardManager::class.java).primaryClip?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
 
-/** Launches the DeepSeek app by package, falling back to chat.deepseek.com (spec 4 step 2). */
+/**
+ * Launches the DeepSeek app by package, falling back to chat.deepseek.com (spec 4 step 2).
+ * CLEAR_TASK restarts the app at its home screen, a new chat, instead of the last conversation.
+ */
 private fun openDeepSeek(context: Context) {
-    val app = context.packageManager.getLaunchIntentForPackage("com.deepseek.chat")
-    context.startActivity((app ?: Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.deepseek.com"))).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    val app = context.packageManager.getLaunchIntentForPackage("com.deepseek.chat")?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    context.startActivity((app ?: Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.deepseek.com/"))).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 }

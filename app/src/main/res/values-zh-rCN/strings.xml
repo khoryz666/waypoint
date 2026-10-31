@@ -49,7 +49,7 @@
     <string name="comment_skipped_budget">预算用完，没有点评。</string>
     <string name="complete">完成</string>
     <string name="confirm_title">确认并保存</string>
-    <string name="copy_prompt">复制提示词</string>
+    <string name="copy_open_deepseek">复制提示词并打开 DeepSeek</string>
     <string name="create_first_track">创建第一个 Track</string>
     <string name="currency">货币 (ISO 4217)</string>
     <string name="current_state">当前状态</string>
@@ -99,7 +99,7 @@
     <string name="grade_partial">部分</string>
     <string name="grade_solid">扎实</string>
     <string name="grade_weak">薄弱</string>
-    <string name="handoff_explain">复制提示词，在 DeepSeek 里聊清楚，最后说\"定稿\"。</string>
+    <string name="handoff_explain">打开 DeepSeek 新对话，提示词已复制。粘贴后聊清楚，最后说\"定稿\"。</string>
     <string name="handoff_failed">读不出来: %1$s</string>
     <string name="handoff_notes">补充信息 (可选，如 \"我有 PDF\")</string>
     <string name="handoff_step1">1 · 在 DeepSeek 里讨论</string>
@@ -156,7 +156,6 @@
     <string name="one_thing_to_fix">要改的一件事</string>
     <string name="open">打开</string>
     <string name="open_cards">还有 %1$d 张卡片没确认</string>
-    <string name="open_deepseek">打开 DeepSeek</string>
     <string name="optional">可选</string>
     <string name="optional_note">可选备注</string>
     <string name="optional_reason">原因 (可选)</string>

@@ -49,7 +49,7 @@
     <string name="comment_skipped_budget">No comment: budget used up.</string>
     <string name="complete">Complete</string>
     <string name="confirm_title">Check and save</string>
-    <string name="copy_prompt">Copy prompt</string>
+    <string name="copy_open_deepseek">Copy prompt &amp; open DeepSeek</string>
     <string name="create_first_track">Create your first track</string>
     <string name="currency">Currency (ISO 4217)</string>
     <string name="current_state">Current status</string>
@@ -99,7 +99,7 @@
     <string name="grade_partial">Partial</string>
     <string name="grade_solid">Solid</string>
     <string name="grade_weak">Weak</string>
-    <string name="handoff_explain">Copy the prompt, talk it through in DeepSeek, then say \"finalize\".</string>
+    <string name="handoff_explain">Opens a new DeepSeek chat with the prompt copied. Paste it, talk it through, then say \"finalize\".</string>
     <string name="handoff_failed">Couldn\'t read that: %1$s</string>
     <string name="handoff_notes">Additional context (optional, e.g. \"I have the PDF\")</string>
     <string name="handoff_step1">1 · Discuss in DeepSeek</string>
@@ -156,7 +156,6 @@
     <string name="one_thing_to_fix">One thing to fix</string>
     <string name="open">Open</string>
     <string name="open_cards">Still to confirm: %1$d</string>
-    <string name="open_deepseek">Open DeepSeek</string>
     <string name="optional">Optional</string>
     <string name="optional_note">Optional note</string>
     <string name="optional_reason">Reason (optional)</string>
