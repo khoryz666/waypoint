@@ -23,6 +23,7 @@ import com.khoryz666.waypoint.ui.WaypointNavigation
 import com.khoryz666.waypoint.ui.theme.WaypointTheme
 import com.khoryz666.waypoint.work.CommitSyncWorker
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -37,12 +38,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
-        }
         val c = appContainer
+        // Ask once setup is done, when the timer notification means something, not on first sight.
+        lifecycleScope.launch {
+            c.settings.settings.first { it.onboarded }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
         lifecycleScope.launch {
             if (c.settings.current().onboarded) {
                 TimerService.start(this@MainActivity)
