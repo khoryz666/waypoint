@@ -61,12 +61,14 @@ class NewTrackViewModel(private val c: AppContainer, private val predecessorId: 
     val busy = MutableStateFlow(false)
     val tooMany = MutableStateFlow<List<Track>>(emptyList())
     val created = MutableStateFlow<Long?>(null)
+    val hasApiKey = MutableStateFlow(false)
     private var predecessor: Track? = null
     private var lang = Lang.EN
 
     init {
         viewModelScope.launch {
             lang = c.settings.current().profile.language
+            hasApiKey.value = c.settings.current().hasApiKey
             predecessorId?.let { id ->
                 c.db.tracks().get(id)?.let { p ->
                     predecessor = p
@@ -96,6 +98,34 @@ class NewTrackViewModel(private val c: AppContainer, private val predecessorId: 
 
     fun toHandoff() {
         stage.value = Stage.HANDOFF
+    }
+
+    /** Drafts the whole track in-app from the short description, then opens the preview. */
+    fun generate() = viewModelScope.launch {
+        busy.value = true
+        try {
+            val draft = c.llm.json("draft_track", listOf(Part.Text(draftRequest())), 3000, TrackDraft.serializer())
+            when (val r = validateDraft(draft, domain.value, lang)) {
+                is HandoffResult.Ok -> show(r.draft)
+                is HandoffResult.Failed -> { error.value = r.reason; stage.value = Stage.HANDOFF }
+            }
+        } catch (e: Exception) {
+            error.value = e.message
+            stage.value = Stage.HANDOFF
+        } finally {
+            busy.value = false
+        }
+    }
+
+    private fun draftRequest(): String = buildString {
+        append("Domain: ").append(domain.value.name)
+        append("\nTitle: ").append(title.value)
+        append("\nCurrent status: ").append(initialState.value)
+        if (notes.value.isNotBlank()) append("\nAdditional context: ").append(notes.value)
+        predecessor?.let {
+            append("\nPrevious stage goal: ").append(it.goal)
+            append("\nPrevious stage result: ").append(it.finalState.orEmpty())
+        }
     }
 
     fun paste(text: String) {

@@ -94,6 +94,8 @@ private fun DescribeStep(vm: NewTrackViewModel) {
     val title by vm.title.collectAsState()
     val initial by vm.initialState.collectAsState()
     val notes by vm.notes.collectAsState()
+    val busy by vm.busy.collectAsState()
+    val hasApiKey by vm.hasApiKey.collectAsState()
     Text(stringResource(R.string.pick_domain), style = MaterialTheme.typography.titleSmall)
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Domain.entries.forEach { d -> FilterChip(selected = d == domain, onClick = { vm.domain.value = d }, label = { Text(domainLabel(d)) }) }
@@ -101,7 +103,10 @@ private fun DescribeStep(vm: NewTrackViewModel) {
     OutlinedTextField(title, { vm.title.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.title)) }, singleLine = true)
     OutlinedTextField(initial, { vm.initialState.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.current_state)) }, minLines = 3)
     OutlinedTextField(notes, { vm.notes.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.handoff_notes)) }, minLines = 2)
-    Button(onClick = vm::toHandoff, enabled = title.isNotBlank()) { Text(stringResource(R.string.next)) }
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (hasApiKey) Button(onClick = { vm.generate() }, enabled = title.isNotBlank() && !busy) { Text(stringResource(R.string.generate_draft)) }
+        OutlinedButton(onClick = vm::toHandoff, enabled = title.isNotBlank()) { Text(stringResource(R.string.next)) }
+    }
 }
 
 @Composable

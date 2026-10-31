@@ -86,6 +86,7 @@
     <string name="final_state_x">Final state: %1$s</string>
     <string name="focus">Focus</string>
     <string name="focus_today">Focus %1$s today</string>
+    <string name="generate_draft">Generate a draft with AI</string>
     <string name="get_fallback">Get a fallback</string>
     <string name="github_hint">Fine-grained and read-only, for your project repos.</string>
     <string name="github_repos">GitHub repos (owner/repo)</string>

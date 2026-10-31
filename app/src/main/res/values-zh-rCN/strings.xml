@@ -86,6 +86,7 @@
     <string name="final_state_x">最终状态: %1$s</string>
     <string name="focus">专注</string>
     <string name="focus_today">今天专注 %1$s</string>
+    <string name="generate_draft">用 AI 生成草稿</string>
     <string name="get_fallback">给我替代方案</string>
     <string name="github_hint">Fine-grained 只读 token，用于项目仓库。</string>
     <string name="github_repos">GitHub 仓库 (owner/repo)</string>
