@@ -36,7 +36,7 @@ object Receipts {
         lang.t("$streak-day streak", "连续 $streak 天"),
     ).joinToString(SEP)
 
-    /** "Balance RM 4,210 · 30 days +RM 620 · goal RM 5,790 to go, RM 970/month" */
+    /** "Balance RM 4,210 · 30 days +RM 620 · RM 5,790 to goal · RM 970/month" */
     fun balance(balance: Long, net7: Long, net30: Long, goal: SavingsProgress?, currency: String, firstEntry: Boolean, lang: Lang): String {
         val locale = Locale.getDefault()
         val parts = mutableListOf(lang.t("Balance ", "余额 ") + formatMoney(balance, currency, locale))
@@ -48,8 +48,8 @@ object Receipts {
         }
         if (goal != null) {
             parts += if (goal.remainingMinor == 0L) lang.t("goal reached", "目标已达成")
-            else lang.t("goal ", "距目标 ") + formatMoney(goal.remainingMinor, currency, locale) +
-                (goal.requiredPerMonthMinor?.let { lang.t(", ", "，每月需 ") + formatMoney(it, currency, locale) + lang.t("/month", "") } ?: "")
+            else lang.t("", "距目标 ") + formatMoney(goal.remainingMinor, currency, locale) + lang.t(" to goal", "") +
+                (goal.requiredPerMonthMinor?.let { lang.t(" · ", "，每月需 ") + formatMoney(it, currency, locale) + lang.t("/month", "") } ?: "")
         }
         return parts.joinToString(SEP)
     }

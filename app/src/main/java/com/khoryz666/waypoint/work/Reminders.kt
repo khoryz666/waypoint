@@ -82,16 +82,16 @@ class ReminderWorker(context: Context, params: WorkerParameters) : CoroutineWork
             )
         }
 
-        /** "今天: focus 2h 03m · minimum ✓ · 1 章 · 睡眠已记录" (spec 7.1). */
+        /** "Focus 2h 03m · at least: ✓ · 2 steps done · sleep logged" (spec 7.1). */
         suspend fun dailySummary(c: AppContainer): String {
             val lang = c.settings.current().profile.language
             val day = c.stats.dayOn(c.clock.today())
             val units = day.progress.unitsDone.values.sum()
             val slept = c.db.sleep().onDates(listOf(c.clock.today())).isNotEmpty()
             return listOfNotNull(
-                lang.t("focus ", "专注 ") + formatDuration(day.time.totalFocusMs),
+                lang.t("Focus ", "专注 ") + formatDuration(day.time.totalFocusMs),
                 day.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("at least: ", "至少: ") + if (it.met) "✓" else "✗" },
-                lang.t("$units steps", "$units 步").takeIf { units > 0 },
+                lang.t("$units steps done", "完成 $units 步").takeIf { units > 0 },
                 if (slept) lang.t("sleep logged", "睡眠已记录") else lang.t("no sleep record", "睡眠未记录"),
             ).joinToString(" · ")
         }
