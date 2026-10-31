@@ -36,6 +36,13 @@ import com.khoryz666.waypoint.ui.Banner
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TextDialog
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import com.khoryz666.waypoint.domain.ReviewSummary
+import com.khoryz666.waypoint.ui.theme.Numeric
 
 /** The review tab (spec 7): a short summary, a few questions about your tracks, next week. */
 @Composable
@@ -70,11 +77,7 @@ fun ReviewScreen(vm: ReviewViewModel) {
                 }
             }
             if (r == null) return@LazyColumn
-            item {
-                SectionCard(title = "${r.start} – ${r.end}") {
-                    summary.forEach { Text(it) }
-                }
-            }
+            summary?.let { item { SummaryCard("${r.start} – ${r.end}", it) } }
             if (week) {
                 previous?.oneThingToFix?.takeIf { it.isNotBlank() }?.let { item { SectionCard(title = stringResource(R.string.last_weeks_fix)) { Text(it) } } }
                 item {
@@ -121,6 +124,38 @@ fun ReviewScreen(vm: ReviewViewModel) {
         }
     }
 }
+
+@Composable
+private fun SummaryCard(title: String, summary: ReviewSummary) {
+    SectionCard(title = title) {
+        if (summary.tracks.isNotEmpty()) {
+            Row {
+                Spacer(Modifier.weight(TITLE_WEIGHT))
+                listOf(R.string.col_time, R.string.col_done, R.string.col_logs).forEach { label ->
+                    Text(stringResource(label), Modifier.weight(1f), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.End)
+                }
+            }
+            summary.tracks.forEach { t ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(t.title, Modifier.weight(TITLE_WEIGHT), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    listOf(t.time, t.done, t.logs).forEach { v -> Text(v, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium.merge(Numeric), textAlign = TextAlign.End) }
+                }
+            }
+            HorizontalDivider(Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        }
+        listOf(summary.sleep, summary.money).forEach { line ->
+            Row(verticalAlignment = Alignment.Top) {
+                Text(line.label, Modifier.weight(TITLE_WEIGHT))
+                Column(Modifier.weight(3f), horizontalAlignment = Alignment.End) {
+                    Text(line.value, style = MaterialTheme.typography.bodyLarge.merge(Numeric))
+                    Muted(line.detail)
+                }
+            }
+        }
+    }
+}
+
+private const val TITLE_WEIGHT = 1.6f
 
 @Composable
 private fun QuestionsCard(

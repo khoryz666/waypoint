@@ -69,18 +69,14 @@ class StatsTest {
             started = emptyList(), completed = emptyList(), aborted = emptyList(),
         )
         val previous = stats.copy(sleep = stats.sleep.copy(averageMin = 400), balance = stats.balance.copy(netMinor = -20_00))
-        assertEquals(
-            listOf(
-                "Rust · 1h 10m · 1 done · 2 logs",
-                "Gym · 1 session · 1 log",
-                "Sleep · average 7h 30m · 4/5 nights in range (last week 6h 40m)",
-                "Money · RM 1,050 · +RM 50 (last week -RM 20)",
-            ),
-            reviewSummary(stats, previous, ReviewPeriod.WEEK, Lang.EN),
-        )
+        val summary = reviewSummary(stats, previous, ReviewPeriod.WEEK, Lang.EN)
+        assertEquals(listOf(TrackLine("Rust", "1h 10m", "1", "2"), TrackLine("Gym", "–", "1", "1")), summary.tracks)
+        assertEquals(KeyLine("Sleep", "7h 30m", "4/5 nights in range · last week 6h 40m"), summary.sleep)
+        assertEquals(KeyLine("Money", "RM 1,050", "+RM 50 this week · last week -RM 20"), summary.money)
+        assertEquals("Rust · time 1h 10m · done 1 · logs 2", summary.lines(Lang.EN).first())
         val empty = previous.copy(balance = BalanceStats(0, 0, 0, "MYR"))
-        assertEquals("Money · RM 1,050 · +RM 50", reviewSummary(stats, empty, ReviewPeriod.WEEK, Lang.EN).last())
-        assertEquals("Sleep · no nights recorded", reviewSummary(stats.copy(sleep = SleepStats(0, 7, 0, null, null)), null, ReviewPeriod.WEEK, Lang.EN)[2])
+        assertEquals("+RM 50 this week", reviewSummary(stats, empty, ReviewPeriod.WEEK, Lang.EN).money.detail)
+        assertEquals("No nights recorded", reviewSummary(stats.copy(sleep = SleepStats(0, 7, 0, null, null)), null, ReviewPeriod.WEEK, Lang.EN).sleep.detail)
     }
 
     @Test

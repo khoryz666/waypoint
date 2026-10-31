@@ -144,7 +144,7 @@ private fun SleepCard(records: List<SleepRecord>, s: Settings, today: LocalDate,
         Muted(targets.bedtime?.let { stringResource(R.string.sleep_goal_bed, min, max, it.toString()) } ?: stringResource(R.string.sleep_goal, min, max))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             TextButton(onClick = onAdd) { Text(stringResource(R.string.add_sleep_manually)) }
-            TextButton(onClick = onEditGoal) { Text(stringResource(R.string.edit)) }
+            TextButton(onClick = onEditGoal) { Text(stringResource(R.string.edit_goal)) }
         }
     }
 }
