@@ -49,6 +49,8 @@ class Parser(
             ParseOutcome.RETRY_LATER
         } catch (e: ApiException.KeyInvalid) {
             ParseOutcome.PAUSED
+        } catch (e: ApiException.NoKey) {
+            ParseOutcome.PAUSED
         } catch (e: ApiException.NoBalance) {
             ParseOutcome.PAUSED
         } catch (e: ApiException.Http) {

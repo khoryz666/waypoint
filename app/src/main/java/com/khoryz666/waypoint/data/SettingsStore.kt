@@ -82,7 +82,8 @@ class SettingsStore(private val store: DataStore<Preferences>, private val secre
         reviewModel = p[K.reviewModel] ?: "deepseek-v4-pro",
         prices = p[K.prices]?.let { runCatching { WaypointJson.decodeFromString(priceMap, it) }.getOrNull() } ?: com.khoryz666.waypoint.domain.DEFAULT_PRICES,
         monthlyBudgetCny = p[K.budget] ?: 50.0,
-        apiProblem = p[K.apiProblem]?.let { runCatching { ApiProblem.valueOf(it) }.getOrNull() },
+        // A key problem only means something while a key is set.
+        apiProblem = p[K.apiProblem]?.takeIf { p[K.apiKey] != null }?.let { runCatching { ApiProblem.valueOf(it) }.getOrNull() },
         hasGithubToken = p[K.githubToken] != null,
         githubTokenHint = p[K.githubTokenHint]?.ifEmpty { null },
         githubLogin = p[K.githubLogin],

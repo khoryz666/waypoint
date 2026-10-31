@@ -70,6 +70,7 @@ class LlmServiceTest {
     @Test
     fun `402 flags the settings so the queue pauses, success clears it`() = runTest {
         val settings = testSettings(backgroundScope, tmp.root)
+        settings.setApiKey("sk")
         val s = LlmService(DeepSeekClient({ "sk" }, server.url("").toString().trimEnd('/'), backoffMs = 1), prompts, settings, usage, clock)
         server.enqueue(MockResponse().setResponseCode(402))
         runCatching { s.text("commit_summary", listOf(Part.Text("x")), 200) }
@@ -77,5 +78,14 @@ class LlmServiceTest {
         server.enqueue(reply("ok"))
         s.text("commit_summary", listOf(Part.Text("x")), 200)
         assertEquals(null, settings.settings.first().apiProblem)
+    }
+
+    @Test
+    fun `no key fails the call without flagging the key as invalid`() = runTest {
+        val settings = testSettings(backgroundScope, tmp.root)
+        val s = LlmService(DeepSeekClient({ null }, server.url("").toString().trimEnd('/'), backoffMs = 1), prompts, settings, usage, clock)
+        assertTrue(runCatching { s.text("commit_summary", listOf(Part.Text("x")), 200) }.exceptionOrNull() is ApiException.NoKey)
+        assertEquals(null, settings.settings.first().apiProblem)
+        assertEquals(0, server.requestCount)
     }
 }
