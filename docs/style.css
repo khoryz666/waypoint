@@ -58,7 +58,6 @@ section { padding: 64px 0; }
 .phone { margin: 0; text-align: center; }
 .phone .frame { background: #0b0d12; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; padding: 10px; box-shadow: 0 24px 50px rgba(20,25,58,.18), 0 2px 6px rgba(20,25,58,.12); }
 .phone img { display: block; width: 100%; height: auto; aspect-ratio: 540 / 1170; border-radius: 26px; background: #f5f6f8; }
-.phone:nth-child(2) { transform: translateY(28px); }
 .phone figcaption { margin-top: 16px; font-weight: 600; }
 .phone figcaption span { display: block; font-weight: 400; color: var(--muted); font-size: 15px; }
 
@@ -105,7 +104,6 @@ footer a { color: var(--muted); margin-left: 18px; }
   .screens { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -20px; padding: 4px 20px 20px; scrollbar-width: none; }
   .screens::-webkit-scrollbar { display: none; }
   .phone { flex: 0 0 68%; scroll-snap-align: center; }
-  .phone:nth-child(2) { transform: none; }
   .feature { padding: 16px 18px; }
   section { padding: 44px 0; }
   .section-head { margin-bottom: 24px; }
