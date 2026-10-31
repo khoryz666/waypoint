@@ -34,7 +34,7 @@ data class NotificationContent(
                 running == null -> lang.t("Not tracking", "未计时")
                 else -> byId[running.trackId]?.title ?: lang.t("Focus", "专注")
             }
-            val minimum = status.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("minimum ", "最低 ") + if (it.met) "✓" else "${(it.fraction * 100).toInt()}%" }
+            val minimum = status.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("at least: ", "至少: ") + if (it.met) "✓" else "${(it.fraction * 100).toInt()}%" }
             val text = listOfNotNull(lang.t("Focus ", "专注 ") + formatDuration(status.time.totalFocusMs), minimum, lang.t("streak ${status.streak}", "连续 ${status.streak} 天")).joinToString(" · ")
             val focusTargets = (recentFocus.filter { it in byId && byId.getValue(it).status.name.let { s -> s == "ACTIVE" || s == "PAUSED" } } +
                 status.activeTracks.map { it.id }).distinct().take(3)

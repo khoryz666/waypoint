@@ -29,10 +29,10 @@ object Receipts {
         return parts.joinToString(SEP)
     }
 
-    /** "Focus today 2h 03m · minimum day ✓ · streak 4 days" */
+    /** "Focus today 2h 03m · at least: ✓ · streak 4 days" */
     fun focus(focusTodayMs: Long, minimumMet: Boolean?, streak: Int, lang: Lang): String = listOfNotNull(
         lang.t("Focus today ", "今日专注 ") + formatDuration(focusTodayMs),
-        minimumMet?.let { lang.t("minimum day ", "最低目标 ") + if (it) "✓" else "✗" },
+        minimumMet?.let { lang.t("at least: ", "至少: ") + if (it) "✓" else "✗" },
         lang.t("streak $streak days", "连续 $streak 天"),
     ).joinToString(SEP)
 

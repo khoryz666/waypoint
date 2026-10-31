@@ -90,7 +90,7 @@ class ReminderWorker(context: Context, params: WorkerParameters) : CoroutineWork
             val slept = c.db.sleep().onDates(listOf(c.clock.today())).isNotEmpty()
             return listOfNotNull(
                 lang.t("focus ", "专注 ") + formatDuration(day.time.totalFocusMs),
-                day.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("minimum ", "最低 ") + if (it.met) "✓" else "✗" },
+                day.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("at least: ", "至少: ") + if (it.met) "✓" else "✗" },
                 lang.t("$units steps", "$units 步").takeIf { units > 0 },
                 if (slept) lang.t("sleep logged", "睡眠已记录") else lang.t("no sleep record", "睡眠未记录"),
             ).joinToString(" · ")

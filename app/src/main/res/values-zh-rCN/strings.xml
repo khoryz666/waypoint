@@ -52,7 +52,7 @@
     <string name="current_state">当前状态</string>
     <string name="daily_close">每日收尾</string>
     <string name="daily_close_time">每日收尾</string>
-    <string name="daily_target">每日目标</string>
+    <string name="daily_target">每日计划</string>
     <string name="date">日期</string>
     <string name="days_ago">%1$d 天前</string>
     <string name="days_n">%1$d 天</string>
@@ -125,7 +125,7 @@
     <string name="math_stuck">卡住的题</string>
     <string name="milestones_confirm">哪些里程碑真的完成了？</string>
     <string name="min_short">分钟</string>
-    <string name="minimum">最低</string>
+    <string name="minimum">至少</string>
     <string name="minutes">分钟</string>
     <string name="minutes_ago">%1$d 分钟前</string>
     <string name="monthly">上个月</string>
@@ -175,7 +175,7 @@
     <string name="pending_parse">待解析</string>
     <string name="pick_domain">领域</string>
     <string name="pick_track">选择目标</string>
-    <string name="plan">计划</string>
+    <string name="plan">最好</string>
     <string name="plan_in_deepseek">在 DeepSeek 里规划</string>
     <string name="plan_notes">计划备注</string>
     <string name="prices">每百万 token 价格 (元): 命中 / 未命中 / 输出</string>
@@ -216,7 +216,7 @@
     <string name="send">发送</string>
     <string name="sessions">计时记录</string>
     <string name="sessions_this_week">本周 %1$d 次</string>
-    <string name="set_daily_target">设置每日目标</string>
+    <string name="set_daily_target">设置每日计划</string>
     <string name="set_savings_goal">设一个存钱目标</string>
     <string name="set_up_backup">设置备份</string>
     <string name="sets_hint">如 10×12, 10×12 或 30s</string>
@@ -257,8 +257,8 @@
     <string name="target_bedtime">目标入睡时间 (HH:mm)</string>
     <string name="target_date">截止日期</string>
     <string name="target_date_x">截止日期: %1$s</string>
-    <string name="targets">目标</string>
-    <string name="targets_and_reminders">目标与提醒</string>
+    <string name="targets">今日计划</string>
+    <string name="targets_and_reminders">计划与提醒</string>
     <string name="this_week">本周</string>
     <string name="time">时间</string>
     <string name="timer">计时</string>
