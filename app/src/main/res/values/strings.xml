@@ -52,6 +52,7 @@
     <string name="daily_close">Daily close</string>
     <string name="daily_close_time">Daily close</string>
     <string name="daily_target">Daily target</string>
+    <string name="date">Date</string>
     <string name="days_ago">%1$d days ago</string>
     <string name="days_n">%1$d days</string>
     <string name="deepseek_key">DeepSeek API key</string>
@@ -142,6 +143,7 @@
     <string name="no_backups">No backups on this account.</string>
     <string name="no_logs">Nothing yet.</string>
     <string name="no_tracks">No tracks yet.</string>
+    <string name="none">None</string>
     <string name="notes">Notes</string>
     <string name="nudges">Nudge me after 3 quiet hours</string>
     <string name="ok">OK</string>
@@ -185,6 +187,7 @@
     <string name="recall_check">Recall check</string>
     <string name="refresh_models">Refresh model list</string>
     <string name="region">Region</string>
+    <string name="remove">Remove</string>
     <string name="remove_goal">Remove goal</string>
     <string name="rename">Rename</string>
     <string name="repair_with_api">Repair with API</string>
@@ -254,6 +257,7 @@
     <string name="targets">Targets</string>
     <string name="targets_and_reminders">Targets and reminders</string>
     <string name="this_week">This week</string>
+    <string name="time">Time</string>
     <string name="timer">Timer</string>
     <string name="timezone">Time zone</string>
     <string name="title">Title</string>
