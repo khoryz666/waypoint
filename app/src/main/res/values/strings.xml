@@ -247,7 +247,7 @@
     <string name="status_paused">Paused</string>
     <string name="step_n">Step %1$d of %2$d</string>
     <string name="stop">Stop</string>
-    <string name="streak_days">Streak %1$d days</string>
+    <string name="streak_days">%1$d-day streak</string>
     <string name="submit">Submit</string>
     <string name="submit_review">Submit review</string>
     <string name="swim_min">Swim (min)</string>
