@@ -53,6 +53,7 @@ import com.khoryz666.waypoint.ingest.CommentState
 import com.khoryz666.waypoint.ingest.FeedbackCard
 import com.khoryz666.waypoint.ingest.SkipReason
 import com.khoryz666.waypoint.ui.Banner
+import com.khoryz666.waypoint.ui.MoonIcon
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TargetRow
@@ -82,7 +83,7 @@ fun TodayScreen(vm: TodayViewModel, onSettings: () -> Unit, onNewTrack: () -> Un
                     }
                 },
                 actions = {
-                    IconButton(onClick = onDailyClose) { Text("☾") }
+                    IconButton(onClick = onDailyClose) { Icon(MoonIcon, contentDescription = stringResource(R.string.daily_close)) }
                     IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, stringResource(R.string.settings)) }
                 },
             )

@@ -37,6 +37,7 @@ import com.khoryz666.waypoint.ingest.Inbox
 import com.khoryz666.waypoint.ui.AttachIcon
 import com.khoryz666.waypoint.ui.CameraIcon
 import com.khoryz666.waypoint.ui.ChoiceChip
+import com.khoryz666.waypoint.ui.Muted
 import java.io.File
 
 /**
@@ -93,6 +94,7 @@ fun InputBar(tracks: List<Track>, inbox: Inbox?, onSubmit: (String, List<Uri>, L
                     enabled = text.isNotBlank() || images.isNotEmpty(),
                 ) { Icon(Icons.AutoMirrored.Filled.Send, contentDescription = stringResource(R.string.send)) }
             }
+            if (text.isBlank() && images.isEmpty()) Muted(stringResource(R.string.money_hint))
         }
     }
 }

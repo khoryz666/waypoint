@@ -125,6 +125,7 @@
     <string name="minimum">Minimum</string>
     <string name="minutes">Minutes</string>
     <string name="minutes_ago">%1$d min ago</string>
+    <string name="money_hint">Money: -42.50 lunch, +350 or =4210</string>
     <string name="monthly">Last month</string>
     <string name="monthly_budget">Monthly budget</string>
     <string name="narrative">Review</string>

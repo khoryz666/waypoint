@@ -125,6 +125,7 @@
     <string name="minimum">最低</string>
     <string name="minutes">分钟</string>
     <string name="minutes_ago">%1$d 分钟前</string>
+    <string name="money_hint">记钱: -42.50 午饭、+350 或 =4210</string>
     <string name="monthly">上个月</string>
     <string name="monthly_budget">每月预算</string>
     <string name="narrative">复盘</string>
