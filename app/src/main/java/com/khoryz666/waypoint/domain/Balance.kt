@@ -18,6 +18,17 @@ fun balanceAt(events: List<BalanceEvent>, at: Long = Long.MAX_VALUE): Long {
 }
 
 /**
+ * Balance at the start of a period beginning at [from]. When the first entry ever falls inside
+ * the period and is a SET (the starting balance), the period opens at that amount, not at zero.
+ */
+fun openingBalance(events: List<BalanceEvent>, from: Long): Long {
+    val live = events.filter { it.deletedAt == null }
+    if (live.any { it.occurredAt < from }) return balanceAt(live, from - 1)
+    val first = live.minWithOrNull(compareBy({ it.occurredAt }, { it.id })) ?: return 0
+    return if (first.kind == BalanceKind.SET) first.amount else 0
+}
+
+/**
  * Net change over the [days] before [now]: the sum of DELTA entries in that window. SET entries
  * only correct drift, so they never count as income or spending. The unit of judgment for money
  * is the 30-day net (6.3).
