@@ -86,7 +86,7 @@ fun OnboardingScreen(vm: OnboardingViewModel, c: AppContainer) {
 
 @Composable
 private fun StepTitle(n: Int, title: String) {
-    Muted(stringResource(R.string.step_n, n, 6))
+    Muted(stringResource(R.string.step_n, n, 5))
     Text(title, style = MaterialTheme.typography.titleLarge)
 }
 
@@ -104,7 +104,7 @@ private fun LanguageStep(vm: OnboardingViewModel) {
     val device = Lang.of(Locale.getDefault().toLanguageTag())
     var lang by remember { mutableStateOf(device) }
     var name by remember { mutableStateOf("") }
-    StepTitle(2, "Language · 语言")
+    StepTitle(1, "Language · 语言")
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         FilterChip(selected = lang == Lang.EN, onClick = { lang = Lang.EN }, label = { Text("English") })
         FilterChip(selected = lang == Lang.ZH, onClick = { lang = Lang.ZH }, label = { Text("简体中文") })
@@ -120,7 +120,7 @@ private fun RegionStep(vm: OnboardingViewModel, s: Settings) {
     var currency by remember(s.profile.currency) { mutableStateOf(s.profile.currency) }
     var balance by remember { mutableStateOf("") }
     val locale = Locale.forLanguageTag(s.profile.language.tag)
-    StepTitle(3, stringResource(R.string.region))
+    StepTitle(2, stringResource(R.string.region))
     OutlinedTextField(zone, { zone = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.device_zone, ZoneId.systemDefault().id)) }, singleLine = true)
     Muted(stringResource(R.string.week_start))
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -135,7 +135,7 @@ private fun RegionStep(vm: OnboardingViewModel, s: Settings) {
 private fun ApiStep(vm: OnboardingViewModel, s: Settings) {
     var key by remember { mutableStateOf("") }
     var budget by remember { mutableStateOf("50") }
-    StepTitle(4, stringResource(R.string.deepseek_key))
+    StepTitle(3, stringResource(R.string.deepseek_key))
     Muted(stringResource(R.string.deepseek_key_hint))
     OutlinedTextField(key, { key = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.api_key)) }, singleLine = true)
     OutlinedTextField(budget, { budget = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.monthly_budget) + " (CNY)") }, singleLine = true)
@@ -149,7 +149,7 @@ private fun SleepStep(vm: OnboardingViewModel) {
     var max by remember { mutableStateOf("8:30") }
     var bed by remember { mutableStateOf<LocalTime?>(null) }
     var app by remember { mutableStateOf("") }
-    StepTitle(5, stringResource(R.string.sleep))
+    StepTitle(4, stringResource(R.string.sleep))
     OutlinedTextField(min, { min = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.at_least_hm)) }, singleLine = true)
     OutlinedTextField(max, { max = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.at_most_hm)) }, singleLine = true)
     TimeField(stringResource(R.string.target_bedtime), bed, onClear = { bed = null }) { bed = it }
@@ -162,7 +162,7 @@ private fun OptionalStep(vm: OnboardingViewModel, s: Settings) {
     val activity = LocalContext.current as? Activity
     var token by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
-    StepTitle(6, stringResource(R.string.optional))
+    StepTitle(5, stringResource(R.string.optional))
     OutlinedTextField(token, { token = it }, Modifier.fillMaxWidth(), label = { Text("GitHub · " + stringResource(R.string.github_token)) }, singleLine = true)
     if (!s.backup.hasKey) {
         OutlinedTextField(pass, { pass = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.backup_passphrase)) }, singleLine = true)
