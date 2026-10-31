@@ -9,11 +9,12 @@
     <string name="add_session">添加计时</string>
     <string name="add_sleep_manually">手动添加一晚</string>
     <string name="add_unit">添加单元</string>
+    <string name="all_tracks">全部 track</string>
     <string name="answer_hint">用自己的话说</string>
     <string name="answering_session">关于上一段专注</string>
-    <string name="any_domains">只算这些 (不选 = 全部):</string>
-    <string name="any_focus_minutes">任意 track 专注分钟</string>
-    <string name="any_units">任意 track 完成单元</string>
+    <string name="any_domains">来自</string>
+    <string name="any_focus_minutes">总专注分钟</string>
+    <string name="any_units">总完成单元</string>
     <string name="api_key">API key</string>
     <string name="api_key_invalid">API key 不能用，解析暂停了。</string>
     <string name="api_key_missing">加个 DeepSeek key 就能解析记录。</string>

@@ -75,10 +75,13 @@ fun DailyTargetScreen(c: AppContainer, onBack: () -> Unit) {
 private fun TargetEditor(target: DayTarget, tracks: List<Track>, onChange: (DayTarget) -> Unit) {
     NumberRow(stringResource(R.string.any_focus_minutes), target.anyFocusMinutes) { onChange(target.copy(anyFocusMinutes = it)) }
     NumberRow(stringResource(R.string.any_units), target.anyUnits) { onChange(target.copy(anyUnits = it)) }
-    Muted(stringResource(R.string.any_domains))
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        Domain.entries.forEach { d ->
-            FilterChip(selected = d in target.anyDomains, onClick = { onChange(target.copy(anyDomains = if (d in target.anyDomains) target.anyDomains - d else target.anyDomains + d)) }, label = { Text(domainLabel(d)) })
+    if (target.anyFocusMinutes > 0 || target.anyUnits > 0) {
+        Muted(stringResource(R.string.any_domains))
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            FilterChip(selected = target.anyDomains.isEmpty(), onClick = { onChange(target.copy(anyDomains = emptyList())) }, label = { Text(stringResource(R.string.all_tracks)) })
+            Domain.entries.forEach { d ->
+                FilterChip(selected = d in target.anyDomains, onClick = { onChange(target.copy(anyDomains = if (d in target.anyDomains) target.anyDomains - d else target.anyDomains + d)) }, label = { Text(domainLabel(d)) })
+            }
         }
     }
     LabeledRow(stringResource(R.string.exercise_day)) { Switch(checked = target.exercise, onCheckedChange = { onChange(target.copy(exercise = it)) }) }

@@ -9,11 +9,12 @@
     <string name="add_session">Add session</string>
     <string name="add_sleep_manually">Add a night by hand</string>
     <string name="add_unit">Add unit</string>
+    <string name="all_tracks">All tracks</string>
     <string name="answer_hint">In your own words</string>
     <string name="answering_session">About your last session</string>
-    <string name="any_domains">Only count these (none = all):</string>
-    <string name="any_focus_minutes">Focus minutes on any track</string>
-    <string name="any_units">Units done on any track</string>
+    <string name="any_domains">From</string>
+    <string name="any_focus_minutes">Total focus minutes</string>
+    <string name="any_units">Total units done</string>
     <string name="api_key">API key</string>
     <string name="api_key_invalid">API key isn\'t working, so parsing is paused.</string>
     <string name="api_key_missing">Add a DeepSeek key to parse logs.</string>
