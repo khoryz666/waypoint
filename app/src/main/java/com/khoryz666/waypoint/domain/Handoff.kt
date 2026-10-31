@@ -76,7 +76,7 @@ fun validateDraft(draft: TrackDraft, chosen: Domain, lang: Lang): HandoffResult 
         warnings += lang.t("Domain $pastedDomain differs from ${chosen.name}; keeping ${chosen.name}", "领域 $pastedDomain 与所选 ${chosen.name} 不一致，保留 ${chosen.name}")
     }
     val units = draft.units.map { it.title.trim() }.filter { it.isNotEmpty() }.distinct()
-    if (units.size > MAX_UNITS) warnings += lang.t("${units.size} units, keeping the first $MAX_UNITS", "${units.size} 个单元，只保留前 $MAX_UNITS 个")
+    if (units.size > MAX_UNITS) warnings += lang.t("${units.size} steps, keeping the first $MAX_UNITS", "${units.size} 个步骤，只保留前 $MAX_UNITS 个")
     val date = draft.targetDate?.trim()?.takeIf { it.isNotEmpty() && it != "null" }?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
     if (draft.targetDate != null && draft.targetDate.trim() !in listOf("", "null") && date == null) {
         warnings += lang.t("targetDate \"${draft.targetDate}\" isn't YYYY-MM-DD; left empty", "targetDate \"${draft.targetDate}\" 不是 YYYY-MM-DD，已留空")

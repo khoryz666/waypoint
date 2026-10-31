@@ -91,7 +91,7 @@ class ReminderWorker(context: Context, params: WorkerParameters) : CoroutineWork
             return listOfNotNull(
                 lang.t("focus ", "专注 ") + formatDuration(day.time.totalFocusMs),
                 day.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("minimum ", "最低 ") + if (it.met) "✓" else "✗" },
-                lang.t("$units units", "$units 个单元").takeIf { units > 0 },
+                lang.t("$units steps", "$units 步").takeIf { units > 0 },
                 if (slept) lang.t("sleep logged", "睡眠已记录") else lang.t("no sleep record", "睡眠未记录"),
             ).joinToString(" · ")
         }

@@ -50,10 +50,10 @@ fun evaluate(target: DayTarget, progress: DayProgress, activeTracks: List<Track>
         lines += TargetLine(lang.t("Focus · ", "专注 · ") + byId.getValue(id).title, (progress.time.focusMs(id) / MINUTE_MS).toInt(), minutes, TargetUnit.MINUTES)
     }
     if (target.anyUnits > 0) {
-        lines += TargetLine(lang.t("Units · $poolLabel", "单元 · $poolLabel"), pool.sumOf { progress.unitsDone[it.id] ?: 0 }, target.anyUnits, TargetUnit.UNITS)
+        lines += TargetLine(lang.t("Steps · $poolLabel", "步骤 · $poolLabel"), pool.sumOf { progress.unitsDone[it.id] ?: 0 }, target.anyUnits, TargetUnit.UNITS)
     }
     target.unitsDone.filter { it.value > 0 && it.key in byId }.forEach { (id, count) ->
-        lines += TargetLine(lang.t("Units · ", "单元 · ") + byId.getValue(id).title, progress.unitsDone[id] ?: 0, count, TargetUnit.UNITS)
+        lines += TargetLine(lang.t("Steps · ", "步骤 · ") + byId.getValue(id).title, progress.unitsDone[id] ?: 0, count, TargetUnit.UNITS)
     }
     if (target.exercise) {
         lines += TargetLine(lang.t("Exercise", "运动"), if (progress.exercised) 1 else 0, 1, TargetUnit.CHECK)
