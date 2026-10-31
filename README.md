@@ -15,7 +15,7 @@ Do these once, in this order, before you rely on the app. Steps 1 and 2 need you
 1. **Make your release key.** Every Android app is signed with a private key, like a wax seal. Android only installs an update if the seal matches, and Google uses it to recognise the app. Make the key once and keep a copy in your password manager. If you lose it, you cannot update the app without wiping it. How: [docs/signing.md](docs/signing.md).
 2. **Register the app with Google.** Backups go to a hidden folder in your own Google Drive. Even so, Google only lets an app use Drive after the app is registered. This is free and takes about 10 minutes. Without it, everything else works, but your data lives only on your phone. How: [docs/google-setup.md](docs/google-setup.md).
 3. **Install the app built with your key.**
-4. **Add your DeepSeek API key** in Settings. Without it, the timer, money entries and all the numbers still work. Text logs just wait as "Not parsed yet".
+4. **Add your DeepSeek API key** in Settings. Without it, the timer, money entries and all the numbers still work. Text logs just wait as "Waiting to be read".
 5. **Turn on backup** in Settings and choose a passphrase.
 
 ## How to use it
@@ -27,32 +27,32 @@ Do these once, in this order, before you rely on the app. Steps 1 and 2 need you
 - Add a DeepSeek API key if you have one. You can add it later in Settings.
 - Set your sleep goal.
 
-### 2. Create a track for each goal
+### 2. Set your goals
 
-A track is one thing you want to improve. Examples: learning Rust, reading a book, a side project, getting stronger.
+A goal is one thing you want to improve. Examples: learning Rust, reading a book, a side project, getting stronger.
 
-- Go to **Tracks** and tap **New track**.
-- Pick a domain: Exercise, Project, Basics, Math or Reading.
+- Go to **Goals** and tap **New goal**.
+- Pick a type: Exercise, Project, Basics, Math or Reading.
 - Name it and say where you are now.
 - Tap **Generate a draft with AI** (needs a DeepSeek key), or **Plan in DeepSeek** to talk it through in the DeepSeek app and paste the plan back. You can edit the draft before you save it, or skip both and fill it in yourself.
-- Keep only a few tracks active at once. The app allows eight at most. Fewer works better.
+- Keep only a few goals active at once. The app allows eight at most. Fewer works better.
 
 ### 3. Every day
 
-- **Start the timer** on a track when you sit down to work. Stop it when you are done. The timer also lives in your notifications.
+- **Start the timer** on a goal when you sit down to work. Stop it when you are done. The timer also lives in your notifications.
 - **Tell it what you did.** Type in the box on **Today**, for example "Read chapter 3, the part on habits was useful". You can also attach a photo, take one, or share a screenshot into the app.
 - Most logs save on their own; tap **Undo** if one is wrong. When the app isn't sure, a card asks you to check it first. You get the numbers right away, then a short comment and your next step.
 - **Money:** type `-42.50 lunch`, `+350` or `=4210`. It is saved at once.
-- **Sleep:** share a screenshot from your sleep app, or add the night by hand on **Foundation**.
-- At night, open **Daily close** (the moon icon). Write down tomorrow's most important thing.
+- **Sleep:** share a screenshot from your sleep app, or add the night by hand on **Life**.
+- At night, open **End of day** (the moon icon). Write down tomorrow's most important thing.
 
-Small days count. Set a **daily target** from Today: a minimum that still counts as a win, and a plan. Meeting the minimum on a busy day keeps your streak going.
+Small days count. Set a **daily plan** from Today: what you do **at least** (still a win) and what you do **ideally**. Doing the "at least" part on a busy day keeps your streak going.
 
 ### 4. Every week
 
 - Open **Review**.
-- Look at the table. It shows time, finished units and logs for each track. Under it are your sleep and money compared with last week.
-- Answer the few questions. DeepSeek writes them from your tracks. Tap **New questions** for a different set, or **Edit** to write your own.
+- Look at the table. It shows time, finished steps and logs for each goal. Under it are your sleep and money compared with last week.
+- Answer the few questions. DeepSeek writes them from your goals. Tap **New questions** for a different set, or **Edit** to write your own.
 - Write **one thing to fix** next week and your **top 3**. Your top 3 stays on Today all week.
 - Submit. DeepSeek writes a short review of your week.
 
@@ -60,13 +60,13 @@ Next week, check whether you fixed that one thing. That is the core of the app.
 
 ### 5. When a goal is done
 
-- Open the track and tap **Complete**. Write where you ended up.
-- For exercise and math you can tap **Start next level**. The new track starts where the old one ended.
-- If a goal no longer matters, tap **Abort** and write why. That is fine too. It is a choice, not a failure.
+- Open the goal and tap **Finish**. Write where you ended up.
+- For exercise and math you can tap **Start next level**. The new goal starts where the old one ended.
+- If a goal no longer matters, tap **End early** and write why. That is fine too. It is a choice, not a failure.
 
-### Goals that are not tracks
+### Sleep and money
 
-Sleep and money are not tracks. They are always there, on the **Foundation** tab.
+Sleep and money are always there, on the **Life** tab.
 
 - **Sleep goal:** tap **Edit goal** under the sleep chart.
 - **Savings goal:** tap **Set a savings goal** under the balance chart. Add a date and the app tells you how much to save each month.
