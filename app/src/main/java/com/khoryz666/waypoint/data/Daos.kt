@@ -258,6 +258,9 @@ interface DayTypeDao {
 
     @Query("DELETE FROM day_types WHERE id = :id")
     suspend fun delete(id: Long)
+
+    @Query("DELETE FROM day_assignments")
+    suspend fun clearAssignments()
 }
 
 @Dao

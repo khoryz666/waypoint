@@ -134,16 +134,19 @@ class AppContainer(context: Context) {
 
     /**
      * Ensures the one daily target row exists and applies to every weekday (spec 5.6). Older
-     * installs have a few named day types with no weekdays; they stay but the first one becomes
-     * the default.
+     * installs have a few named day types, weekday defaults and per-date picks; the first type
+     * becomes the daily target and the rest go, since no screen can reach them any more.
      */
     suspend fun ensureDailyTarget() {
-        val types = db.dayTypes().all()
-        val first = types.minByOrNull { it.order }
-        when {
-            first == null -> db.dayTypes().insert(DayType(name = "Daily", order = 0, weekdays = (1..7).toList(), nudges = true))
-            first.weekdays.isEmpty() && types.none { it.weekdays.isNotEmpty() } ->
-                db.dayTypes().update(first.copy(weekdays = (1..7).toList()))
+        val dao = db.dayTypes()
+        val types = dao.all()
+        val first = types.firstOrNull()
+        if (first == null) {
+            dao.insert(DayType(name = "Daily", order = 0, weekdays = (1..7).toList(), nudges = true))
+            return
         }
+        if (first.weekdays != (1..7).toList()) dao.update(first.copy(weekdays = (1..7).toList()))
+        types.drop(1).forEach { dao.delete(it.id) }
+        dao.clearAssignments()
     }
 }
