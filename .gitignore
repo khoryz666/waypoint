@@ -16,3 +16,8 @@ captures/
 .direnv/
 .envrc.local
 result
+
+# Parsing fixtures: personal screenshots and logs stay local (see fixtures/README.md)
+fixtures/*
+!fixtures/README.md
+!fixtures/*.example
