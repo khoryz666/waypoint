@@ -172,7 +172,7 @@ private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer
         } else {
             val p = savingsProgress(goal, balanceAt(events), c.clock.today())
             val amount = formatMoney(goal.amountMinor, currency)
-            Column(Modifier.fillMaxWidth().clickable(onClick = onEditGoal).padding(vertical = 4.dp)) {
+            Column(Modifier.padding(top = 4.dp)) {
                 Text(
                     when {
                         p.remainingMinor == 0L -> stringResource(R.string.savings_reached, amount)
@@ -182,6 +182,7 @@ private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer
                 )
                 p.requiredPerMonthMinor?.takeIf { it > 0 }?.let { Muted(stringResource(R.string.savings_per_month, formatMoney(it, currency))) }
             }
+            TextButton(onClick = onEditGoal) { Text(stringResource(R.string.edit_goal)) }
         }
         Muted(stringResource(R.string.balance_hint))
         events.takeLast(8).reversed().forEach { e ->
