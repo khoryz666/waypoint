@@ -31,7 +31,7 @@ data class NotificationContent(
             val byId = tracks.associateBy { it.id }
             val running = status.running
             val title = when {
-                running == null -> lang.t("Not tracking", "未计时")
+                running == null -> lang.t("Timer off", "未计时")
                 else -> byId[running.trackId]?.title ?: lang.t("Focus", "专注")
             }
             val minimum = status.minimum.takeIf { it.lines.isNotEmpty() }?.let { lang.t("at least: ", "至少: ") + if (it.met) "✓" else "${(it.fraction * 100).toInt()}%" }

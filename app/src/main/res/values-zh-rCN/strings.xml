@@ -12,7 +12,7 @@
     <string name="advanced">高级</string>
     <string name="all_tracks">全部目标</string>
     <string name="answer_hint">用自己的话说</string>
-    <string name="answering_session">关于上一段专注</string>
+    <string name="answering_session">关于刚才的专注</string>
     <string name="any_domains">来自</string>
     <string name="any_focus_minutes">总专注分钟</string>
     <string name="any_units">总完成步骤</string>
@@ -32,14 +32,14 @@
     <string name="balance">余额</string>
     <string name="balance_hint">输入 -42.50 午饭、+350 或 =4210，点条目可删除。</string>
     <string name="balance_nets">7 天 %1$s · 30 天 %2$s</string>
-    <string name="bed_time">入睡时间 (HH:mm)</string>
+    <string name="bed_time">入睡时间</string>
     <string name="budget_capped">本月 AI 预算用完了，点评和小测验下个月恢复。</string>
     <string name="budget_warning">本月 AI 预算已用 80%。</string>
     <string name="cancel">取消</string>
     <string name="cant_today">今天做不了</string>
     <string name="checkpoints">检查点</string>
     <string name="checkpoints_lines">检查点，每行一个: 内容 | 截止 (可选)</string>
-    <string name="closest_goal">最接近的目标: %1$s</string>
+    <string name="closest_goal">下一个检查点: %1$s</string>
     <string name="col_done">完成</string>
     <string name="col_logs">记录</string>
     <string name="col_time">时间</string>
@@ -189,7 +189,7 @@
     <string name="reading_recall">读完一章后考考我</string>
     <string name="reading_suggestions">AI 推荐阅读</string>
     <string name="reading_where">页码或章节</string>
-    <string name="reauthorize">重新授权</string>
+    <string name="reauthorize">重新登录</string>
     <string name="recall_check">小测验</string>
     <string name="refresh_models">刷新模型列表</string>
     <string name="region">地区</string>
@@ -217,7 +217,7 @@
     <string name="self_grade">连不上 DeepSeek，自己打个分吧。</string>
     <string name="send">发送</string>
     <string name="sessions">专注记录</string>
-    <string name="sessions_this_week">本周 %1$d 次</string>
+    <string name="sessions_this_week">本周运动 %1$d 次</string>
     <string name="set_daily_target">设置每日计划</string>
     <string name="set_savings_goal">设一个存钱目标</string>
     <string name="set_up_backup">设置备份</string>
@@ -226,7 +226,7 @@
     <string name="skip">跳过</string>
     <string name="skip_handoff">跳过，手动填写</string>
     <string name="sleep">睡眠</string>
-    <string name="sleep_app">你截图的睡眠 App</string>
+    <string name="sleep_app">你用的睡眠 App (截图用)</string>
     <string name="sleep_exists">已有记录: %1$s</string>
     <string name="sleep_goal">目标 %1$s – %2$s</string>
     <string name="sleep_goal_bed">目标 %1$s – %2$s · %3$s 前睡</string>
@@ -256,7 +256,7 @@
     <string name="swim_min">游泳 (分钟)</string>
     <string name="sync_failed">同步失败: %1$s</string>
     <string name="take_photo">拍照</string>
-    <string name="target_bedtime">目标入睡时间 (HH:mm)</string>
+    <string name="target_bedtime">目标入睡时间</string>
     <string name="target_date">截止日期</string>
     <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">今日计划</string>
@@ -283,8 +283,8 @@
     <string name="units_short">步</string>
     <string name="use_new">使用新的</string>
     <string name="use_saved_passphrase">使用已保存的密码</string>
-    <string name="wake_date">起床日期 (YYYY-MM-DD)</string>
-    <string name="wake_time">起床时间 (HH:mm)</string>
+    <string name="wake_date">起床日期</string>
+    <string name="wake_time">起床时间</string>
     <string name="waking_end">清醒时段结束</string>
     <string name="waking_start">清醒时段开始</string>
     <string name="week_of">%1$s 那周</string>

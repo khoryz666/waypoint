@@ -12,7 +12,7 @@
     <string name="advanced">Advanced</string>
     <string name="all_tracks">All goals</string>
     <string name="answer_hint">In your own words</string>
-    <string name="answering_session">About your last session</string>
+    <string name="answering_session">About the time you just tracked</string>
     <string name="any_domains">From</string>
     <string name="any_focus_minutes">Total focus minutes</string>
     <string name="any_units">Total steps done</string>
@@ -32,14 +32,14 @@
     <string name="balance">Balance</string>
     <string name="balance_hint">Type -42.50 lunch, +350 or =4210. Tap an entry to delete it.</string>
     <string name="balance_nets">7 days %1$s · 30 days %2$s</string>
-    <string name="bed_time">Bed time (HH:mm)</string>
+    <string name="bed_time">Bed time</string>
     <string name="budget_capped">This month\'s AI budget is used up. Comments and quizzes are back next month.</string>
     <string name="budget_warning">You\'ve used 80% of this month\'s AI budget.</string>
     <string name="cancel">Cancel</string>
     <string name="cant_today">Can\'t today</string>
     <string name="checkpoints">Checkpoints</string>
     <string name="checkpoints_lines">Checkpoints, one per line: what | by when (optional)</string>
-    <string name="closest_goal">Closest goal: %1$s</string>
+    <string name="closest_goal">Next checkpoint: %1$s</string>
     <string name="col_done">Done</string>
     <string name="col_logs">Logs</string>
     <string name="col_time">Time</string>
@@ -189,7 +189,7 @@
     <string name="reading_recall">Quiz me after each chapter I read</string>
     <string name="reading_suggestions">Suggested reads (from AI)</string>
     <string name="reading_where">Pages or chapter</string>
-    <string name="reauthorize">Re-authorize</string>
+    <string name="reauthorize">Sign in again</string>
     <string name="recall_check">Quick quiz</string>
     <string name="refresh_models">Refresh model list</string>
     <string name="region">Region</string>
@@ -217,7 +217,7 @@
     <string name="self_grade">Can\'t reach DeepSeek. How did you do?</string>
     <string name="send">Send</string>
     <string name="sessions">Focus time</string>
-    <string name="sessions_this_week">%1$d sessions this week</string>
+    <string name="sessions_this_week">%1$d workouts this week</string>
     <string name="set_daily_target">Set a daily plan</string>
     <string name="set_savings_goal">Set a savings goal</string>
     <string name="set_up_backup">Set up backup</string>
@@ -226,7 +226,7 @@
     <string name="skip">Skip</string>
     <string name="skip_handoff">Skip and fill in by hand</string>
     <string name="sleep">Sleep</string>
-    <string name="sleep_app">Sleep app you screenshot</string>
+    <string name="sleep_app">Your sleep app (for screenshots)</string>
     <string name="sleep_exists">Already recorded: %1$s</string>
     <string name="sleep_goal">Goal %1$s – %2$s</string>
     <string name="sleep_goal_bed">Goal %1$s – %2$s · in bed by %3$s</string>
@@ -256,7 +256,7 @@
     <string name="swim_min">Swim (min)</string>
     <string name="sync_failed">Sync failed: %1$s</string>
     <string name="take_photo">Take photo</string>
-    <string name="target_bedtime">Target bedtime (HH:mm)</string>
+    <string name="target_bedtime">Target bedtime</string>
     <string name="target_date">Deadline</string>
     <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Today\'s plan</string>
@@ -283,8 +283,8 @@
     <string name="units_short">steps</string>
     <string name="use_new">Use new</string>
     <string name="use_saved_passphrase">Use saved passphrase</string>
-    <string name="wake_date">Wake-up date (YYYY-MM-DD)</string>
-    <string name="wake_time">Wake time (HH:mm)</string>
+    <string name="wake_date">Wake-up date</string>
+    <string name="wake_time">Wake time</string>
     <string name="waking_end">Waking hours end</string>
     <string name="waking_start">Waking hours start</string>
     <string name="week_of">Week of %1$s</string>

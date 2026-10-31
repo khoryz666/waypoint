@@ -65,11 +65,11 @@ object Receipts {
     fun exercise(sessionsThisWeek: Int, sessionsLastWeek: Int, best: List<BestSet>, closest: GoalCriterion?, firstLog: Boolean, lang: Lang): String {
         val parts = mutableListOf<String>()
         parts += if (firstLog) lang.t("first record", "第一次记录")
-        else lang.t("$sessionsThisWeek sessions this week (last week $sessionsLastWeek) ", "本周 $sessionsThisWeek 次（上周 $sessionsLastWeek 次）") + trend(sessionsThisWeek, sessionsLastWeek)
+        else lang.t("$sessionsThisWeek workouts this week (last week $sessionsLastWeek) ", "本周运动 $sessionsThisWeek 次（上周 $sessionsLastWeek 次）") + trend(sessionsThisWeek, sessionsLastWeek)
         best.take(3).forEach { b ->
             parts += "${b.name} ${b.now.describe()}" + (b.lastWeek?.let { lang.t(" (last week ", "（上周 ") + it.describe() + lang.t(")", "）") } ?: "")
         }
-        closest?.let { parts += lang.t("next goal: ", "最接近的目标: ") + it.label }
+        closest?.let { parts += lang.t("next checkpoint: ", "下一个检查点: ") + it.label }
         return parts.joinToString(SEP)
     }
 
