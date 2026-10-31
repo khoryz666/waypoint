@@ -123,7 +123,7 @@ private fun KindPicker(current: Structured, onPick: (Structured) -> Unit) {
         stringResource(R.string.kind_exercise) to Structured.Exercise(),
         stringResource(R.string.kind_note) to Structured.Note(),
     )
-    ChoiceChip(kinds.firstOrNull { it.second::class == current::class }?.first ?: "—", kinds, { it.first }, { onPick(it.second) })
+    ChoiceChip(kinds.firstOrNull { it.second::class == current::class }?.first ?: stringResource(R.string.set), kinds, { it.first }, { onPick(it.second) })
 }
 
 @Composable

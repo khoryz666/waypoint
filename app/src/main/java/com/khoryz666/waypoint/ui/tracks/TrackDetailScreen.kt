@@ -121,8 +121,8 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
             if (t.planNotes.isNotBlank()) item { SectionCard(title = stringResource(R.string.plan_notes)) { Text(t.planNotes) } }
             if (t.domain == Domain.PROJECT) item {
                 SectionCard(title = stringResource(R.string.github_repos)) {
-                    Text(t.githubRepos.joinToString("\n").ifEmpty { "—" })
-                    TextButton(onClick = { dialog = Dialog.REPOS }) { Text(stringResource(R.string.edit)) }
+                    if (t.githubRepos.isNotEmpty()) Text(t.githubRepos.joinToString("\n"))
+                    TextButton(onClick = { dialog = Dialog.REPOS }) { Text(stringResource(if (t.githubRepos.isEmpty()) R.string.set else R.string.edit)) }
                 }
             }
             item {

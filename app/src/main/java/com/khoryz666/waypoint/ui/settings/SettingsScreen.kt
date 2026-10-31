@@ -93,7 +93,7 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
                     LabeledRow(stringResource(R.string.language)) {
                         ChoiceChip(if (s.profile.language == Lang.ZH) "简体中文" else "English", Lang.entries, { if (it == Lang.ZH) "简体中文" else "English" }, { vm.setLanguage(it, activity) })
                     }
-                    Row(stringResource(R.string.display_name), s.profile.displayName ?: "—") { edit = Edit(it, s.profile.displayName.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(displayName = v.ifBlank { null })) } } }
+                    Row(stringResource(R.string.display_name), s.profile.displayName ?: stringResource(R.string.set)) { edit = Edit(it, s.profile.displayName.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(displayName = v.ifBlank { null })) } } }
                     Row(stringResource(R.string.timezone), s.profile.timezoneOverride?.id ?: stringResource(R.string.device_zone, ZoneId.systemDefault().id)) {
                         edit = Edit(it, s.profile.timezoneOverride?.id.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(timezoneOverride = v.trim().takeIf { z -> z.isNotEmpty() }?.let { z -> runCatching { ZoneId.of(z) }.getOrNull() })) } }
                     }
@@ -118,20 +118,20 @@ fun SettingsScreen(vm: SettingsViewModel, c: AppContainer, onBack: () -> Unit, o
             }
             item {
                 SectionCard(title = "DeepSeek") {
-                    Row(stringResource(R.string.api_key), s.apiKeyHint?.let { "••••$it" } ?: "—") { edit = Edit(it, "") { v -> vm.setApiKey(v) } }
+                    Row(stringResource(R.string.api_key), s.apiKeyHint?.let { "••••$it" } ?: stringResource(R.string.set)) { edit = Edit(it, "") { v -> vm.setApiKey(v) } }
                     Row(stringResource(R.string.monthly_budget), "¥%.0f".format(s.monthlyBudgetCny)) { edit = Edit(it, s.monthlyBudgetCny.toString(), number = true) { v -> v.toDoubleOrNull()?.let { b -> vm.update { st -> st.copy(monthlyBudgetCny = b) } } } }
                     budget?.let { b -> Muted(stringResource(R.string.spend_line, "¥%.2f".format(usage.sumOf { it.costCny }), "¥%.2f".format(b.projectedCny))) }
                 }
             }
             item {
                 SectionCard(title = "GitHub") {
-                    Row(stringResource(R.string.github_token), s.githubTokenHint?.let { "••••$it · ${s.githubLogin.orEmpty()}" } ?: "—") { edit = Edit(it, "") { v -> vm.setGithubToken(v) } }
+                    Row(stringResource(R.string.github_token), s.githubTokenHint?.let { "••••$it · ${s.githubLogin.orEmpty()}" } ?: stringResource(R.string.set)) { edit = Edit(it, "") { v -> vm.setGithubToken(v) } }
                     Muted(stringResource(R.string.github_hint))
                 }
             }
             item {
                 SectionCard(title = stringResource(R.string.sleep)) {
-                    Row(stringResource(R.string.sleep_app), s.profile.sleepAppHint ?: "—") { edit = Edit(it, s.profile.sleepAppHint.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleepAppHint = v.ifBlank { null })) } } }
+                    Row(stringResource(R.string.sleep_app), s.profile.sleepAppHint ?: stringResource(R.string.set)) { edit = Edit(it, s.profile.sleepAppHint.orEmpty()) { v -> vm.update { st -> st.copy(profile = st.profile.copy(sleepAppHint = v.ifBlank { null })) } } }
                 }
             }
             item { BackupSection(s.backup, c, onConnect = vm::backupNow, onPassphrase = { if (s.backup.passphraseWarningShown) passphrase = true else warn = true }, onBackupNow = vm::backupNow) }
