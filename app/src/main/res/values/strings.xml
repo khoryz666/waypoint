@@ -91,7 +91,7 @@
     <string name="github_repos">GitHub repos (owner/repo)</string>
     <string name="github_token">Read-only token</string>
     <string name="goal_amount">Amount</string>
-    <string name="goal_by">By (YYYY-MM-DD, optional)</string>
+    <string name="goal_by">By</string>
     <string name="goal_final">Goal (where you want to end up)</string>
     <string name="grade_partial">Partial</string>
     <string name="grade_solid">Solid</string>
@@ -257,7 +257,7 @@
     <string name="sync_failed">Sync failed: %1$s</string>
     <string name="take_photo">Take photo</string>
     <string name="target_bedtime">Target bedtime (HH:mm)</string>
-    <string name="target_date">Deadline (YYYY-MM-DD, optional)</string>
+    <string name="target_date">Deadline</string>
     <string name="target_date_x">Deadline: %1$s</string>
     <string name="targets">Targets</string>
     <string name="targets_and_reminders">Targets and reminders</string>

@@ -50,6 +50,7 @@ import com.khoryz666.waypoint.ui.BrandFooter
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.TextDialog
+import com.khoryz666.waypoint.ui.TimeDialog
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.ZoneId
@@ -192,5 +193,5 @@ private fun Row(label: String, value: String, onEdit: (String) -> Unit) {
 private fun TimeRow(label: String, time: LocalTime, onChange: (LocalTime) -> Unit) {
     var open by remember { mutableStateOf(false) }
     LabeledRow(label, Modifier.clickable { open = true }.padding(vertical = 6.dp)) { Text(time.toString(), color = MaterialTheme.colorScheme.primary) }
-    if (open) TextDialog(label, initial = time.toString(), label = "HH:mm", singleLine = true, onDismiss = { open = false }) { v -> runCatching { LocalTime.parse(v.trim()) }.getOrNull()?.let(onChange); open = false }
+    if (open) TimeDialog(time, onDismiss = { open = false }) { onChange(it); open = false }
 }

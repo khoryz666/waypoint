@@ -91,7 +91,7 @@
     <string name="github_repos">GitHub 仓库 (owner/repo)</string>
     <string name="github_token">只读 token</string>
     <string name="goal_amount">金额</string>
-    <string name="goal_by">截止日期 (YYYY-MM-DD，可选)</string>
+    <string name="goal_by">截止日期</string>
     <string name="goal_final">目标 (最终要达到的状态)</string>
     <string name="grade_partial">部分</string>
     <string name="grade_solid">扎实</string>
@@ -257,7 +257,7 @@
     <string name="sync_failed">同步失败: %1$s</string>
     <string name="take_photo">拍照</string>
     <string name="target_bedtime">目标入睡时间 (HH:mm)</string>
-    <string name="target_date">截止日期 (YYYY-MM-DD，可选)</string>
+    <string name="target_date">截止日期</string>
     <string name="target_date_x">截止日期: %1$s</string>
     <string name="targets">目标</string>
     <string name="targets_and_reminders">目标与提醒</string>

@@ -267,21 +267,19 @@ private fun SleepGoalDialog(current: SleepTargets, onDismiss: () -> Unit, onSave
 @Composable
 private fun SavingsGoalDialog(current: SavingsGoal?, currency: String, onDismiss: () -> Unit, onSave: (SavingsGoal?) -> Unit) {
     var amount by remember { mutableStateOf(current?.let { (it.amountMinor / minorUnitFactor(currency).toDouble()).toBigDecimal().stripTrailingZeros().toPlainString() }.orEmpty()) }
-    var by by remember { mutableStateOf(current?.by?.toString().orEmpty()) }
+    var by by remember { mutableStateOf(current?.by) }
     val minor = parseMinor(amount.trim(), currency)?.takeIf { it > 0 }
-    val date = by.trim().takeIf { it.isNotEmpty() }?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
-    val valid = minor != null && (by.isBlank() || date != null)
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.savings_goal)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(amount, { amount = it }, label = { Text(stringResource(R.string.goal_amount)) }, singleLine = true)
-                OutlinedTextField(by, { by = it }, label = { Text(stringResource(R.string.goal_by)) }, singleLine = true)
+                DateField(stringResource(R.string.goal_by), by, onClear = { by = null }) { by = it }
                 if (current != null) TextButton(onClick = { onSave(null) }) { Text(stringResource(R.string.remove_goal)) }
             }
         },
-        confirmButton = { TextButton(onClick = { onSave(SavingsGoal(minor!!, date)) }, enabled = valid) { Text(stringResource(R.string.ok)) } },
+        confirmButton = { TextButton(onClick = { onSave(SavingsGoal(minor!!, by)) }, enabled = minor != null) { Text(stringResource(R.string.ok)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
 }

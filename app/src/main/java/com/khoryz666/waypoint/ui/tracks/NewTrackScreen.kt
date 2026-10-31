@@ -43,10 +43,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.khoryz666.waypoint.R
 import com.khoryz666.waypoint.domain.Domain
+import com.khoryz666.waypoint.ui.DateField
 import com.khoryz666.waypoint.ui.Muted
 import com.khoryz666.waypoint.ui.SectionCard
 import com.khoryz666.waypoint.ui.domainLabel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 /** The DeepSeek-app handoff (spec 4): describe → copy prompt → discuss in DeepSeek → paste → preview → save. */
 @Composable
@@ -155,7 +157,7 @@ private fun PreviewStep(vm: NewTrackViewModel) {
     OutlinedTextField(form.goal, { v -> set { it.copy(goal = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.goal_final)) }, minLines = 2)
     OutlinedTextField(form.initialState, { v -> set { it.copy(initialState = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.current_state)) }, minLines = 2)
     OutlinedTextField(form.units, { v -> set { it.copy(units = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.units_lines)) }, minLines = 4, maxLines = 12)
-    OutlinedTextField(form.targetDate, { v -> set { it.copy(targetDate = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.target_date)) }, singleLine = true)
+    DateField(stringResource(R.string.target_date), runCatching { LocalDate.parse(form.targetDate) }.getOrNull(), onClear = { set { it.copy(targetDate = "") } }) { d -> set { it.copy(targetDate = d.toString()) } }
     OutlinedTextField(form.checkpoints, { v -> set { it.copy(checkpoints = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.checkpoints_lines)) }, minLines = 2)
     if (domain == Domain.PROJECT) OutlinedTextField(form.repos, { v -> set { it.copy(repos = v) } }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.github_repos)) }, singleLine = true)
     error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
