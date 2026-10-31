@@ -169,7 +169,7 @@ private fun BalanceCard(events: List<BalanceEvent>, s: Settings, c: AppContainer
     SectionCard(title = stringResource(R.string.balance)) {
         Text(formatMoney(balanceAt(events), currency), style = MaterialTheme.typography.headlineSmall)
         Muted(stringResource(R.string.balance_nets, formatMoneyDelta(netChange(events, now, 7), currency), formatMoneyDelta(netChange(events, now, 30), currency)))
-        LineChart(points)
+        if (points.count { it.value != null } >= 2) LineChart(points)
         val goal = s.profile.savings
         if (goal == null) {
             TextButton(onClick = onEditGoal) { Text(stringResource(R.string.set_savings_goal)) }
