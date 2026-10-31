@@ -19,7 +19,7 @@ No data carries over from v2.
   without the LLM. An editable confirm card for each kind of log.
 - Instant receipts computed on the phone, then a streamed DeepSeek comment and an updated
   next step. Recall checks with grading and spaced revision (3 / 10 / 30 days).
-- Timer ported from v2: Focus on a track or Joy, a notification with the last three focus
+- Timer ported from v2: focus on a track, a notification with the last three
   tracks, "做了什么?" after a session of 10+ minutes, retro-logging, idle nudges.
 - Day types with minimum and plan targets, and a streak.
 - Sleep from screenshots of any sleep app or by hand, with weekly status; balance chart
