@@ -96,6 +96,7 @@ private fun DescribeStep(vm: NewTrackViewModel) {
     val notes by vm.notes.collectAsState()
     val busy by vm.busy.collectAsState()
     val hasApiKey by vm.hasApiKey.collectAsState()
+    val error by vm.error.collectAsState()
     Text(stringResource(R.string.pick_domain), style = MaterialTheme.typography.titleSmall)
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Domain.entries.forEach { d -> FilterChip(selected = d == domain, onClick = { vm.domain.value = d }, label = { Text(domainLabel(d)) }) }
@@ -103,9 +104,14 @@ private fun DescribeStep(vm: NewTrackViewModel) {
     OutlinedTextField(title, { vm.title.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.title)) }, singleLine = true)
     OutlinedTextField(initial, { vm.initialState.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.current_state)) }, minLines = 3)
     OutlinedTextField(notes, { vm.notes.value = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.handoff_notes)) }, minLines = 2)
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        if (hasApiKey) Button(onClick = { vm.generate() }, enabled = title.isNotBlank() && !busy) { Text(stringResource(R.string.generate_draft)) }
-        OutlinedButton(onClick = vm::toHandoff, enabled = title.isNotBlank()) { Text(stringResource(R.string.next)) }
+    error?.let { Text(stringResource(R.string.draft_failed, it), color = MaterialTheme.colorScheme.error) }
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (hasApiKey) {
+            Button(onClick = { vm.generate() }, enabled = title.isNotBlank() && !busy) { Text(stringResource(if (busy) R.string.generating else R.string.generate_draft)) }
+            OutlinedButton(onClick = vm::toHandoff, enabled = title.isNotBlank() && !busy) { Text(stringResource(R.string.plan_in_deepseek)) }
+        } else {
+            Button(onClick = vm::toHandoff, enabled = title.isNotBlank()) { Text(stringResource(R.string.plan_in_deepseek)) }
+        }
     }
 }
 

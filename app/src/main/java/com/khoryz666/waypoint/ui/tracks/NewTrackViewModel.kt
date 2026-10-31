@@ -97,21 +97,22 @@ class NewTrackViewModel(private val c: AppContainer, private val predecessorId: 
     }
 
     fun toHandoff() {
+        error.value = null
         stage.value = Stage.HANDOFF
     }
 
     /** Drafts the whole track in-app from the short description, then opens the preview. */
     fun generate() = viewModelScope.launch {
         busy.value = true
+        error.value = null
         try {
             val draft = c.llm.json("draft_track", listOf(Part.Text(draftRequest())), 3000, TrackDraft.serializer())
             when (val r = validateDraft(draft, domain.value, lang)) {
                 is HandoffResult.Ok -> show(r.draft)
-                is HandoffResult.Failed -> { error.value = r.reason; stage.value = Stage.HANDOFF }
+                is HandoffResult.Failed -> error.value = r.reason
             }
         } catch (e: Exception) {
-            error.value = e.message
-            stage.value = Stage.HANDOFF
+            error.value = e.message.orEmpty()
         } finally {
             busy.value = false
         }

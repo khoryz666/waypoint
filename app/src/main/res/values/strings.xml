@@ -70,6 +70,7 @@
     <string name="domain_project">Project</string>
     <string name="domain_reading">Reading</string>
     <string name="done">Done</string>
+    <string name="draft_failed">Couldn\'t generate a draft: %1$s</string>
     <string name="edit">Edit</string>
     <string name="edit_goal">Edit goal</string>
     <string name="edit_raw">Edit raw</string>
@@ -84,6 +85,7 @@
     <string name="focus">Focus</string>
     <string name="focus_today">Focus %1$s today</string>
     <string name="generate_draft">Generate a draft with AI</string>
+    <string name="generating">Generating…</string>
     <string name="get_fallback">Get a fallback</string>
     <string name="github_hint">Fine-grained and read-only, for your project repos.</string>
     <string name="github_repos">GitHub repos (owner/repo)</string>
@@ -174,6 +176,7 @@
     <string name="pick_domain">Domain</string>
     <string name="pick_track">Pick a track</string>
     <string name="plan">Plan</string>
+    <string name="plan_in_deepseek">Plan in DeepSeek</string>
     <string name="plan_notes">Plan notes</string>
     <string name="prices">Prices per 1M tokens (CNY): hit / miss / output</string>
     <string name="prices_hint">Peak-hour prices by default. Update them if DeepSeek changes.</string>
