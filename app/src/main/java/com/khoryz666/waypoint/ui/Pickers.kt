@@ -1,5 +1,6 @@
 package com.khoryz666.waypoint.ui
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -20,18 +21,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.khoryz666.waypoint.R
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 /** A labelled row whose value opens a date picker; with [onClear], a set date gets an ✕. */
 @Composable
 fun DateField(label: String, date: LocalDate?, onClear: (() -> Unit)? = null, onChange: (LocalDate) -> Unit) {
     var open by remember { mutableStateOf(false) }
-    PickerRow(label, date?.toString(), onClear?.takeIf { date != null }) { open = true }
+    val locale = LocalConfiguration.current.locales[0]
+    val shown = date?.let { DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "yMMMd"), locale).format(it) }
+    PickerRow(label, shown, onClear?.takeIf { date != null }) { open = true }
     if (open) DateDialog(date ?: LocalDate.now(), onDismiss = { open = false }) { onChange(it); open = false }
 }
 
