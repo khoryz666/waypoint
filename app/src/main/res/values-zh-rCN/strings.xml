@@ -50,8 +50,8 @@
     <string name="create_first_track">定下第一个目标</string>
     <string name="currency">货币 (ISO 4217)</string>
     <string name="current_state">当前状态</string>
-    <string name="daily_close">每日收尾</string>
-    <string name="daily_close_time">每日收尾</string>
+    <string name="daily_close">一天收尾</string>
+    <string name="daily_close_time">收尾提醒</string>
     <string name="daily_target">每日计划</string>
     <string name="date">日期</string>
     <string name="days_ago">%1$d 天前</string>
@@ -79,7 +79,7 @@
     <string name="effort">费力程度 (1-10)</string>
     <string name="end_reason">为什么停下？</string>
     <string name="end_reason_x">提前结束原因: %1$s</string>
-    <string name="exercise_day">运动</string>
+    <string name="exercise_day">今天运动</string>
     <string name="fast_model">快速模型 (Flash)</string>
     <string name="fill_manually">手动填写</string>
     <string name="final_state">最后到哪了？</string>
@@ -131,7 +131,7 @@
     <string name="minutes_ago">%1$d 分钟前</string>
     <string name="monthly">上个月</string>
     <string name="monthly_budget">每月预算</string>
-    <string name="narrative">复盘</string>
+    <string name="narrative">总结</string>
     <string name="nav_foundation">生活</string>
     <string name="nav_review">复盘</string>
     <string name="nav_today">今天</string>
@@ -186,7 +186,7 @@
     <string name="questions_need_track">有了目标就会出现问题。</string>
     <string name="reading_ideas">要点 (逗号分隔)</string>
     <string name="reading_recall">读完一章后考考我</string>
-    <string name="reading_suggestions">可以读读 (未核实)</string>
+    <string name="reading_suggestions">AI 推荐阅读</string>
     <string name="reading_where">页码或章节</string>
     <string name="reauthorize">重新授权</string>
     <string name="recall_check">小测验</string>
@@ -288,6 +288,6 @@
     <string name="waking_start">清醒时段开始</string>
     <string name="week_of">%1$s 那周</string>
     <string name="week_start">每周开始于</string>
-    <string name="write_narrative">写成文字</string>
+    <string name="write_narrative">生成总结</string>
     <string name="yearly">年度</string>
 </resources>

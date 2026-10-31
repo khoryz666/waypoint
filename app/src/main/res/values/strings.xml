@@ -50,8 +50,8 @@
     <string name="create_first_track">Set your first goal</string>
     <string name="currency">Currency (ISO 4217)</string>
     <string name="current_state">Current status</string>
-    <string name="daily_close">Daily close</string>
-    <string name="daily_close_time">Daily close</string>
+    <string name="daily_close">End of day</string>
+    <string name="daily_close_time">End-of-day reminder</string>
     <string name="daily_target">Daily plan</string>
     <string name="date">Date</string>
     <string name="days_ago">%1$d days ago</string>
@@ -79,7 +79,7 @@
     <string name="effort">Effort (1-10)</string>
     <string name="end_reason">Why stop here?</string>
     <string name="end_reason_x">Ended early because: %1$s</string>
-    <string name="exercise_day">Exercise</string>
+    <string name="exercise_day">Exercise today</string>
     <string name="fast_model">Fast model (Flash)</string>
     <string name="fill_manually">Fill in manually</string>
     <string name="final_state">Where did you end up?</string>
@@ -131,7 +131,7 @@
     <string name="minutes_ago">%1$d min ago</string>
     <string name="monthly">Last month</string>
     <string name="monthly_budget">Monthly budget</string>
-    <string name="narrative">Review</string>
+    <string name="narrative">Summary</string>
     <string name="nav_foundation">Life</string>
     <string name="nav_review">Review</string>
     <string name="nav_today">Today</string>
@@ -149,7 +149,7 @@
     <string name="no_tracks">No goals yet.</string>
     <string name="none">None</string>
     <string name="notes">Notes</string>
-    <string name="nudges">Nudge me after 3 quiet hours</string>
+    <string name="nudges">Remind me after 3 hours with no log</string>
     <string name="ok">OK</string>
     <string name="onboarding_welcome">Tell it what you did. It keeps the log and your next step. You can change everything later.</string>
     <string name="one_thing_to_fix">One thing to fix</string>
@@ -186,7 +186,7 @@
     <string name="questions_need_track">Questions show up once you have a goal.</string>
     <string name="reading_ideas">Key ideas (comma-separated)</string>
     <string name="reading_recall">Quiz me after each chapter I read</string>
-    <string name="reading_suggestions">Worth reading (unverified)</string>
+    <string name="reading_suggestions">Suggested reads (from AI)</string>
     <string name="reading_where">Pages or chapter</string>
     <string name="reauthorize">Re-authorize</string>
     <string name="recall_check">Quick quiz</string>
@@ -288,6 +288,6 @@
     <string name="waking_start">Waking hours start</string>
     <string name="week_of">Week of %1$s</string>
     <string name="week_start">Week starts on</string>
-    <string name="write_narrative">Write it up</string>
+    <string name="write_narrative">Write a summary</string>
     <string name="yearly">Year</string>
 </resources>
