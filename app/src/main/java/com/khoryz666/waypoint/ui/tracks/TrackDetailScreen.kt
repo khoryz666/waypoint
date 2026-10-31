@@ -126,7 +126,9 @@ fun TrackDetailScreen(vm: TrackDetailViewModel, onBack: () -> Unit, onNextLevel:
                 }
             }
             item {
-                SectionCard(title = stringResource(R.string.outline) + " · ${units.count { it.status == UnitStatus.DONE }}/${units.size}") {
+                // Once started, the progress bar above already shows the count.
+                val count = if (t.status == TrackStatus.DRAFT) " · ${units.count { it.status == UnitStatus.DONE }}/${units.size}" else ""
+                SectionCard(title = stringResource(R.string.outline) + count) {
                     units.forEach { UnitRow(it, vm) }
                     TextButton(onClick = { dialog = Dialog.ADD_UNIT }) { Text(stringResource(R.string.add_unit)) }
                 }
