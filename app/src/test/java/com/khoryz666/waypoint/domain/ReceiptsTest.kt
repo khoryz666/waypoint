@@ -24,7 +24,7 @@ class ReceiptsTest {
         assertEquals("Focus today 2h 03m · minimum day ✓ · streak 4 days", Receipts.focus(123 * MINUTE_MS, true, 4, Lang.EN))
         val week = SleepWeek(java.time.LocalDate.MIN, 6, 4, 425, null, SleepStatus.WATCH)
         assertEquals("睡眠 6h 40m · 本周均值 7h 05m · 目标内 4/6 晚", Receipts.sleep(400, week, Lang.ZH))
-        assertEquals("Balance RM 4,210 · 7 days +RM 0 · 30 days +RM 620", Receipts.balance(4_210_00, 0, 620_00, null, "MYR", false, Lang.EN))
+        assertEquals("Balance RM 4,210 · 7 days +RM 0 · 30 days +RM 620", Receipts.balance(4_210_00, 0, 620_00, "MYR", false, Lang.EN))
     }
 
     @Test

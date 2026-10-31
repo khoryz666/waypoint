@@ -1,10 +1,6 @@
 package com.khoryz666.waypoint.domain
 
 import com.khoryz666.waypoint.data.BalanceEvent
-import com.khoryz666.waypoint.data.Track
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
-import kotlin.math.ceil
 
 /**
  * Balance after every live event up to [at]: the last SET plus the DELTAs after it (spec 3).
@@ -54,22 +50,3 @@ fun parseMoneyShortcut(text: String, currencyCode: String): MoneyShortcut? {
     }
 }
 
-/** A money track's goal amount: the first criterion whose target parses as a number. */
-fun moneyGoalMinor(track: Track, currencyCode: String): Long? =
-    track.goalCriteria.firstNotNullOfOrNull { c -> c.target?.let { t -> Regex("""[0-9][0-9,]*(?:\.[0-9]+)?""").find(t)?.value }?.let { parseMinor(it, currencyCode) } }
-
-data class MoneyGoalProgress(val goalMinor: Long, val remainingMinor: Long, val monthsLeft: Int?, val requiredPerMonthMinor: Long?)
-
-/** Distance to the goal and the average monthly saving needed to reach it by its target date. */
-fun moneyGoalProgress(goalMinor: Long, balance: Long, today: LocalDate, targetDate: LocalDate?): MoneyGoalProgress {
-    val remaining = (goalMinor - balance).coerceAtLeast(0)
-    val months = targetDate?.let { ChronoUnit.DAYS.between(today, it).coerceAtLeast(0) / 30.44 }
-    val monthsLeft = months?.let { ceil(it).toInt() }
-    val required = when {
-        months == null -> null
-        remaining == 0L -> 0
-        months <= 0.0 -> remaining
-        else -> ceil(remaining / months.coerceAtLeast(1.0)).toLong()
-    }
-    return MoneyGoalProgress(goalMinor, remaining, monthsLeft, required)
-}

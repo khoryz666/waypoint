@@ -5,7 +5,6 @@ import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.SettingsStore
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.domain.AppClock
-import com.khoryz666.waypoint.domain.BalanceKind
 import com.khoryz666.waypoint.domain.Domain
 import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.ParseStatus
@@ -150,7 +149,6 @@ class Parser(
             Domain.READING -> Structured.Reading()
             Domain.PROJECT -> Structured.Project()
             Domain.FUNDAMENTAL -> Structured.Fundamental()
-            Domain.MONEY -> Structured.Balance(BalanceKind.DELTA, 0)
             null -> Structured.Note()
         }
     }

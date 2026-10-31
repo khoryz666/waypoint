@@ -241,14 +241,7 @@ class FeedbackEngine(
     suspend fun ask(track: Track, question: String, thinkHarder: Boolean): String {
         val units = db.units().forTrack(track.id)
         val logs = db.logs().recentConfirmed(track.id, 10)
-        val money = track.domain == Domain.MONEY
-        val logBlock = if (money) {
-            // Entry notes leave the device only when the user asks about money (6.3).
-            db.balance().live().takeLast(30).joinToString("\n") { "${clock.dateOf(it.occurredAt)} ${it.kind} ${it.amount} ${it.note.orEmpty()}" }
-        } else {
-            context.recent(logs, 3_000)
-        }
-        val text = context.profile(settings.current().profile, null) + "\n" + context.track(track, units) + "\n" + logBlock + "\n## Question\n" + question
+        val text = context.profile(settings.current().profile, null) + "\n" + context.track(track, units) + "\n" + context.recent(logs, 3_000) + "\n## Question\n" + question
         val answer = llm.text("ask_track", listOf(Part.Text(text)), 800, if (thinkHarder) Tier.REVIEW else Tier.FAST, thinking = thinkHarder)
         val s = settings.current()
         db.feedback().insert(Feedback(trackId = track.id, question = question, text = answer, model = if (thinkHarder) s.reviewModel else s.fastModel, promptName = "ask_track", createdAt = clock.now()))

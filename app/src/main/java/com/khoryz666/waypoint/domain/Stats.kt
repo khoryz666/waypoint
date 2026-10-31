@@ -146,7 +146,7 @@ fun autoAnswer(key: QuestionKey, stats: ReviewStats, lang: Lang, pillarTracks: L
         .ifEmpty { lang.t("no exercise tracks", "没有运动 track") }
     QuestionKey.BALANCE_NET_30 -> formatMoneyDelta(stats.balance.net30Minor, stats.balance.currency)
     QuestionKey.MINIMUM_PLAN_DAYS -> lang.t("minimum ${stats.minimumDays}/${stats.daysWithMinimum} days, plan ${stats.planDays}", "最低 ${stats.minimumDays}/${stats.daysWithMinimum} 天，计划 ${stats.planDays} 天")
-    QuestionKey.UNITS_DONE_PER_TRACK -> stats.tracks.filter { it.domain != Domain.PROJECT && it.domain != Domain.MONEY && it.domain != Domain.EXERCISE }
+    QuestionKey.UNITS_DONE_PER_TRACK -> stats.tracks.filter { it.domain != Domain.PROJECT && it.domain != Domain.EXERCISE }
         .joinToString("; ") { "${it.title}: ${it.unitsDone}" }.ifEmpty { "—" }
     QuestionKey.MILESTONES_PER_PROJECT -> stats.tracks.filter { it.domain == Domain.PROJECT }.joinToString("; ") { "${it.title}: ${it.unitsDone}" + lang.t(" (${it.commits} commits)", "（${it.commits} 个 commit）") }.ifEmpty { "—" }
     QuestionKey.OWNERSHIP_CHECKS -> lang.t("${stats.ownershipAnswered} answered, ${stats.ownershipSkipped} skipped", "回答 ${stats.ownershipAnswered}，跳过 ${stats.ownershipSkipped}")

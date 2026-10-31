@@ -1,11 +1,11 @@
 package com.khoryz666.waypoint.domain
 
-/** The fixed set of domains a Track belongs to (spec 3). Sleep is deliberately not one. */
+/** The fixed set of domains a Track belongs to (spec 3). Sleep and money are not tracks. */
 enum class Domain {
-    EXERCISE, MONEY, PROJECT, FUNDAMENTAL, MATH, READING;
+    EXERCISE, PROJECT, FUNDAMENTAL, MATH, READING;
 
     /** Completing a track of these domains offers "Start next level" (spec 3, lifecycle step 4). */
-    val incremental: Boolean get() = this == EXERCISE || this == MONEY || this == MATH
+    val incremental: Boolean get() = this == EXERCISE || this == MATH
 
     /** Domains whose DONE units get recall checks and spaced revision (spec 6.5, 6.6). */
     val recallByDefault: Boolean get() = this == FUNDAMENTAL || this == MATH
