@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waypoint 隐私政策</title>
+<meta name="description" content="Waypoint Android 应用如何处理你的数据。">
+<meta name="theme-color" content="#14193a">
+<link rel="icon" href="../logo-120.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="doc-top"><div class="wrap"><a class="brand" href="./"><svg viewBox="24 34 60 40" aria-hidden="true"><path fill="#AFBEFF" d="M 47.98,67.12 C 48.84,60.24 50.56,55.94 49.70,52.50 C 42.82,51.64 34.22,48.20 28.20,40.46 C 35.08,38.74 43.68,38.74 48.84,42.18 C 51.42,43.90 53.14,45.62 54.00,47.34 C 54.86,45.62 56.58,43.90 59.16,42.18 C 64.32,38.74 72.92,38.74 79.80,40.46 C 73.78,48.20 65.18,51.64 58.30,52.50 C 57.44,55.94 59.16,60.24 60.02,67.12 Z"/><path d="M 31.64,67.12 C 35.08,63.68 39.38,63.68 42.82,67.12 C 46.26,70.56 50.56,70.56 54.00,67.12 C 57.44,63.68 61.74,63.68 65.18,67.12 C 68.62,70.56 72.92,70.56 76.36,67.12" fill="none" stroke="#FFB38F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Waypoint</a></div></header>
+<main class="doc">
+
+  <h1>隐私政策</h1>
+  <p class="muted">最后更新：2026 年 10 月 31 日</p>
+
+  <p>Waypoint 是一个个人用的 Android 应用。本页说明它处理哪些数据、数据去了哪里，以及它绝不会做什么。</p>
+
+  <div class="summary">
+  <h2>简单来说</h2>
+  <ul>
+    <li>你的数据存在你的手机上。</li>
+    <li>没有 Waypoint 服务器，不用注册账号，没有广告，没有统计分析。</li>
+    <li>数据只会因为你自己打开的三项功能离开手机：DeepSeek、Google Drive 备份和 GitHub 同步。</li>
+    <li>我们绝不出售或分享你的数据。</li>
+  </ul>
+  </div>
+
+  <h2>手机上存了什么</h2>
+  <p>你的目标、记录、计时、睡眠、收支记录、复盘和设置。它们存在应用的私有存储里，由 Android 加密。你分享进来的截图，在保存或丢弃那条记录后就会删除。</p>
+  <p>你的 DeepSeek API key 和 GitHub token 用 Android Keystore 里的密钥加密。它们不会进入备份，输入之后也不会再完整显示。</p>
+
+  <h2>DeepSeek</h2>
+  <p>如果你添加了自己的 DeepSeek API key，应用会把你提交的内容发给 DeepSeek 来识别和回复：你输入的文字、你分享的截图，以及相关目标的简短摘要。应用用你的 key 直接连接 DeepSeek，DeepSeek 如何处理这些数据由它自己的隐私政策约束。用快捷方式记的钱（<code>+350</code>、<code>-42.50 午饭</code>、<code>=4210</code>）不经过 DeepSeek。复盘只发送金额汇总，比如余额和变化。用文字描述的钱和其他文字一样会被发送。</p>
+  <p>没有 key 时，不会向 DeepSeek 发送任何内容。</p>
+
+  <h2>Google Drive 备份</h2>
+  <p>如果你打开备份，应用只向 Google 申请一项权限：<code>drive.appdata</code>。它只能在你 Google Drive 的隐藏应用文件夹里创建、读取和删除自己的文件，看不到你 Drive 里的其他文件。</p>
+  <p>上传前，备份会在手机上用只有你知道的密码加密（AES-256-GCM，密钥由 PBKDF2 派生）。没有这个密码，谁都读不了，包括我们和 Google。应用只用这项权限来存储、列出、恢复和清理你自己的备份。</p>
+  <p>Waypoint 对从 Google API 获得的信息的使用和传输遵守 <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>，包括其中的 Limited Use 要求。</p>
+
+  <h2>GitHub</h2>
+  <p>如果你添加了只读 GitHub token，应用会读取你关联到项目类目标的仓库的 commit 信息，不会读取你的代码。如果你也添加了 DeepSeek key，commit 信息可能会由 DeepSeek 总结。</p>
+
+  <h2>删除你的数据</h2>
+  <p>卸载应用会删除手机上的所有数据。要删除备份，请在网页版 Google Drive 打开 设置 → 管理应用，找到 Waypoint，选择“删除隐藏的应用数据”。你也可以在 <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> 移除应用的访问权限。</p>
+
+  <h2>儿童</h2>
+  <p>Waypoint 不面向 13 岁以下的儿童。</p>
+
+  <h2>变更</h2>
+  <p>如果本政策有变化，新版本会发布在本页，并更新日期。</p>
+
+  <h2>联系</h2>
+  <p>关于隐私的问题：请在 <a href="https://github.com/khoryz666/waypoint/issues">github.com/khoryz666/waypoint/issues</a> 提 issue。</p>
+
+</main>
+<footer><div class="wrap"><span>Waypoint · 开源</span><span><a href="./">首页</a><a href="https://github.com/khoryz666/waypoint">GitHub</a><a href="../privacy.html" lang="en">English</a></span></div></footer>
+</body>
+</html>
