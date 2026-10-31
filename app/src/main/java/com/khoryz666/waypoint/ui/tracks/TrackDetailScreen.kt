@@ -1,5 +1,6 @@
 package com.khoryz666.waypoint.ui.tracks
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.khoryz666.waypoint.R
@@ -44,6 +46,8 @@ import com.khoryz666.waypoint.data.Session
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.data.TrackUnit
 import com.khoryz666.waypoint.domain.Domain
+import com.khoryz666.waypoint.domain.LogKind
+import com.khoryz666.waypoint.domain.ParseStatus
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.TrackStatus
 import com.khoryz666.waypoint.domain.UnitStatus
@@ -197,7 +201,7 @@ private fun UnitRow(unit: TrackUnit, vm: TrackDetailViewModel) {
     Row(Modifier.fillMaxWidth().clickable { menu = true }.padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(mark, Modifier.padding(end = 8.dp), color = if (unit.status == UnitStatus.WEAK) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
         Text(unit.title, Modifier.weight(1f))
-        unit.nextReviewAt?.let { Muted(DateTimeFormatter.ofPattern("MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(it))) }
+        unit.nextReviewAt?.let { Muted(stringResource(R.string.review_on, fmt(it, "MMMd"))) }
         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
             UnitStatus.entries.forEach { s -> DropdownMenuItem(text = { Text(unitMark(s) + "  " + unitStatusLabel(s)) }, onClick = { menu = false; vm.setUnit(unit, s) }) }
             DropdownMenuItem(text = { Text(stringResource(R.string.rename)) }, onClick = { menu = false; rename = true })
@@ -236,7 +240,7 @@ private fun Progress(units: List<TrackUnit>) {
 private fun LogRow(log: LogEntry, units: List<TrackUnit>, onDelete: (LogEntry) -> Unit) {
     var confirm by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxWidth().clickable { confirm = true }.padding(vertical = 4.dp)) {
-        Muted(fmt(log.occurredAt) + " · " + log.kind.name.lowercase() + if (log.parseStatus.name != "CONFIRMED") " · ${log.parseStatus.name.lowercase()}" else "")
+        Muted(listOfNotNull(fmt(log.occurredAt), kindLabel(log.kind), readLabel(log.parseStatus)).joinToString(" · "))
         Text(describe(log, units), maxLines = 3)
     }
     if (confirm) ConfirmDialog(stringResource(R.string.delete_log), describe(log, units), stringResource(R.string.delete), onDismiss = { confirm = false }) { onDelete(log); confirm = false }
@@ -251,7 +255,32 @@ private fun describe(log: LogEntry, units: List<TrackUnit>): String {
     }
 }
 
-private fun fmt(ms: Long) = DateTimeFormatter.ofPattern("MM-dd HH:mm").withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(ms))
+/** A date the way the UI language writes it, e.g. "Oct 31, 21:55" or "10月31日 21:55". */
+@Composable
+private fun fmt(ms: Long, skeleton: String = "MMMdHm"): String {
+    val locale = LocalConfiguration.current.locales[0]
+    return DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, skeleton), locale).withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(ms))
+}
+
+@Composable
+private fun kindLabel(kind: LogKind): String = stringResource(
+    when (kind) {
+        LogKind.REPORT -> R.string.log_kind_report
+        LogKind.EXERCISE -> R.string.kind_exercise
+        LogKind.BALANCE -> R.string.balance
+        LogKind.COMMITS -> R.string.log_kind_commits
+        LogKind.RECALL -> R.string.recall_check
+        LogKind.REVIEW_ANSWER -> R.string.nav_review
+    },
+)
+
+@Composable
+private fun readLabel(status: ParseStatus): String? = when (status) {
+    ParseStatus.PENDING -> R.string.pending_parse
+    ParseStatus.PARSED -> R.string.log_to_check
+    ParseStatus.FAILED -> R.string.log_unreadable
+    ParseStatus.CONFIRMED, ParseStatus.MANUAL -> null
+}?.let { stringResource(it) }
 
 @Composable
 private fun SessionDialog(existing: Session?, onDismiss: () -> Unit, onDelete: () -> Unit, onSave: (Long, Int) -> Unit) {

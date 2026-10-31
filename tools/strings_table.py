@@ -290,3 +290,8 @@ s('tomorrow_one_thing', "Tomorrow's most important thing", '明天最重要的�
 
 s('effort', 'Effort (1-10)', '费力程度 (1-10)')
 s('advanced', 'Advanced', '高级')
+s('review_on', 'Review %1$s', '%1$s 复习')
+s('log_kind_report', 'Log', '记录')
+s('log_kind_commits', 'Commits', '提交')
+s('log_to_check', 'to check', '待确认')
+s('log_unreadable', "couldn't read", '没读懂')

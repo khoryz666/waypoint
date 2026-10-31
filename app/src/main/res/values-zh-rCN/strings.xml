@@ -119,6 +119,10 @@
     <string name="last_backup">上次备份 %1$s</string>
     <string name="last_week_unreviewed">上周还没复盘</string>
     <string name="last_weeks_fix">上周要改的一件事</string>
+    <string name="log_kind_commits">提交</string>
+    <string name="log_kind_report">记录</string>
+    <string name="log_to_check">待确认</string>
+    <string name="log_unreadable">没读懂</string>
     <string name="logs">记录</string>
     <string name="low_confidence">不太确定是哪个目标，看一下？</string>
     <string name="math_attempted">做过的题 (如 1-15)</string>
@@ -202,6 +206,7 @@
     <string name="review_day">每周复盘日</string>
     <string name="review_model">复盘模型 (Pro)</string>
     <string name="review_now">开始</string>
+    <string name="review_on">%1$s 复习</string>
     <string name="review_questions">问题</string>
     <string name="review_time">每周复盘时间</string>
     <string name="revise_weak">复习薄弱步骤</string>

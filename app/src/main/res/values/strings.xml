@@ -119,6 +119,10 @@
     <string name="last_backup">Last backup %1$s</string>
     <string name="last_week_unreviewed">Last week isn\'t reviewed yet</string>
     <string name="last_weeks_fix">Last week\'s one thing to fix</string>
+    <string name="log_kind_commits">Commits</string>
+    <string name="log_kind_report">Log</string>
+    <string name="log_to_check">to check</string>
+    <string name="log_unreadable">couldn\'t read</string>
     <string name="logs">Logs</string>
     <string name="low_confidence">Not sure which goal this is for. Check it?</string>
     <string name="math_attempted">Problems attempted (e.g. 1-15)</string>
@@ -202,6 +206,7 @@
     <string name="review_day">Weekly review day</string>
     <string name="review_model">Review model (Pro)</string>
     <string name="review_now">Start</string>
+    <string name="review_on">Review %1$s</string>
     <string name="review_questions">Questions</string>
     <string name="review_time">Weekly review time</string>
     <string name="revise_weak">Review weak steps</string>
