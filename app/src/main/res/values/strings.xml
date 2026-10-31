@@ -52,7 +52,7 @@
     <string name="criteria">Goal criteria</string>
     <string name="criteria_lines">Criteria, one per line: label | metric | target</string>
     <string name="currency">Currency (ISO 4217)</string>
-    <string name="current_state">Where are you now?</string>
+    <string name="current_state">Current status</string>
     <string name="daily_close">Daily close</string>
     <string name="daily_close_time">Daily close</string>
     <string name="day_type_none">Day type</string>
@@ -101,7 +101,7 @@
     <string name="grade_weak">Weak</string>
     <string name="handoff_explain">Copy the prompt, talk it through in DeepSeek, then say \"finalize\".</string>
     <string name="handoff_failed">Couldn\'t read that: %1$s</string>
-    <string name="handoff_notes">Anything else? (e.g. \"I have the PDF\")</string>
+    <string name="handoff_notes">Additional context (optional, e.g. \"I have the PDF\")</string>
     <string name="handoff_step1">1 · Discuss in DeepSeek</string>
     <string name="handoff_step2">2 · Paste the final message</string>
     <string name="hours_ago">%1$d h ago</string>

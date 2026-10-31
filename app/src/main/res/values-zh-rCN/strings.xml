@@ -52,7 +52,7 @@
     <string name="criteria">检验标准</string>
     <string name="criteria_lines">检验标准，每行一条: 名称 | 指标 | 目标值</string>
     <string name="currency">货币 (ISO 4217)</string>
-    <string name="current_state">你现在到哪了？</string>
+    <string name="current_state">当前状态</string>
     <string name="daily_close">每日收尾</string>
     <string name="daily_close_time">每日收尾</string>
     <string name="day_type_none">日类型</string>
@@ -101,7 +101,7 @@
     <string name="grade_weak">薄弱</string>
     <string name="handoff_explain">复制提示词，在 DeepSeek 里聊清楚，最后说\"定稿\"。</string>
     <string name="handoff_failed">读不出来: %1$s</string>
-    <string name="handoff_notes">还有什么？(如 \"我有 PDF\")</string>
+    <string name="handoff_notes">补充信息 (可选，如 \"我有 PDF\")</string>
     <string name="handoff_step1">1 · 在 DeepSeek 里讨论</string>
     <string name="handoff_step2">2 · 粘贴最终回复</string>
     <string name="hours_ago">%1$d 小时前</string>
