@@ -118,7 +118,8 @@ class NewTrackViewModel(private val c: AppContainer, private val predecessorId: 
     }
 
     private fun draftRequest(): String = buildString {
-        append("Domain: ").append(domain.value.name)
+        append("Today: ").append(c.clock.today())
+        append("\nDomain: ").append(domain.value.name)
         append("\nTitle: ").append(title.value)
         append("\nCurrent status: ").append(initialState.value)
         if (notes.value.isNotBlank()) append("\nAdditional context: ").append(notes.value)
