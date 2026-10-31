@@ -19,18 +19,20 @@ class Tracker(private val db: AppDatabase, private val clock: AppClock, private 
 
     suspend fun switchTo(trackId: Long) {
         if (db.sessions().running()?.trackId == trackId) return
-        db.sessions().switchTo(trackId, clock.now())?.let { prompt(it) }
+        db.sessions().switchTo(trackId, clock.now())?.let { ended(it) }
     }
 
     suspend fun stop() {
-        db.sessions().switchTo(null, clock.now())?.let { prompt(it) }
+        db.sessions().switchTo(null, clock.now())?.let { ended(it) }
     }
 
-    private suspend fun prompt(ended: Session) {
-        if (ended.trackId == null) return
-        if (ended.durationMs(clock.now()) < ASK_AFTER_MS) return
-        val track = db.tracks().get(ended.trackId) ?: return
-        prompts.askWhatWasDone(ended, track.title)
+    private suspend fun ended(session: Session) {
+        // Under a minute is a mis-tap or a quick switch; keeping it would only list "0m".
+        if (session.durationMs(clock.now()) < MINUTE_MS) return db.sessions().deleteFinished(session.id)
+        if (session.trackId == null) return
+        if (session.durationMs(clock.now()) < ASK_AFTER_MS) return
+        val track = db.tracks().get(session.trackId) ?: return
+        prompts.askWhatWasDone(session, track.title)
     }
 
     companion object {
