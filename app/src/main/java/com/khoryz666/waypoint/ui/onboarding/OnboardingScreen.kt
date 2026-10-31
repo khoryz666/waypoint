@@ -115,20 +115,18 @@ private fun LanguageStep(vm: OnboardingViewModel) {
 
 @Composable
 private fun RegionStep(vm: OnboardingViewModel, s: Settings) {
-    var zone by remember { mutableStateOf("") }
     var week by remember { mutableStateOf(DayOfWeek.MONDAY) }
     var currency by remember(s.profile.currency) { mutableStateOf(s.profile.currency) }
     var balance by remember { mutableStateOf("") }
     val locale = Locale.forLanguageTag(s.profile.language.tag)
     StepTitle(2, stringResource(R.string.region))
-    OutlinedTextField(zone, { zone = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.device_zone, ZoneId.systemDefault().id)) }, singleLine = true)
     Muted(stringResource(R.string.week_start))
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(DayOfWeek.MONDAY, DayOfWeek.SUNDAY, DayOfWeek.SATURDAY).forEach { d -> FilterChip(selected = week == d, onClick = { week = d }, label = { Text(d.getDisplayName(TextStyle.SHORT, locale)) }) }
     }
     OutlinedTextField(currency, { currency = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.currency)) }, singleLine = true)
     OutlinedTextField(balance, { balance = it }, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.starting_balance)) }, singleLine = true)
-    Nav(onNext = { vm.setRegion(zone, week, currency, balance) }, onSkip = { vm.go(Step.API) })
+    Nav(onNext = { vm.setRegion(week, currency, balance) }, onSkip = { vm.go(Step.API) })
 }
 
 @Composable

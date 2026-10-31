@@ -44,11 +44,10 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
         activity?.recreate()
     }
 
-    fun setRegion(zone: String, weekStart: java.time.DayOfWeek, currency: String, startingBalance: String) = viewModelScope.launch {
+    fun setRegion(weekStart: java.time.DayOfWeek, currency: String, startingBalance: String) = viewModelScope.launch {
         val cur = runCatching { java.util.Currency.getInstance(currency.trim().uppercase()).currencyCode }.getOrNull()
         c.settings.update { s ->
             s.copy(profile = s.profile.copy(
-                timezoneOverride = zone.trim().takeIf { it.isNotEmpty() }?.let { runCatching { java.time.ZoneId.of(it) }.getOrNull() },
                 weekStart = weekStart,
                 currency = cur ?: s.profile.currency,
             ))
