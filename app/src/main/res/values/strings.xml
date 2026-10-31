@@ -77,6 +77,7 @@
     <string name="domain_reading">Reading</string>
     <string name="done">Done</string>
     <string name="edit">Edit</string>
+    <string name="edit_goal">Edit goal</string>
     <string name="edit_raw">Edit raw</string>
     <string name="edit_session">Edit session</string>
     <string name="end_reason">Why stop here?</string>
@@ -184,7 +185,7 @@
     <string name="profile">Profile</string>
     <string name="questions_need_track">Questions show up once you have a track.</string>
     <string name="reading_ideas">Key ideas (comma-separated)</string>
-    <string name="reading_recall">Recall checks for reading</string>
+    <string name="reading_recall">Quiz me after each chapter I read</string>
     <string name="reading_suggestions">Worth reading (unverified)</string>
     <string name="reading_where">Pages or chapter</string>
     <string name="reauthorize">Re-authorize</string>
