@@ -1,7 +1,7 @@
 # Every UI string: s(name, English, Simplified Chinese). Run tools/strings.py after editing.
 s('nav_today', 'Today', '今天')
 s('nav_tracks', 'Tracks', 'Tracks')
-s('nav_foundation', 'Body', '身体')
+s('nav_foundation', 'Foundation', '基础')
 s('nav_review', 'Review', '复盘')
 s('settings', 'Settings', '设置')
 s('create_first_track', 'Create your first track', '创建第一个 Track')

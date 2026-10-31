@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -56,7 +55,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 enum class Tab(val route: String, @StringRes val label: Int, val icon: ImageVector) {
     TODAY("today", R.string.nav_today, Icons.Filled.Home),
     TRACKS("tracks", R.string.nav_tracks, Icons.AutoMirrored.Filled.List),
-    FOUNDATION("foundation", R.string.nav_foundation, Icons.Filled.Favorite),
+    FOUNDATION("foundation", R.string.nav_foundation, FoundationIcon),
     REVIEW("review", R.string.nav_review, Icons.Filled.DateRange),
 }
 
