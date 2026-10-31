@@ -8,7 +8,6 @@ import com.khoryz666.waypoint.data.LogEntry
 import com.khoryz666.waypoint.data.Session
 import com.khoryz666.waypoint.data.Track
 import com.khoryz666.waypoint.data.TrackUnit
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.UnitStatus
 import com.khoryz666.waypoint.llm.BudgetExceeded
 import com.khoryz666.waypoint.work.CommitSyncWorker
@@ -76,7 +75,7 @@ class TrackDetailViewModel(private val c: AppContainer, val id: Long) : ViewMode
 
     /** Manual session add/edit (spec 5.5). */
     fun saveSession(existing: Session?, startAt: Long, minutes: Int) = viewModelScope.launch {
-        val s = (existing ?: Session(category = SessionCategory.FOCUS, trackId = id, startAt = startAt)).copy(startAt = startAt, endAt = startAt + minutes * 60_000L)
+        val s = (existing ?: Session(trackId = id, startAt = startAt)).copy(startAt = startAt, endAt = startAt + minutes * 60_000L)
         if (existing == null) c.db.sessions().insert(s) else c.db.sessions().update(s)
     }
 

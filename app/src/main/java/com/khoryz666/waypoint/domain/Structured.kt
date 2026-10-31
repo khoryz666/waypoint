@@ -106,7 +106,7 @@ sealed interface Structured {
     /** A retro-logged timer session ("40m of X around 3pm", 5.5). Times are epoch ms. */
     @Serializable
     @SerialName("session")
-    data class Session(val startAt: Long, val endAt: Long, val category: SessionCategory = SessionCategory.FOCUS, val notes: String = "") : Structured {
+    data class Session(val startAt: Long, val endAt: Long, val notes: String = "") : Structured {
         override val minutes: Int get() = ((endAt - startAt) / MINUTE_MS).toInt()
     }
 

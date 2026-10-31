@@ -88,7 +88,6 @@ private fun PillarEditor(p: Pillar, questions: List<ChecklistQuestion>, tracks: 
     SectionCard(title = p.name) {
         LabeledRow(stringResource(R.string.no_targets)) { Switch(checked = p.noTargets, onCheckedChange = { scope.launch { c.reviews.updatePillar(p.copy(noTargets = it)) } }) }
         if (p.noTargets) {
-            LabeledRow(stringResource(R.string.includes_joy)) { Switch(checked = p.includesJoy, onCheckedChange = { scope.launch { c.reviews.updatePillar(p.copy(includesJoy = it)) } }) }
             Muted(stringResource(R.string.pillar_tracks))
             FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 tracks.forEach { t -> FilterChip(selected = t.id in p.trackIds, onClick = { scope.launch { c.reviews.updatePillar(p.copy(trackIds = if (t.id in p.trackIds) p.trackIds - t.id else p.trackIds + t.id)) } }, label = { Text(t.title) }) }

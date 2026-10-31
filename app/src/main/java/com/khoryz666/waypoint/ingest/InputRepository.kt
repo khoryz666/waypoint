@@ -11,7 +11,6 @@ import com.khoryz666.waypoint.data.SleepRecord
 import com.khoryz666.waypoint.domain.AppClock
 import com.khoryz666.waypoint.domain.LogKind
 import com.khoryz666.waypoint.domain.ParseStatus
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.SleepSource
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.UnitStatus
@@ -131,7 +130,7 @@ class InputRepository(
                 emptyList()
             }
             is Structured.Session -> {
-                db.sessions().insert(Session(category = s.category, trackId = trackId.takeIf { s.category == SessionCategory.FOCUS }, startAt = s.startAt, endAt = maxOf(s.endAt, s.startAt), note = s.notes.ifEmpty { null }))
+                db.sessions().insert(Session(trackId = trackId, startAt = s.startAt, endAt = maxOf(s.endAt, s.startAt), note = s.notes.ifEmpty { null }))
                 emptyList()
             }
             else -> emptyList()

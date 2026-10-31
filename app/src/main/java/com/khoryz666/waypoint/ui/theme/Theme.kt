@@ -11,7 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Focus = primary (indigo), Joy = secondary (coral), minimum met = tertiary (green).
+// Focus = primary (indigo), accents = secondary (coral), minimum met = tertiary (green).
 private val Light = lightColorScheme(
     primary = Color(0xFF3B5BDB),
     onPrimary = Color.White,

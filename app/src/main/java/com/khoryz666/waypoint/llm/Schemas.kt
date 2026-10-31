@@ -4,7 +4,6 @@ import com.khoryz666.waypoint.domain.AppClock
 import com.khoryz666.waypoint.domain.BalanceKind
 import com.khoryz666.waypoint.domain.Grade
 import com.khoryz666.waypoint.domain.Night
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.WaypointJson
 import com.khoryz666.waypoint.domain.parseMinor
@@ -65,8 +64,7 @@ fun ParseOutput.toStructured(currency: String, clock: AppClock): Structured {
             }
             "session" -> {
                 fun instant(key: String) = LocalDateTime.parse(str(key)!!.take(16)).atZone(clock.zone()).toInstant().toEpochMilli()
-                val category = if (str("category") == "JOY") SessionCategory.JOY else SessionCategory.FOCUS
-                Structured.Session(instant("startAt"), instant("endAt"), category, str("notes").orEmpty())
+                Structured.Session(instant("startAt"), instant("endAt"), str("notes").orEmpty())
             }
             null -> Structured.Note("")
             else -> WaypointJson.decodeFromJsonElement(Structured.serializer(), log)

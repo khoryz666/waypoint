@@ -12,7 +12,7 @@ The "log" object has a "type" field and the fields for that type:
 - "reading": {"type":"reading","pagesOrChapter":"","keyIdeas":["at most 5"],"ownWords":true if written in their own words,"interestSignals":["topics the user expanded on or asked about"],"unitsDone":[],"minutes":null,"notes":""}
 - "project": {"type":"project","milestonesDone":[unit ids the report suggests are finished],"minutes":null,"notes":""}
 - "exercise": {"type":"exercise","exercises":[{"name":"Goblet squat","sets":[{"reps":10,"weightKg":12,"seconds":null,"assisted":"none|band|negative"}]}],"swimMin":30,"strokes":"breaststroke","rpe":7,"pain":"text or null","notes":""}. "3x10 12kg" means three sets of 10 reps at 12 kg.
-- "session" (retro-logged time, e.g. "I did 40m of X around 3pm"): {"type":"session","startAt":"YYYY-MM-DDTHH:mm","endAt":"YYYY-MM-DDTHH:mm","category":"FOCUS|JOY","notes":""}. Resolve relative times with the current date and time zone; "around 3pm" for 40m starts at 15:00.
+- "session" (retro-logged time, e.g. "I did 40m of X around 3pm"): {"type":"session","startAt":"YYYY-MM-DDTHH:mm","endAt":"YYYY-MM-DDTHH:mm","notes":""}. Resolve relative times with the current date and time zone; "around 3pm" for 40m starts at 15:00.
 - "sleep" (sleep described in text): {"type":"sleep","nights":[{"date":"wake date YYYY-MM-DD","bedAt":"HH:mm","wakeAt":"HH:mm","totalMin":400}],"screenType":"daily"}
 - "balance" (money received or spent, in words): {"type":"balance","kind":"DELTA|SET","amount":"1200.00 as a decimal string, negative for spending","note":""}
 - "note": anything else: {"type":"note","text":""}

@@ -126,7 +126,7 @@ fun ReviewScreen(vm: ReviewViewModel, onEditChecklist: () -> Unit) {
 @Composable
 private fun StatsCard(period: ReviewPeriod, title: String, stats: ReviewStats, lang: Lang) {
     SectionCard(title = "${period.name.lowercase()} · $title") {
-        Text(stringResource(R.string.stats_focus, formatMinutes(stats.focusMinutes.toLong()), formatMinutes(stats.joyMinutes.toLong())))
+        Text(stringResource(R.string.stats_focus, formatMinutes(stats.focusMinutes.toLong())))
         Text(stringResource(R.string.stats_minimum, stats.minimumDays, stats.daysWithMinimum, stats.planDays))
         Text(autoAnswer(com.khoryz666.waypoint.domain.QuestionKey.SLEEP_NIGHTS_IN_RANGE, stats, lang))
         Text(stringResource(R.string.stats_balance, formatMoney(stats.balance.startMinor, stats.balance.currency), formatMoney(stats.balance.endMinor, stats.balance.currency), formatMoneyDelta(stats.balance.net30Minor, stats.balance.currency)))

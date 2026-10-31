@@ -14,7 +14,6 @@ import com.khoryz666.waypoint.domain.ParseStatus
 import com.khoryz666.waypoint.domain.QuestionKey
 import com.khoryz666.waypoint.domain.QuestionType
 import com.khoryz666.waypoint.domain.ReviewPeriod
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.SleepSource
 import com.khoryz666.waypoint.domain.Structured
 import com.khoryz666.waypoint.domain.TrackStatus
@@ -123,7 +122,6 @@ data class NextStep(
 @Entity(tableName = "sessions", indices = [Index("endAt"), Index("trackId")])
 data class Session(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val category: SessionCategory,
     val trackId: Long? = null,
     val startAt: Long,
     val endAt: Long? = null,
@@ -226,8 +224,6 @@ data class Pillar(
     /** Shows logged time and logs of [trackIds] without judgment (the starter Joy pillar). */
     val noTargets: Boolean = false,
     val trackIds: List<Long> = emptyList(),
-    /** Timer Joy time counts toward this pillar. */
-    val includesJoy: Boolean = false,
 )
 
 @Serializable

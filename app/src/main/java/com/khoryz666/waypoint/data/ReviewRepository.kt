@@ -173,7 +173,7 @@ class ReviewRepository(
     suspend fun replaceChecklist(drafts: List<PillarDraft>) = db.withTransaction {
         db.checklist().clear()
         drafts.forEachIndexed { i, p ->
-            val id = db.checklist().insertPillar(Pillar(name = p.name, order = i, noTargets = p.noTargets, includesJoy = p.includesJoy))
+            val id = db.checklist().insertPillar(Pillar(name = p.name, order = i, noTargets = p.noTargets))
             p.questions.forEachIndexed { j, q -> db.checklist().insertQuestion(ChecklistQuestion(pillarId = id, order = j, text = q.text, type = q.type, key = q.key)) }
         }
     }

@@ -17,7 +17,6 @@ data class ReviewStats(
     val start: String,
     val end: String,
     val focusMinutes: Int,
-    val joyMinutes: Int,
     val tracks: List<TrackStats>,
     val minimumDays: Int,
     val planDays: Int,
@@ -122,7 +121,6 @@ fun reviewStats(input: StatsInput, clock: AppClock): ReviewStats {
         start = input.from.toString(),
         end = input.until.minusDays(1).toString(),
         focusMinutes = (times.values.sumOf { it.totalFocusMs } / MINUTE_MS).toInt(),
-        joyMinutes = (times.values.sumOf { it.joyMs } / MINUTE_MS).toInt(),
         tracks = trackStats,
         minimumDays = minimumDays,
         planDays = planDays,
@@ -153,8 +151,8 @@ fun autoAnswer(key: QuestionKey, stats: ReviewStats, lang: Lang, pillarTracks: L
     QuestionKey.MILESTONES_PER_PROJECT -> stats.tracks.filter { it.domain == Domain.PROJECT }.joinToString("; ") { "${it.title}: ${it.unitsDone}" + lang.t(" (${it.commits} commits)", "（${it.commits} 个 commit）") }.ifEmpty { "—" }
     QuestionKey.OWNERSHIP_CHECKS -> lang.t("${stats.ownershipAnswered} answered, ${stats.ownershipSkipped} skipped", "回答 ${stats.ownershipAnswered}，跳过 ${stats.ownershipSkipped}")
     QuestionKey.FOCUS_TIME -> formatMinutes(stats.focusMinutes.toLong())
-    QuestionKey.JOY_TIME -> lang.t("Joy ", "Joy ") + formatMinutes(stats.joyMinutes.toLong()) +
-        stats.tracks.filter { it.id in pillarTracks }.joinToString("") { "; ${it.title} ${formatMinutes(it.focusMinutes.toLong())}, ${it.logs} logs" }
+    QuestionKey.PILLAR_TRACKS -> stats.tracks.filter { it.id in pillarTracks }
+        .joinToString("; ") { "${it.title} ${formatMinutes(it.focusMinutes.toLong())}, " + lang.t("${it.logs} logs", "${it.logs} 条记录") }.ifEmpty { "—" }
     QuestionKey.ONE_THING_TO_FIX, QuestionKey.TOP_3 -> ""
 }
 

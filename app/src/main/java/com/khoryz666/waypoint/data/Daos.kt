@@ -9,7 +9,6 @@ import androidx.room.Update
 import androidx.room.Upsert
 import com.khoryz666.waypoint.domain.NextStepStatus
 import com.khoryz666.waypoint.domain.ReviewPeriod
-import com.khoryz666.waypoint.domain.SessionCategory
 import com.khoryz666.waypoint.domain.TrackStatus
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -198,8 +197,8 @@ abstract class SessionDao {
     @Query("SELECT * FROM sessions WHERE trackId = :trackId ORDER BY startAt DESC")
     abstract fun observeFor(trackId: Long): Flow<List<Session>>
 
-    /** Tracks of the most recent FOCUS sessions, newest first, for the notification's switches. */
-    @Query("SELECT trackId FROM sessions WHERE category = 'FOCUS' AND trackId IS NOT NULL GROUP BY trackId ORDER BY MAX(startAt) DESC LIMIT :limit")
+    /** Tracks of the most recent sessions, newest first, for the notification's switches. */
+    @Query("SELECT trackId FROM sessions WHERE trackId IS NOT NULL GROUP BY trackId ORDER BY MAX(startAt) DESC LIMIT :limit")
     abstract fun observeRecentFocusTracks(limit: Int): Flow<List<Long>>
 
     @Query("SELECT MAX(COALESCE(endAt, :now)) FROM sessions")
@@ -211,12 +210,12 @@ abstract class SessionDao {
     @Query("SELECT * FROM sessions WHERE id = :id")
     abstract suspend fun get(id: Long): Session?
 
-    /** Ends whatever is running at [now] and, unless [category] is null, starts a new session. Returns the ended one. */
+    /** Ends whatever is running at [now] and, unless [trackId] is null, starts a session on it. Returns the ended one. */
     @Transaction
-    open suspend fun switchTo(category: SessionCategory?, trackId: Long?, now: Long): Session? {
+    open suspend fun switchTo(trackId: Long?, now: Long): Session? {
         val ended = running()
         endRunning(now)
-        if (category != null) insert(Session(category = category, trackId = trackId, startAt = now))
+        if (trackId != null) insert(Session(trackId = trackId, startAt = now))
         return ended?.let { get(it.id) }
     }
 

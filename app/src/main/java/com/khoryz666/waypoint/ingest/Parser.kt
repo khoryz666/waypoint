@@ -100,8 +100,7 @@ class Parser(
         val parts = listOf(Part.Text(text)) + log.rawImageUris.mapNotNull(images::dataUrl).map(Part::Image)
         val out = llm.json("parse_input", parts, 800, ParseOutput.serializer())
         val structured = out.toStructured(settings.current().profile.currency, clock)
-        val trackless = structured is Structured.Sleep || structured is Structured.Balance ||
-            (structured is Structured.Session && structured.category == com.khoryz666.waypoint.domain.SessionCategory.JOY)
+        val trackless = structured is Structured.Sleep || structured is Structured.Balance
         val routed = when {
             chosen != null -> chosen.id
             trackless -> null

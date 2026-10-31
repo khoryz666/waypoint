@@ -32,9 +32,8 @@ class StatsTest {
                 LogEntry(trackId = 1, kind = LogKind.RECALL, occurredAt = at(3, 9), createdAt = 0, structured = Structured.Recall(RecallSource.OWNERSHIP, "q", skipped = true)),
             ),
             sessions = listOf(
-                Session(category = SessionCategory.FOCUS, trackId = 1, startAt = at(0, 9), endAt = at(0, 10)),
-                Session(category = SessionCategory.FOCUS, trackId = 1, startAt = at(1, 9), endAt = at(1, 9) + 10 * MINUTE_MS),
-                Session(category = SessionCategory.JOY, startAt = at(1, 20), endAt = at(1, 21)),
+                Session(trackId = 1, startAt = at(0, 9), endAt = at(0, 10)),
+                Session(trackId = 1, startAt = at(1, 9), endAt = at(1, 9) + 10 * MINUTE_MS),
             ),
             sleep = (0..4).map { SleepRecord(date = monday.plusDays(it.toLong()), bedAt = null, wakeAt = null, totalMin = 450, source = SleepSource.MANUAL) },
             balance = listOf(BalanceEvent(1, at(-10, 9), BalanceKind.SET, 1000_00), BalanceEvent(2, at(2, 9), BalanceKind.DELTA, 50_00)),
@@ -43,7 +42,6 @@ class StatsTest {
         )
         val stats = reviewStats(input, clock)
         assertEquals(70, stats.focusMinutes)
-        assertEquals(60, stats.joyMinutes)
         assertEquals(1, stats.tracks.single { it.id == 1L }.unitsDone)
         assertEquals(1, stats.minimumDays)
         assertEquals(7, stats.daysWithMinimum)
