@@ -74,7 +74,7 @@ section 1, "Rules for the implementing agents"). Newest last.
   track paused since then drop out of past days too.
 - **The weekly review refreshes every active track's rolling summary** after submit (8.4).
 - **Monthly/yearly reviews are on demand** from the Review tab; their reminders only notify.
-- **Starter day types are Class, Deep and Light with no weekdays assigned** (the user picks);
+- **Starter day types are Moderate, Deep and Light with no weekdays assigned** (the user picks);
   Light has nudges off. Targets are set in Settings once tracks exist.
 - **Ownership checks are generated after a commit sync** (every 3 h and at app open), at most
   one per day.

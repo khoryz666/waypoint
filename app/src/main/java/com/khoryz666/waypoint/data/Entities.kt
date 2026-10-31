@@ -144,7 +144,7 @@ data class DayType(
     val plan: DayTarget = DayTarget(),
     /** ISO weekdays (1 = Monday) this type is the default for. */
     val weekdays: List<Int> = emptyList(),
-    /** Nudges after 3 idle waking hours (spec 5.5: on for Class and Deep, off for Light). */
+    /** Nudges after 3 idle waking hours (spec 5.5: on for Moderate and Deep, off for Light). */
     val nudges: Boolean = true,
 )
 

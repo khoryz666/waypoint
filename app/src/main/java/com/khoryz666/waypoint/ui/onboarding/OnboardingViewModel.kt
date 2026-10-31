@@ -36,7 +36,7 @@ class OnboardingViewModel(private val c: AppContainer) : ViewModel() {
     private var token: String? = null
 
     /** Starter day types (spec 5.6): renamed or deleted freely, no weekday schedule assumed. */
-    val starterTypes = MutableStateFlow(listOf("Class", "Deep", "Light").map { it to emptySet<Int>() })
+    val starterTypes = MutableStateFlow(listOf("Moderate", "Deep", "Light").map { it to emptySet<Int>() })
     val useStarterTypes = MutableStateFlow(true)
 
     fun go(next: Step) {

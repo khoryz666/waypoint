@@ -270,7 +270,7 @@
     <string name="use_new">Use new</string>
     <string name="use_saved_passphrase">Use saved passphrase</string>
     <string name="use_starter">Starter template</string>
-    <string name="use_starter_types">Start with Class, Deep, Light</string>
+    <string name="use_starter_types">Start with Moderate, Deep, Light</string>
     <string name="wake_date">Wake-up date (YYYY-MM-DD)</string>
     <string name="wake_time">Wake time (HH:mm)</string>
     <string name="waking_end">Waking hours end</string>
