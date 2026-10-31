@@ -4,39 +4,96 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Waypoint</title>
-<meta name="description" content="Waypoint is a personal Android app that helps you get a little better every week at the things you choose.">
+<meta name="description" content="A simple Android app built for steady self-improvement, powered by DeepSeek.">
+<meta name="theme-color" content="#14193a">
 <link rel="icon" href="logo-120.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main>
-  <header><img src="logo-120.png" alt=""><a href="./">Waypoint</a></header>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./"><svg viewBox="24 34 60 40" aria-hidden="true"><path fill="#AFBEFF" d="M 47.98,67.12 C 48.84,60.24 50.56,55.94 49.70,52.50 C 42.82,51.64 34.22,48.20 28.20,40.46 C 35.08,38.74 43.68,38.74 48.84,42.18 C 51.42,43.90 53.14,45.62 54.00,47.34 C 54.86,45.62 56.58,43.90 59.16,42.18 C 64.32,38.74 72.92,38.74 79.80,40.46 C 73.78,48.20 65.18,51.64 58.30,52.50 C 57.44,55.94 59.16,60.24 60.02,67.12 Z"/><path d="M 31.64,67.12 C 35.08,63.68 39.38,63.68 42.82,67.12 C 46.26,70.56 50.56,70.56 54.00,67.12 C 57.44,63.68 61.74,63.68 65.18,67.12 C 68.62,70.56 72.92,70.56 76.36,67.12" fill="none" stroke="#FFB38F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Waypoint</a>
+    <nav><a href="#how">How it works</a><a href="#screens">Screens</a><a href="privacy.html">Privacy</a><a href="https://github.com/khoryz666/waypoint">GitHub</a></nav>
+  </div>
+</header>
 
-  <h1>Get a little better every week at the things you choose.</h1>
-  <p>Waypoint is a personal Android app. You tell it what you did. It keeps the record, does the counting, and gives you one small next step for each goal. It compares you with your own past, not with other people.</p>
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Android · Powered by DeepSeek</span>
+      <h1>Get a little better <em>every week.</em></h1>
+      <p class="lead">Log what you did. See your next step.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/khoryz666/waypoint/releases/latest">Download APK</a>
+        <a class="btn ghost" href="https://github.com/khoryz666/waypoint">View source</a>
+      </div>
+    </div>
+    <div class="mark"><svg viewBox="24 34 60 40" aria-hidden="true"><path fill="#AFBEFF" d="M 47.98,67.12 C 48.84,60.24 50.56,55.94 49.70,52.50 C 42.82,51.64 34.22,48.20 28.20,40.46 C 35.08,38.74 43.68,38.74 48.84,42.18 C 51.42,43.90 53.14,45.62 54.00,47.34 C 54.86,45.62 56.58,43.90 59.16,42.18 C 64.32,38.74 72.92,38.74 79.80,40.46 C 73.78,48.20 65.18,51.64 58.30,52.50 C 57.44,55.94 59.16,60.24 60.02,67.12 Z"/><path d="M 31.64,67.12 C 35.08,63.68 39.38,63.68 42.82,67.12 C 46.26,70.56 50.56,70.56 54.00,67.12 C 57.44,63.68 61.74,63.68 65.18,67.12 C 68.62,70.56 72.92,70.56 76.36,67.12" fill="none" stroke="#FFB38F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+  <svg class="wave-edge" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z"/></svg>
+</div>
 
-  <section class="card">
-    <h2>What it does</h2>
-    <ul>
-      <li><strong>Tracks</strong> for the goals you set: a book, a course, a project, getting stronger.</li>
-      <li><strong>A timer</strong> that runs from your notifications.</li>
-      <li><strong>One input box</strong> for everything you did. DeepSeek turns it into a tidy record and replies in a few words.</li>
-      <li><strong>Sleep and money</strong> on their own tab, with a sleep goal and a savings goal.</li>
-      <li><strong>A short weekly review</strong> with a few questions about your tracks and one thing to fix next week.</li>
-    </ul>
-  </section>
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How it works</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Set a goal</h3><p>A book, a project, a skill.</p></div>
+      <div class="step"><h3>Log it</h3><p>Time it. Write one line.</p></div>
+      <div class="step"><h3>Review weekly</h3><p>Fix one thing next week.</p></div>
+    </div>
+  </div>
+</section>
 
-  <section class="card">
-    <h2>Your data</h2>
-    <p>Everything is stored on your phone. There is no Waypoint server and no account. If you turn on backup, an encrypted copy goes to a hidden app folder in your own Google Drive. Details are in the <a href="privacy.html">privacy policy</a>.</p>
-  </section>
+<section id="screens">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Screens</h2>
+    </div>
+    <div class="screens">
+      <figure class="phone"><div class="frame"><img src="img/today.jpg" alt="Today screen with a running timer" loading="lazy"></div><figcaption>Today</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/review.jpg" alt="Weekly review with a summary table" loading="lazy"></div><figcaption>Review</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/foundation.jpg" alt="Foundation screen with sleep and savings goals" loading="lazy"></div><figcaption>Foundation</figcaption></figure>
+    </div>
+  </div>
+</section>
 
-  <section class="card">
-    <h2>Get it</h2>
-    <p>Waypoint is open source. Download the latest APK from the <a href="https://github.com/khoryz666/waypoint/releases">releases page</a>, or read the code on <a href="https://github.com/khoryz666/waypoint">GitHub</a>.</p>
-  </section>
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Features</h2>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><h3>Timer</h3><p>One tap, from notifications.</p></div></div>
+      <div class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg></div><div><h3>One input box</h3><p>Text or screenshots.</p></div></div>
+      <div class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></div><div><h3>Recall</h3><p>Quick quizzes, spaced revision.</p></div></div>
+      <div class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div><div><h3>Sleep and money</h3><p>Goals and trends.</p></div></div>
+    </div>
+  </div>
+</section>
 
-  <footer><a href="privacy.html">Privacy policy</a> · <a href="https://github.com/khoryz666/waypoint/issues">Contact</a></footer>
-</main>
+<section>
+  <div class="wrap">
+    <div class="band">
+      <div>
+        <h2>Your data stays yours</h2>
+        <p><a href="privacy.html">Privacy policy</a></p>
+      </div>
+      <ul>
+        <li>Stored on your phone</li>
+        <li>Encrypted backup to your Drive</li>
+        <li>No ads, no tracking</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Waypoint</span>
+    <span><a href="privacy.html">Privacy</a><a href="https://github.com/khoryz666/waypoint/issues">Contact</a><a href="https://github.com/khoryz666/waypoint">GitHub</a></span>
+  </div>
+</footer>
 </body>
 </html>
