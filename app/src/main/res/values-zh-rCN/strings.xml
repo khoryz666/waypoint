@@ -101,7 +101,7 @@
     <string name="grade_weak">还不会</string>
     <string name="handoff_explain">打开 DeepSeek 新对话，提示词已复制。粘贴后聊清楚，最后说\"定稿\"。</string>
     <string name="handoff_failed">读不出来: %1$s</string>
-    <string name="handoff_notes">补充信息 (可选，如 \"我有 PDF\")</string>
+    <string name="handoff_notes">补充信息 (可选)</string>
     <string name="handoff_step1">1 · 在 DeepSeek 里讨论</string>
     <string name="handoff_step2">2 · 粘贴最终回复</string>
     <string name="hours_ago">%1$d 小时前</string>

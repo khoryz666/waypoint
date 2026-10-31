@@ -101,7 +101,7 @@
     <string name="grade_weak">Not yet</string>
     <string name="handoff_explain">Opens a new DeepSeek chat with the prompt copied. Paste it, talk it through, then say \"finalize\".</string>
     <string name="handoff_failed">Couldn\'t read that: %1$s</string>
-    <string name="handoff_notes">Additional context (optional, e.g. \"I have the PDF\")</string>
+    <string name="handoff_notes">Additional context (optional)</string>
     <string name="handoff_step1">1 · Discuss in DeepSeek</string>
     <string name="handoff_step2">2 · Paste the final message</string>
     <string name="hours_ago">%1$d h ago</string>
